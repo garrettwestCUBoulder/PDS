@@ -52,7 +52,7 @@ app.get('/profile', function(req, res){
 
 const port = process.env.port || 3000;
 app.listen(port, () => {
-    console.log("Our app is running");
+    console.log("Our app is running on " + port);
 });
 
 
