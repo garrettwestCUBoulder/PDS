@@ -22,22 +22,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 // if ('development' == app.get('env')) {
 //   app.use(express.errorHandler());
 // }
-app.use(
-    connection(mysql,{
-
-			host: 'us-cdbr-east-03.cleardb.com',
-			user: 'b85123a121fb78',
-			password: '5e13150a',
-			database: 'heroku_6b10e0163a2d1a3',
-			port: 3306
-},'pool')
-);
-
-app.get('/', function(req, res){
-
-        res.render('md');
-
-});
+// app.use(
+//     connection(mysql,{
+//
+// 			host: 'us-cdbr-east-03.cleardb.com',
+// 			user: 'b85123a121fb78',
+// 			password: '5e13150a',
+// 			database: 'heroku_6b10e0163a2d1a3',
+// 			port: 3306
+// },'pool')
+// );
+//
+// app.get('/', function(req, res){
+//
+//         res.render('md');
+//
+// });
 app.get('/profile', function(req, res){
 
   req.getConnection(function(err,connection){
