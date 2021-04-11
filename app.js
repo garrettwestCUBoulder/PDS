@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 var mysql = require('mysql');
-var http = require('http');
+// var http = require('http');
 var path = require('path');
 
 //Including controller/dao for testtable
@@ -10,7 +10,7 @@ var connection  = require('express-myconnection');
 // all environments
 
 
-app.set('port', process.env.PORT || 4300);
+// app.set('port', process.env.PORT || 4300);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.logger('dev'));
