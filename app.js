@@ -22,16 +22,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 // if ('development' == app.get('env')) {
 //   app.use(express.errorHandler());
 // }
-app.use(
-    connection(mysql,{
+// app.use(
+//     connection(mysql,{
+//
+// 			host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
+// 			user: 'pdsDB',
+// 			password: 'PDSpassword',
+// 			database: 'pdsclient',
+// 			port: 3306
+// },'pool')
+// );
 
-			host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
-			user: 'pdsDB',
-			password: 'PDSpassword',
-			database: 'pdsclient',
-			port: 3306
-},'pool')
-);
+var conn = mysql.createPool({
+	connectionLimit : 10,
+  host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
+  user: 'pdsDB',
+  password: 'PDSpassword',
+  database: 'pdsclient',
+  port: 3306,
+	multipleStatements: true
+});
 
 var user_id;
 
@@ -46,7 +56,7 @@ app.get('/', function(req, res){
 
 app.get('/dashboard', function(req, res){
 
-  req.getConnection(function(err,connection){
+  conn.getConnection(function(err,connection){
     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
     connection.query(querry_get_password, (err, result) => {
       if (err) {
@@ -70,7 +80,7 @@ app.post('/log_data', function(req, res) {
 	var email = req.body.login_email;
 	var password = req.body.login_password;
 
-  req.getConnection(function(err,connection){
+  conn.getConnection(function(err,connection){
   	var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+ email+ "'= email;";
     connection.query(querry_get_password, (err, result) => {
   		if (err) {
@@ -98,28 +108,36 @@ app.post('/log_data', function(req, res) {
 
 
 app.post('/res_data', function(req, res) {
-  var firstname = req.body.signup_firstname
-  var lastname = req.body.signup_lastname
+  var firstname = req.body.signup_firstname;
+  var lastname = req.body.signup_lastname;
 	var email = req.body.signup_email;
 	var password = req.body.signup_password;
-  var company = req.body.signup_company
-  var authorization_code = req.body.signup_auth_code
-  var subscription = req.body.subscription
-  var register_new_member = "INSERT INTO users (first_name, last_name, `password`, email) VALUES ('"+firstname+"', '"+lastname+"', '"+password+"','"+ email+"'); INSERT INTO companys (company_name, number_of_employees, `authorization_code`) VALUES ('"+company+"', 2000, '"+company+"80PDS'); INSERT INTO memberships (subscription, user_id) VALUES ('"+subscription+"', (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"')); INSERT INTO user_info (company_id, user_id, membership_id) VALUES ((SELECT company_id from companys where company_name = '"+company+"' and `authorization_code` = '"+company+"80PDS'), (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"'), (SELECT membership_id from memberships where user_id = (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"')));";
+  console.log(email)
+  var company = req.body.company;
+  var authorization_code = req.body.signup_auth_code;
+  var subscription = req.body.subscription;
+  var register_new_member = "INSERT INTO users (first_name, last_name, `password`, email) SELECT '"+firstname+"', '"+lastname+"', '"+password+"','"+ email+"' WHERE NOT EXISTS (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"')  LIMIT 1;";
+  var register_new_member1 =" INSERT INTO companies (company_name, number_of_employees, `authorization_code`) SELECT '"+company+"',2000, '"+company+"80PDS' WHERE NOT EXISTS (Select company_name From companies WHERE company_name  ='"+company+"') LIMIT 1;";
+  var register_new_member2 =" INSERT INTO memberships (subscription, user_id) VALUES ('"+subscription+"', (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"'));";
+  var register_new_member3 =" INSERT INTO user_info (company_id, user_id, membership_id) VALUES ((SELECT company_id from companies where company_name = '"+company+"' and " +
+  " authorization_code = '"+company+"80PDS'), " +"(SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"'), " +
+  "(SELECT membership_id from memberships where user_id = (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"')));";
+  conn.getConnection(function(err,connection){
 
-  req.getConnection(function(err,connection){
-
-    connection.query(register_new_member, (err, result) => {
+    connection.query( register_new_member +  register_new_member1 + register_new_member2+register_new_member3 , [1,2,3,4] ,(err, result) => {
+      // console.log(register_new_member)
   		if (err) {
-  			console.log('error',err);
-  			res.render('SignUP_Login')
+        // console.log(register_new_member)
+  			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
+        console.log('error', err);
+  			res.render('SignUP_Login',{result_pass : true,result_registered : false})
   		}
   		else {
           console.log('Successful')
-          res.render('SignUP_Login', {result_pass : false,result_registered : true})
+          res.render('SignUP_Login', {result_pass : true,result_registered : true})
         }
       });
-	});
+      });
 });
 
 
@@ -140,7 +158,7 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
 
 
 
-  req.getConnection(function(err,connection){
+  conn.getConnection(function(err,connection){
       var query = connection.query(get_profile_info ,function(err,rows){
         if(err)
           console.log("Error Selecting : %s ",err );
