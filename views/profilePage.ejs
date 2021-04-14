@@ -82,8 +82,8 @@
                <i class="far fa-file-alt"></i>
             </div>
             <div class = 'left_div'>
-              <h3 class="overviewCard-title text-light">  Name: <strong><%=data[0].firstname%> </strong></h3>
-              <p>  Email: <span class="overviewCard-subtitle">Brian.Ellis@kirkland-ellis.com </span></p>
+              <h3 class="overviewCard-title text-light">  Name: <strong><%=data[0].first_name%> <%=data[0].last_name%> </strong></h3>
+              <p>  Email: <span class="overviewCard-subtitle"><%=data[0].email%> </span></p>
               <div class="openBtn">
                 <button class="openButton" onclick="openForm()"><strong>Edit</strong></button>
               </div>
@@ -122,7 +122,7 @@
                  <i class="far fa-file-alt"></i>
               </div>
               <div class = 'left_div'>
-                <h3 class="overviewCard-title text-light"> Company: <strong><%=data[0].company%> </strong></h3>
+                <h3 class="overviewCard-title text-light"> Company: <strong><%=data[0].company_name%> </strong></h3>
                 <br>
                 <h3 class="overviewCard-title text-light">  Address:</h3>
                 <p class="overviewCard-subtitle "> 300 North LaSalle, Chicago, IL 60654 </p>
@@ -148,7 +148,7 @@
                    <i class="far fa-file-alt"></i>
                 </div>
                 <div class = 'left_div'>
-                  <h3 class="overviewCard-title text-light"> Membership: <strong>Royal Penguin</strong> </h3>
+                  <h3 class="overviewCard-title text-light"> Membership: <strong><%=data[0].subscription%></strong> </h3>
                   <br>
                   <button class = "button" href = "https://penguindocketing.webflow.io/pricing"> Upgrade today </button>
                 </div>

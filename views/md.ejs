@@ -19,7 +19,7 @@
               <ul class="dropdown__list">
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="far fa-user"></i></span>
-                  <a href="/profile"><span class="dropdown__title">my profile</span></a>
+                  <a method = "get" href="profile"><span class="dropdown__title">My Profile</span></a>
                 </li><li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="far fa-user"></i></span>
                   <a href="/dashboard"><span class="dropdown__title">Dashboard</span></a>
@@ -30,7 +30,7 @@
                 </li> -->
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
-                  <a href="https://penguindocketing.webflow.io/"><span class="dropdown__title">log out</span></a>
+                  <a href="https://penguindocketing.webflow.io/"><span class="dropdown__title">Log Out</span></a>
                 </li>
               </ul>
             </div>
@@ -45,7 +45,7 @@
           </div>
           <div class="sidenav__profile">
             <div class="sidenav__profile-avatar"></div>
-            <div class="sidenav__profile-title text-light">User U.</div>
+            <div class="sidenav__profile-title text-light"><%=data[0].first_name%> <%=data[0].last_name%></div>
           </div>
           <div class="row row--align-v-center row--align-h-center">
             <ul class="navList">
@@ -234,7 +234,7 @@
           <div class="main-header">
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
-                <div class="main-header__welcome-title text-light">Welcome, <strong>User</strong></div>
+                <div class="main-header__welcome-title text-light">Welcome, <strong><%=data[0].first_name%> <%=data[0].last_name%></strong></div>
                 <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
               </div>
               <div class="quickview">
