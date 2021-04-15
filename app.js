@@ -5,6 +5,16 @@ var http = require('http');
 var path = require('path');
 var connection  = require('express-myconnection');
 
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(express.logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.methodOverride());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 //S3 bucket setup
 var multer = require('multer');
 var multerS3 = require('multer-s3');
@@ -41,14 +51,6 @@ var upload = multer({
 
 
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
-
 
 var conn = mysql.createPool({
 	connectionLimit : 10,
@@ -66,7 +68,7 @@ var password_bool = false;
 
 app.get('/', function(req, res){
         var password_bool = true;
-        res.render('../SignUP_Login')
+        res.render('SignUP_Login')
         // res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
 
 });
