@@ -112,7 +112,7 @@ app.get('/dashboard', function(req, res){
     connection.query(querry_get_password, (err, result) => {
       if (err) {
         console.log(err);
-        res.render('SignUP_Login')
+        res.render('login',{result_pass: password_bool, result_registered : false});
       }
       else{
           console.log(password_bool)
@@ -136,7 +136,7 @@ app.post('/log_data', function(req, res) {
     connection.query(querry_get_password, (err, result) => {
   		if (err) {
   			console.log(err);
-  			res.render('SignUP_Login')
+  			res.render('login',{result_pass: password_bool, result_registered : false});
   		}
   		else {
         console.log('checking password', password, result.length)
@@ -148,12 +148,12 @@ app.post('/log_data', function(req, res) {
           }
           else{
             console.log('false')
-            res.render('SignUP_Login', {result_pass : false,result_registered : false})
+            res.render('login',{result_pass: false, result_registered : false});
           }
         }
         else{
           console.log('false')
-          res.render('SignUP_Login', {result_pass : false,result_registered : false})
+          res.render('login',{result_pass: false, result_registered : false});
         }
 
   			}
