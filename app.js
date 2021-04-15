@@ -183,16 +183,30 @@ app.post('/res_data', function(req, res) {
       // console.log(register_new_member)
   		if (err) {
         // console.log(register_new_member)
-  			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
+  			// console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
         console.log('error', err);
   			res.render('SignUP_Login',{result_pass : true,result_registered : false})
   		}
-  		else {
-          console.log('Successful')
-          res.render('SignUP_Login', {result_pass : true,result_registered : true})
-        }
       });
-      });
+        console.log('Successful');
+        connection.query( "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"';" ,(err, results) => {
+            user_id = results[0].user_id
+
+            var bucketParams = {
+              Bucket :BUCKET_NAME+'/'+user_id.toString();
+
+              };
+              s3.createBucket(bucketParams, function(err, data) {
+                  if (err) {
+                    console.log("Error", err);
+                  } else {
+                    console.log("Success", data.Location);
+                    }
+                  });
+        });
+        console.log('Successful');
+        res.render('SignUP_Login', {result_pass : true,result_registered : true});
+    });
 });
 
 
