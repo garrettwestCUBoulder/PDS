@@ -69,31 +69,31 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 
-app.get('/', function(req, res){
-
-  conn.getConnection(function(err,connection){
-    var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-    connection.query(querry_get_password, (err, result) => {
-      if (err) {
-        console.log(err);
-        res.render('SignUP_Login')
-      }
-      else{
-          console.log(password_bool)
-
-          res.render('md',{data:result, result_pass: password_bool,result_registered : false});
-      }
-    });
-
-  });
-
-});
 // app.get('/', function(req, res){
-//         var password_bool = true;
+//
+//   conn.getConnection(function(err,connection){
+//     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
+//     connection.query(querry_get_password, (err, result) => {
+//       if (err) {
+//         console.log(err);
 //         res.render('SignUP_Login')
-//         // res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
+//       }
+//       else{
+//           console.log(password_bool)
+//
+//           res.render('md',{data:result, result_pass: password_bool,result_registered : false});
+//       }
+//     });
+//
+//   });
 //
 // });
+app.get('/', function(req, res){
+        var password_bool = true;
+        // res.render('SignUP_Login')
+        res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
+
+});
 
 
 
