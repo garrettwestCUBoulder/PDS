@@ -91,7 +91,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', function(req, res){
         var password_bool = true;
         // res.render('SignUP_Login')
-        res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
+        res.render('login',{result_pass: password_bool, result_registered : false});
 
 });
 

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up/ Log In</title>
+    <link rel="stylesheet" href="sul_css.css">
+</head>
+<body>
+    <header>
+        <a href="https://www.penguindocketing.com/" class="home-button">Penguin Docketing Solutions LLC</a>
+    </header>
+
+    <section class="login-section">
+        <section class="login-container">
+            <h3>Login to Your Account</h3>
+            <p class="explanatory-text">Log in to your account to continue.</p>
+
+            <form method="post" action = "log_data">
+                <label for="login-email">Email</label>
+                <input type="email" id = 'login-email' name="login_email" size="30" placeholder="Enter your email address" required>
+
+                <label for="login-password">Password</label>
+                <input type="password" id = 'login-password' name="login_password" size="30" placeholder="Enter your password" required>
+
+                <label class="checkbox"><input type="checkbox" name="save" value="" />Remember me</label>
+
+                <a href="/forgot-password" class="forgot-link">Forgot password</a>
+
+                <button id="login-submit" value="" type="submit">Log in</button>
+            </form>
+        </section><!--
+
+     --><section class="signup-container">
+            <h3>Sign Up for an Account</h3>
+            <p class="explanatory-text">Let's get you all set up.</p>
+
+
+            <form method="post" action = 'res_data'>
+                <div class="name-container">
+                    <div>
+                        <label for="first-name">First name</label>
+                        <input type="text" id = 'first-name' name='signup_firstname' size="30" placeholder="Your first name" required>
+                    </div>
+
+                    <div>
+                        <label for="last-name">Last name</label>
+                        <input type="text" id = 'last-name'name='signup_lastname' size="30" placeholder="Your last name" required>
+                    </div>
+                  </div>
+                  <div>
+                                  <label for="signup_Company">Company</label>
+                                  <input type="text" id = 'signup_Company' name="company" size="30" placeholder="What is your company's authorization code?" required>
+
+                  </div>
+<div>
+                <label for="signup_auth_code">Company Authorization Code</label>
+                <input type="text" id = 'signup_auth_code' name="signup_auth_code" size="30" placeholder="What is your company's authorization code?" required>
+
+</div>
+<div>
+                <label for="subscription">Choose the subscription you'd like:</label>
+
+                <select name="subscription" id="subscription">
+                  <option value="Little Penguin">Little Penguin</option>
+                  <option value="Emporer Penguin">Emporer Penguin</option>
+                  <option value="Royal Penguin">Royal Penguin</option>
+                </select>
+    </div>
+
+                <div>
+                  <a  href="https://penguindocketing.webflow.io/pricing">Click here to see pricing options</a>
+                </div>
+
+
+        <div>
+          <label for="singup-email">Email</label>
+          <input type="email" id = 'signup-email' name="signup_email" size="30" placeholder="Enter your email address" required>
+</div>
+  <div>
+                <label for="signup-password">Password</label>
+                <input type="password" id = 'signup-password'name="signup_password" size="30" placeholder="Enter a strong password" required>
+
+            </div>
+                <button id="signup-submit" value="" type="submit">Sign up</button>
+            </form>
+        </section>
+
+        <section class="switcher-overlay">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M 0,0 L 100,0 L 80,100 L 0,100 z"></path>
+            </svg>
+            <div class="signup-text">
+                <h3>Don't have an account yet?</h3>
+                <p class="explanatory-text">Let's get you started with our easy to use time management software.</p>
+                <button class="switch">Sign up</button>
+            </div>
+
+            <div class="login-text">
+                <h3>Already a member?</h3>
+                <p class="explanatory-text">Log in to your account using your credentials.</p>
+                <button class="switch">Log in</button>
+            </div>
+        </section>
+
+    </section>
+
+    <script>
+    if (<%=result_pass%> == false) {
+      alert("Wrong Password or Email");
+  }
+</script>
+<script>
+if (<%=result_registered%> == true) {
+  alert("Registration Successful! Login using your email and password");
+}
+</script>
+<!-- <script>
+if (<%=result_registered%> == false) {
+  alert("Registration Successful! Login using your email and password");
+}
+</script> -->
+    <script>
+                // Switch layouts
+        var signup = document.querySelector(".signup-container"),
+            login = document.querySelector(".login-container");
+        function toggleScreen() {
+            document.body.classList.toggle("login-open");
+            document.body.classList.toggle("signup-open");
+
+            if(document.body.classList.contains("login-open")) {
+                fadeIn(login);
+                fadeOut(signup);
+            } else {
+                fadeIn(signup);
+                fadeOut(login);
+            }
+        }
+
+        // Subtle SVG line animation
+        var svg = document.querySelector(".switcher-overlay svg")
+        function sublteMoveSVG(right) {
+            if(right) {
+                svg.style.animation = "bounceRight 0.15s";
+            } else {
+                svg.style.animation = "bounceLeft 0.15s";
+            }
+        }
+
+        // Fade out for sections
+        function fadeOut(elem) {
+            (elem.style.opacity -= .1) < 0 ?
+                elem.style.display = "none"
+                : requestAnimationFrame(function() { fadeOut(elem); });
+        }
+        function fadeIn(elem) {
+            elem.style.opacity = 1;
+            elem.style.display = "block";
+        }
+
+        // Size our overlay (necessary for some edge cases)
+        var overlay = document.querySelector(".switcher-overlay");
+        function sizeOverlay() {
+            overlay.style.height = Math.max(window.innerHeight, signup.clientHeight) + "px";
+        }
+
+        // Apply our animations and listeners
+        document.querySelector(".switcher-overlay").addEventListener("transitionend", function() {
+            if(document.body.classList.contains("login-open")) {
+                sublteMoveSVG(true);
+            } else {
+                sublteMoveSVG(false);
+            }
+        });
+        document.querySelectorAll(".switch").forEach(btn => {
+            btn.addEventListener("click", toggleScreen);
+        });
+        document.body.classList.add("login-open");
+        toggleScreen();
+
+        window.addEventListener("resize", sizeOverlay);
+        sizeOverlay();
+    </script>
+
+</body>
+</html>
