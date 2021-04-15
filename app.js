@@ -56,9 +56,10 @@ var conn = mysql.createPool({
 	multipleStatements: true
 });
 
-var user_id = 2;
+var user_id;
 
-var password_bool = true;
+var password_bool = false;
+var result_pass = false
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 app.use(express.logger('dev'));
@@ -69,25 +70,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 
-// app.get('/', function(req, res){
-//
-//   conn.getConnection(function(err,connection){
-//     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-//     connection.query(querry_get_password, (err, result) => {
-//       if (err) {
-//         console.log(err);
-//         res.render('SignUP_Login')
-//       }
-//       else{
-//           console.log(password_bool)
-//
-//           res.render('md',{data:result, result_pass: password_bool,result_registered : false});
-//       }
-//     });
-//
-//   });
-//
-// });
+
 app.get('/', function(req, res){
         var password_bool = true;
         // res.render('SignUP_Login')
@@ -98,9 +81,27 @@ app.get('/', function(req, res){
 
 
 
+app.get('/dashboard', function(req, res){
 
+  conn.getConnection(function(err,connection){
+    var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
+    connection.query(querry_get_password, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.render('SignUP_Login')
+      }
+      else{
+          console.log(password_bool)
 
-app.post('/upload', upload.array('image', 3), function(req, res, next) {
+          res.render('md',{data:result, result_pass: password_bool,result_registered : false});
+      }
+    });
+
+  });
+
+});
+
+app.post('/uploadimage', upload.array('image', 3), function(req, res, next) {
   console.log('Successfully uploaded ' + req.files + ' files!')
   res.redirect('dashboard')
 });
@@ -144,6 +145,7 @@ app.post('/log_data', function(req, res) {
           if (password == result[0].password) {
             user_id = result[0].user_id
             password_bool = true
+            result_pass = true
             return res.redirect('dashboard')
           }
           else{
