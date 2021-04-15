@@ -95,6 +95,10 @@ app.post('/log_data', function(req, res) {
             password_bool = true
             return res.redirect('dashboard')
           }
+          else{
+            console.log('false')
+            res.render('SignUP_Login', {result_pass : false,result_registered : false})
+          }
         }
         else{
           console.log('false')
@@ -176,6 +180,38 @@ const port = process.env.port || 8080;
 app.listen(port, () => {
     console.log("Our app is running on " + port);
 });
+
+app.get('/cases', function(req, res){
+
+        res.render('cases');
+
+});
+
+app.get('/appDB_Senton', function(req, res){
+
+        res.render('appDB_Senton');
+
+});
+
+
+app.get('/appDB_Robosock', function(req, res){
+
+        res.render('appDB_Robosock');
+
+});
+
+app.get('/appDB_Birthday', function(req, res){
+
+        res.render('appDB_BirthdayPop');
+
+});
+app.get('/notifications', function(req, res){
+
+        res.render('notifications');
+
+});
+
+
 
 
 
