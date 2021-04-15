@@ -193,6 +193,20 @@ app.post('/res_data', function(req, res) {
         }
       });
       });
+      conn.getConnection(function(err,connection){
+
+        connection.query( "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"'"  ,(err, result) => {
+          // console.log(register_new_member)
+      		if (err) {
+            // console.log(register_new_member)
+      			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
+            console.log('error', err);
+      		}
+      		else {
+              user_id = result[0].user_id;
+            }
+          });
+          });
 });
 
 
