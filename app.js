@@ -8,12 +8,12 @@ var connection  = require('express-myconnection');
 //S3 bucket setup
 var multer = require('multer');
 var multerS3 = require('multer-s3');
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-2'});
 const ID = 'AKIARUD6GFG4GSMWUUSN';
 const SECRET = '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';
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 // The name of the bucket that you have created
 const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744/databasefiles';
 AWS.config.update({
