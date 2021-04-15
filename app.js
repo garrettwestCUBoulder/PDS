@@ -205,7 +205,7 @@ app.post('/res_data', function(req, res) {
       		else {
               user_id = result[0].user_id;
               var bucketParams = {
-                Bucket :BUCKET_NAME+'/'+user_id.toString();
+                Bucket :BUCKET_NAME+'/'+user_id.toString()
 
                 };
                 s3.createBucket(bucketParams, function(err, data) {
