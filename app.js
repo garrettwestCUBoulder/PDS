@@ -56,10 +56,9 @@ var conn = mysql.createPool({
 	multipleStatements: true
 });
 
-var user_id;
-var application_id='';
-var password_bool = false;
-var result_pass = false
+var user_id = 2;
+
+var password_bool = true;
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 app.use(express.logger('dev'));
@@ -81,25 +80,25 @@ app.get('/', function(req, res){
 
 
 
-app.get('/dashboard', function(req, res){
-
-  conn.getConnection(function(err,connection){
-    var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-    connection.query(querry_get_password, (err, result) => {
-      if (err) {
-        console.log(err);
-        res.render('SignUP_Login')
-      }
-      else{
-          console.log(password_bool)
-
-          res.render('md',{data:result, result_pass: password_bool,result_registered : false});
-      }
-    });
-
-  });
-
-});
+// app.get('/dashboard', function(req, res){
+//
+//   conn.getConnection(function(err,connection){
+//     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
+//     connection.query(querry_get_password, (err, result) => {
+//       if (err) {
+//         console.log(err);
+//         res.render('SignUP_Login')
+//       }
+//       else{
+//           console.log(password_bool)
+//
+//           res.render('md',{data:result, result_pass: password_bool,result_registered : false});
+//       }
+//     });
+//
+//   });
+//
+// });
 
 app.post('/uploadimage', upload.array('image', 3), function(req, res, next) {
   console.log('Successfully uploaded ' + req.files + ' files!')
@@ -145,7 +144,6 @@ app.post('/log_data', function(req, res) {
           if (password == result[0].password) {
             user_id = result[0].user_id
             password_bool = true
-            result_pass = true
             return res.redirect('dashboard')
           }
           else{
@@ -192,14 +190,6 @@ app.post('/res_data', function(req, res) {
   		else {
           console.log('Successful')
           res.render('SignUP_Login', {result_pass : true,result_registered : true})
-          var bucketParams = {
-            Bucket :BUCKET_NAME+'/'+userId.toString();
-
-            };
-          s3.createBucket(params, function(err, data) {
-              if (err) console.log(err, err.stack);
-              else console.log('Bucket Created Successfully', data.Location);
-          });
         }
       });
       });
@@ -287,7 +277,10 @@ app.listen(port, () => {
 
 
 
-
+// s3.createBucket(params, function(err, data) {
+//     if (err) console.log(err, err.stack);
+//     else console.log('Bucket Created Successfully', data.Location);
+// });
 
 // app.set('port', process.env.PORT || 4300);
 
