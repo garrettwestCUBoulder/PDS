@@ -6,13 +6,7 @@ var path = require('path');
 var connection  = require('express-myconnection');
 
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 //S3 bucket setup
@@ -65,7 +59,13 @@ var conn = mysql.createPool({
 var user_id;
 
 var password_bool = false;
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(express.logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.methodOverride());
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res){
         var password_bool = true;
         res.render('SignUP_Login')
