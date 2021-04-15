@@ -185,11 +185,11 @@ app.post('/res_data', function(req, res) {
         // console.log(register_new_member)
   			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
         console.log('error', err);
-  			res.render('SignUP_Login',{result_pass : true,result_registered : false})
+  			res.render('login',{result_pass: false, result_registered : false});
   		}
   		else {
           console.log('Successful')
-          res.render('SignUP_Login', {result_pass : true,result_registered : true})
+          res.render('login',{result_pass: false, result_registered : false});
         }
       });
       });
