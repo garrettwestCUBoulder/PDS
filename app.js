@@ -41,12 +41,6 @@ var upload = multer({
 
 
 
-// s3.createBucket(params, function(err, data) {
-//     if (err) console.log(err, err.stack);
-//     else console.log('Bucket Created Successfully', data.Location);
-// });
-
-// app.set('port', process.env.PORT || 4300);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.logger('dev'));
@@ -72,7 +66,7 @@ var password_bool = false;
 
 app.get('/', function(req, res){
         var password_bool = true;
-        res.render('profilePage')
+        res.render('SignUP_Login')
         // res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
 
 });
@@ -254,6 +248,12 @@ app.get('/notifications', function(req, res){
 
 
 
+// s3.createBucket(params, function(err, data) {
+//     if (err) console.log(err, err.stack);
+//     else console.log('Bucket Created Successfully', data.Location);
+// });
+
+// app.set('port', process.env.PORT || 4300);
 
 
 // connection.getConnection(function(err, connection) {
