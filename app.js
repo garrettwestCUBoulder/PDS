@@ -173,17 +173,7 @@ app.post('/res_data', function(req, res) {
       connection.query( "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"';" ,(err, results) => {
           user_id = results[0].user_id
 
-          var bucketParams = {
-            Bucket :BUCKET_NAME+'/'+user_id.toString();
-
-            };
-            s3.createBucket(bucketParams, function(err, data) {
-                if (err) {
-                  console.log("Error", err);
-                } else {
-                  console.log("Success", data.Location);
-                  }
-                });
+          
       });
       console.log('Successful');
       res.render('login', {result_pass : true,result_registered : true});
