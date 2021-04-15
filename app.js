@@ -87,7 +87,7 @@ app.get('/dashboard', function(req, res){
     connection.query(querry_get_password, (err, result) => {
       if (err) {
         console.log(err);
-        res.render('SignUP_Login')
+        res.render('login'{result_pass: password_bool, result_registered : false});
       }
       else{
           console.log(password_bool)
@@ -105,25 +105,6 @@ app.post('/uploadimage', upload.array('image', 3), function(req, res, next) {
   res.redirect('dashboard')
 });
 
-app.get('/dashboard', function(req, res){
-
-  conn.getConnection(function(err,connection){
-    var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-    connection.query(querry_get_password, (err, result) => {
-      if (err) {
-        console.log(err);
-        res.render('SignUP_Login')
-      }
-      else{
-          console.log(password_bool)
-
-          res.render('md',{data:result, result_pass: password_bool,result_registered : false});
-      }
-    });
-
-  });
-
-});
 
 
 
@@ -136,7 +117,7 @@ app.post('/log_data', function(req, res) {
     connection.query(querry_get_password, (err, result) => {
   		if (err) {
   			console.log(err);
-  			res.render('SignUP_Login')
+  			res.render('login'{result_pass: password_bool, result_registered : false});
   		}
   		else {
         console.log('checking password', password, result.length)
@@ -148,12 +129,12 @@ app.post('/log_data', function(req, res) {
           }
           else{
             console.log('false')
-            res.render('SignUP_Login', {result_pass : false,result_registered : false})
+            res.render('login', {result_pass : false,result_registered : false})
           }
         }
         else{
           console.log('false')
-          res.render('SignUP_Login', {result_pass : false,result_registered : false})
+          res.render('login', {result_pass : false,result_registered : false})
         }
 
   			}
@@ -185,10 +166,27 @@ app.post('/res_data', function(req, res) {
         // console.log(register_new_member)
   			// console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
         console.log('error', err);
-  			res.render('SignUP_Login',{result_pass : true,result_registered : false})
+  			res.render('login',{result_pass : true,result_registered : false})
   		}
       });
-        res.redirect('/')
+      console.log('Successful');
+      connection.query( "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"';" ,(err, results) => {
+          user_id = results[0].user_id
+
+          var bucketParams = {
+            Bucket :BUCKET_NAME+'/'+user_id.toString();
+
+            };
+            s3.createBucket(bucketParams, function(err, data) {
+                if (err) {
+                  console.log("Error", err);
+                } else {
+                  console.log("Success", data.Location);
+                  }
+                });
+      });
+      console.log('Successful');
+      res.render('login', {result_pass : true,result_registered : true});
     });
 });
 
