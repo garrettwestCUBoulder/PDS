@@ -154,16 +154,20 @@ app.get('/messages', function(req, res){
 app.get('/profile', function(req, res){
 
 
-var get_profile_info = "SELECT users.first_name, users.last_name, users.email, user_info.company_id, companys.company_name, memberships.subscription FROM (((users INNER JOIN user_info ON '"+ user_id + "' = user_info.user_id) INNER JOIN companys ON user_info.company_id = companys.company_id) INNER JOIN memberships ON memberships.membership_id = user_info.membership_id) WHERE users.user_id = '"+user_id+"';"
+var get_profile_info = "SELECT users.first_name, users.last_name, users.email, user_info.company_id, companies.company_name, memberships.subscription FROM (((users INNER JOIN user_info ON '"+ user_id + "' = user_info.user_id) INNER JOIN companies ON user_info.company_id = companies.company_id) INNER JOIN memberships ON memberships.membership_id = user_info.membership_id) WHERE users.user_id = '"+user_id+"';"
 
 
 
   conn.getConnection(function(err,connection){
       var query = connection.query(get_profile_info ,function(err,rows){
-        if(err)
+        if(err){
           console.log("Error Selecting : %s ",err );
-        console.log(user_id,rows[0].first_name)
-        res.render('profilePage',{data:rows});
+        }
+        else{
+          console.log(user_id,rows[0].first_name)
+          res.render('profilePage',{data:rows});
+        }
+
       });
   });
 });

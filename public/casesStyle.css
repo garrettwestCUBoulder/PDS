@@ -223,7 +223,6 @@ html, body {
 	 transform: translateX(0);
 }
  .navList {
-	/* text-align: right; */
 	 width: 240px;
 	 padding: 0;
 	 margin: 0;
@@ -281,7 +280,6 @@ html, body {
 	 transform: rotate(315deg);
 }
  .navList .subList {
-	text-align: center;
 	 padding: 0;
 	 margin: 0;
 	 list-style-type: none;
@@ -323,7 +321,7 @@ html, body {
 	 position: relative;
 	 display: flex;
 	 justify-content: space-between;
-	 height: 250px;
+	 height: 80px;
 	 color: #fff;
 	 background-size: cover;
 	 background-image: url("Images/dl.png");
@@ -401,7 +399,8 @@ html, body {
 	 color: #fff;
 }
  .overviewCard-icon--document {
-	 background-color: #e67e22;
+   background-image: url("caseIcon.png");
+   background-size: 60px 60px;
 }
  .overviewCard-icon--calendar {
 	 background-color: #27ae60;
@@ -609,7 +608,7 @@ html, body {
  .document__img {
 	 width: 105px;
 	 height: 136px;
-	 background-image: url("Images/DocPic.png");
+	 background-image: url("Images/DOC.png");
 	 background-size: cover;
 	 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 	 cursor: pointer;
@@ -632,7 +631,7 @@ html, body {
 	 justify-content: space-between;
 	 padding: 0 16px;
 	 color: #777;
-	 background-color: #0d0d0e;
+	 background-color: rgb(5, 5, 5);
 }
 
 .footer__signature {
@@ -680,99 +679,3 @@ html, body {
 		 align-items: flex-start;
 	}
 }
- 
-
-/* The Modal (background) */
-.modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	padding-top: 300px; /* Location of the box */
-	left: 300px;
-	top: 0px;
-	width: 75%; /* Full width */
-	height: 50%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-
-}
-  
-  /* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-}
-
-/* The Close Button */
-.modalclose {
-	color: #aaaaaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.modalclose:hover,
-.modalclose:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-/* Popup container - can be anything you want */
-.popup {
-	position: relative;
-	display: inline-block;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-  }
-  
-  /* The actual popup */
-  .popup .popuptext {
-	visibility: hidden;
-	width: 200px;
-	background-color: #555;
-	color: #fff;
-	text-align: center;
-	border-radius: 6px;
-	padding: 8px 0;
-	position: absolute;
-	z-index: 1;
-	bottom: 125%;
-	left: 50%;
-	margin-left: -80px;
-  }
-  
-  /* Popup arrow */
-  .popup .popuptext::after {
-	content: "";
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	margin-left: -5px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: #555 transparent transparent transparent;
-  }
-  
-  /* Toggle this class - hide and show the popup */
-  .popup .show {
-	visibility: visible;
-	-webkit-animation: fadeIn 1s;
-	animation: fadeIn 1s;
-  }
-  
-  /* Add animation (fade in the popup) */
-  @-webkit-keyframes fadeIn {
-	from {opacity: 0;} 
-	to {opacity: 1;}
-  }
-  
-  @keyframes fadeIn {
-	from {opacity: 0;}
-	to {opacity:1 ;}
-  }

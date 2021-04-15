@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="pp_css.css">
-    <link rel='stylesheet' type='text/css' href='/css/pp_css.css' />
-    <title>Profile Page</title>
+    <link rel="stylesheet" href="casesStyle.css">
+    <title>Cases</title>
 </head>
 <body>
     <div class="grid">
@@ -20,12 +19,8 @@
               <ul class="dropdown__list">
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="far fa-user"></i></span>
-                  <a href="/profile"><span class="dropdown__title">my profile</span></a>
+                  <a href="profile.html"><span class="dropdown__title">my profile</span></a>
                 </li>
-              </li><li class="dropdown__list-item">
-                <span class="dropdown__icon"><i class="far fa-user"></i></span>
-                <a href="/dashboard"><span class="dropdown__title">Dashboard</span></a>
-              </li>
                 <!-- <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="fas fa-clipboard-list"></i></span>
                   <span class="dropdown__title">my account</span>
@@ -38,182 +33,14 @@
             </div>
           </div>
         </header>
-        <main class="main">
-          <div class="main-header-profilePage">
-            <div class="main-header__intro-wrapper">
-              <div class="main-header__welcome">
-                <div class="main-header__welcome-title text-light"><strong>Profile</strong></div>
-                <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
-              </div>
-              <div class="quickview">
-                <div class="quickview__item">
-                  <div class="quickview__item-total">5</div>
-                  <div class="quickview__item-description">
-                    <i class="far fa-calendar-alt"></i>
-                    <span class="text-light">Active Cases</span>
-                  </div>
-                </div>
-                <div class="quickview__item">
-                  <div class="quickview__item-total">12</div>
-                  <div class="quickview__item-description">
-                    <i class="far fa-comment"></i>
-                    <span class="text-light">New Notifications</span>
-                  </div>
-                </div>
-                <div class="quickview__item">
-                  <div class="quickview__item-total">Today's Date</div>
-                  <div class="quickview__item-description">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span class="text-light">Happy Working!</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <style>
-              *{
-              	box-sizing: border-box;
-              }
-              </style>
-        <div class="main-overview">
-          <div class="overviewCard">
-            <div class="overviewCard-icon--document">
-               <i class="far fa-file-alt"></i>
-            </div>
-            <div class = 'left_div'>
-              <h3 class="overviewCard-title text-light">  Name: <strong> <%=data[0].first_name%> <%=data[0].last_name%> </strong></h3>
-              <p>  Email: <span class="overviewCard-subtitle"><%=data[0].email%> </span></p>
-              <div class="openBtn">
-                <button class="openButton" onclick="openForm()"><strong>Edit</strong></button>
-              </div>
-              </div>
-
-            <div class="overviewCard-description">
-              <h3 class="overviewCard-title text-light"> Address:</h3>
-              <p class="overviewCard-subtitle" href = "">175 Regent Administrative Center<br>
-                  41 UCB Boulder, CO 80309-0041</p>
-            </div>
-          </div>
-
-          </div>
-
-          <div class="loginPopup">
-            <div class="formPopup" id="popupForm">
-              <form action="/profilePage" class="formContainer">
-                <h2>Edit Profile Information</h2>
-                <label for="email">
-                  <strong>E-mail</strong>
-                </label>
-                <input type="text" id="email" placeholder="Your Email" name="email" required>
-                <label for="name">
-                  <strong>Name</strong>
-                </label>
-                <input type="text" id="name" placeholder="Your Name" name="name" required>
-                <button type="submit" class="btn">Submit</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-              </form>
-            </div>
-          </div>
-
-          <div class="main-overview">
-            <div class="overviewCard">
-              <div class="overviewCard-icon--document">
-                 <i class="far fa-file-alt"></i>
-              </div>
-              <div class = 'left_div'>
-                <h3 class="overviewCard-title text-light"> Company: <strong><%=data[0].company_name%> </strong></h3>
-                <br>
-                <h3 class="overviewCard-title text-light">  Address:</h3>
-                <p class="overviewCard-subtitle "> 300 North LaSalle, Chicago, IL 60654 </p>
-              </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div><!-- /.main-cards -->
-            <div class="main-overview">
-              <div class="overviewCard">
-                <div class="overviewCard-icon--document">
-                   <i class="far fa-file-alt"></i>
-                </div>
-                <div class = 'left_div'>
-                  <h3 class="overviewCard-title text-light"> Membership: <strong><%=data[0].subscription%></strong> </h3>
-                  <br>
-                  <button class = "button" href = "https://penguindocketing.webflow.io/pricing"> Upgrade today </button>
-                </div>
-                <div class = "center">
-                    <h4 class="overviewCard-title text-light"> Membership since 2022</h4>
-                </div>
-              </div>
-            </div>
-
-
-
-
-            <div class = "documents-left">
-                        <div class="card">
-                          <div class="card__header">
-                            <div class="card__header-title text-light">Recent <strong>Documents</strong>
-                              <a href="#" class="card__header-link text-bold">View All</a>
-                            </div>
-                            <div class="settings">
-                              <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
-                              <div class="settings__block"><i class="fas fa-cog"></i></div>
-                            </div>
-                          </div>
-                          <div class="card">
-                            <div class="documents">
-                              <div class="document">
-                                <div class="document__img"></div>
-                                <div class="document__title">Application Name</div>
-                                <div class="document__date">Application Date</div>
-                              </div>
-                              <div class="document">
-                                <div class="document__img"></div>
-                                <div class="document__title">Application Name</div>
-                                <div class="document__date">Application Date</div>
-                              </div>
-                              <div class="document">
-                                <div class="document__img"></div>
-                                <div class="document__title">Application Name</div>
-                                <div class="document__date">Application Date</div>
-                              </div>
-                              <div class="document">
-                                <div class="document__img"></div>
-                                <div class="document__title">Application Name</div>
-                                <div class="document__date">Application Date</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-
-
-
-
-
-
-
-        </main>
         <aside class="sidenav">
           <div class="sidenav__brand">
             <i class="fas fa-feather-alt sidenav__brand-icon"></i>
             <a class="sidenav__brand-link" href="https://penguindocketing.webflow.io/">PDS<span class="text-light"></span></a>
             <i class="fas fa-times sidenav__brand-close"></i>
           </div>
-          <div href = '/dashboard' class="sidenav__profile">
+          <div class="sidenav__profile">
             <div class="sidenav__profile-avatar"></div>
             <div class="sidenav__profile-title text-light">User U.</div>
           </div>
@@ -398,8 +225,58 @@
                   </li>
             </ul>
           </div>
-
         </aside>
+
+        <main class="main">
+          <div class="main-header">
+            <div class="main-header__intro-wrapper">
+              <div class="main-header__welcome">
+                <div class="main-header__welcome-title text-light"><strong>Cases</strong></div>
+                <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
+              </div>
+            </div>
+          </div>
+          <div class="main-overview">
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--document">
+                 <i class="far fa-file-alt"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Case <strong>1</strong></h3>
+                <p class="overviewCard-subtitle">Updated 3/20</p>
+              </div>
+            </div>
+
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--document">
+                 <i class="far fa-file-alt"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Case <strong>2</strong></h3>
+                <p class="overviewCard-subtitle">Updated 3/17</p>
+              </div>
+            </div>
+
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--document">
+                 <i class="far fa-file-alt"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Case <strong>3</strong></h3>
+                <p class="overviewCard-subtitle">Updated 12:40pm</p>
+              </div>
+            </div>
+
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--document">
+                 <i class="far fa-file-alt"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Case <strong>4</strong></h3>
+                <p class="overviewCard-subtitle">Updated 3:19am</p>
+              </div>
+            </div>
+          </div>
 
         </main>
 
@@ -407,16 +284,6 @@
           <p><span class="footer__copyright">&copy;</span> 2020 PDS</p>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script>
-        function openForm() {
-          document.getElementById("popupForm").style.display = "block";
-        }
-        function closeForm() {
-          document.getElementById("popupForm").style.display = "none";
-        }
-        </script>
-
-
         <script>
             /* Scripts for css grid dashboard */
 

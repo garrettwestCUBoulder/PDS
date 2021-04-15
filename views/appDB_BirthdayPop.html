@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="md_css.css">
+    <title>Application Dashboard</title>
+</head>
+<body>
+    <div class="grid">
+        <header class="header">
+          <i class="fas fa-bars header__menu"></i>
+          <div class="header__search">
+            <input class="header__input" placeholder="Search..." />
+          </div>
+          <div class="header__avatar">
+            <div class="dropdown">
+              <ul class="dropdown__list">
+                <li class="dropdown__list-item">
+                  <span class="dropdown__icon"><i class="far fa-user"></i></span>
+                  <a href="profile.html"><span class="dropdown__title">my profile</span></a>
+                </li>
+                <!-- <li class="dropdown__list-item">
+                  <span class="dropdown__icon"><i class="fas fa-clipboard-list"></i></span>
+                  <span class="dropdown__title">my account</span>
+                </li> -->
+                <li class="dropdown__list-item">
+                  <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
+                  <a href="https://www.penguindocketing.com"><span class="dropdown__title">log out</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+      
+        <aside class="sidenav">
+          <div class="sidenav__brand">
+            <i class="fas fa-feather-alt sidenav__brand-icon"></i>
+            <a class="sidenav__brand-link" href="https://www.penguindocketing.com">PDS LLC<span class="text-light"></span></a>
+            <i class="fas fa-times sidenav__brand-close"></i>
+          </div>
+          <div class="sidenav__profile">
+            <div class="sidenav__profile-avatar"></div>
+            <div class="sidenav__profile-title text-light">John D.</div>
+          </div>
+          <div class="row row--align-v-center row--align-h-center">
+            <ul class="navList">
+              <li class="navList__heading">Dashboard<i class="far fa-file-alt"></i></li>
+                <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-briefcase-medical"></i></span>
+                  <span class="navList__subheading-title">Messages</span>
+                </div>
+                <ul class="subList subList--hidden">
+                  <li class="subList__item">New</li>
+                  <li class="subList__item">Inbox</li>
+                  <li class="subList__item">Create New</li>
+                </ul>
+              </li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-plane-departure"></i></span>
+                  <span class="navList__subheading-title">USPTO Status</span>
+                </div>
+                <ul class="subList subList--hidden">
+                  <li class="subList__item">Active</li>
+                  <li class="subList__item">Completed</li>
+                  <!-- <li class="subList__item">Received</li> -->
+                </ul>
+              </li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="far fa-angry"></i></span>
+                  <span class="navList__subheading-title">Case Reminders</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">Applications Started</li>
+                  <li class="subList__item">Applications Done</li>
+                </ul> -->
+              </li>
+      
+              <li class="navList__heading">Communication<i class="far fa-envelope"></i></li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-envelope"></i></span>
+                  <span class="navList__subheading-title">Email</span>
+                </div>
+                <ul class="subList subList--hidden">
+                  <li class="subList__item" style="font-size: 15px;">accountOne@gmail.com</li>
+                  <li class="subList__item" style="font-size: 15px;">accountTwo@gmail.com</li>
+                  <!-- <li class="subList__item">Add</li> -->
+                </ul>
+              </li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-eye"></i></span>
+                  <span class="navList__subheading-title">Slack</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">Add</li>
+                  <li class="subList__item">Add</li>
+                  <li class="subList__item">Add</li>
+                </ul> -->
+              </li>
+               <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-book-open"></i></span>
+                  <span class="navList__subheading-title">&#43;</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">Add</li>
+                  <li class="subList__item">Add</li>
+                  <li class="subList__item">Add</li>
+                </ul> -->
+              </li>
+      
+              <li class="navList__heading">Applications<i class="far fa-image"></i></li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-mountain"></i></span>
+                  <span class="navList__subheading-title">In Progress</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">App 1</li>
+                  <li class="subList__item">App 2</li>
+                </ul> -->
+              </li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-wine-glass-alt"></i></span>
+                  <span class="navList__subheading-title">Completed</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">View Full list</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul> -->
+              </li>
+              <!-- <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-graduation-cap"></i></span>
+                  <span class="navList__subheading-title">What needs to be done?</span>
+                </div>
+                <ul class="subList subList--hidden">
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul>
+              </li> -->
+      
+              <li class="navList__heading">Notifications<i class="fas fa-chart-bar"></i></li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
+                  <span class="navList__subheading-title">Application Deadlines</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul> -->
+              </li>
+              <!-- <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-phone"></i></span>
+                  <span class="navList__subheading-title">New Applications</span>
+                </div>
+                <ul class="subList subList--hidden">
+                  <li class="subList__item"></li>
+                  <li class="subList__item">See new applications</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul>
+              </li> -->
+              <!-- <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-plane"></i></span>
+                  <span class="navList__subheading-title">Document Editor</span>
+                </div>
+                <ul class="subList subList--hidden">
+                  <li class="subList__item">Editor Home</li>
+                  <li class="subList__item">Create New Document</li>
+                  <li class="subList__item">Edit Document</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul>
+              </li> -->
+              
+              <li class="navList__heading">USPTO Status<i class="fas fa-calendar-alt"></i></li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-wine-glass-alt"></i></span>
+                  <span class="navList__subheading-title">Current Submissions</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul> -->
+              </li>
+              <li>
+                <div class="navList__subheading row row--align-v-center">
+                  <span class="navList__subheading-icon"><i class="fas fa-school"></i></span>
+                  <span class="navList__subheading-title">Previous Submissions</span>
+                </div>
+                <!-- <ul class="subList subList--hidden">
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                  <li class="subList__item">Add/Delete</li>
+                </ul> -->
+              </li>
+              <li>
+                  <div class="navList__subheading row row--align-v-center">
+                    <span class="navList__subheading-icon"><i class="fas fa-users"></i></span>
+                    <span class="navList__subheading-title">Status/Responses</span>
+                  </div>
+                  <!-- <ul class="subList subList--hidden">
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                  </ul> -->
+                </li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+                <li class="navList__heading">Help • Contact<i class="fas fa-calendar-alt"></i></li>
+                <li>
+                  <div class="navList__subheading row row--align-v-center">
+                    <span class="navList__subheading-icon"><i class="fas fa-wine-glass-alt"></i></span>
+                    <span class="navList__subheading-title">Contact</span>
+                  </div>
+                  <!-- <ul class="subList subList--hidden">
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                  </ul> -->
+                </li>
+                <li>
+                  <div class="navList__subheading row row--align-v-center">
+                    <span class="navList__subheading-icon"><i class="fas fa-school"></i></span>
+                    <span class="navList__subheading-title">Support</span>
+                  </div>
+                  <!-- <ul class="subList subList--hidden">
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                    <li class="subList__item">Add/Delete</li>
+                  </ul> -->
+                </li>
+
+              
+            </ul>
+          </div>
+        </aside>
+      
+        <main class="main">
+          <div class="main-header">
+            <div class="main-header__intro-wrapper">
+              <div class="main-header__welcome">
+                <div class="main-header__welcome-title text-light"><strong>Application Dashboard</strong></div>
+                <div class="main-header__welcome-title text-light">Currently Viewing: Case J-102020BOB</div>
+              </div>
+              <!-- <div class="quickview">
+                <div class="quickview__item">
+                  <div class="quickview__item-total">5</div>
+                  <div class="quickview__item-description">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="text-light">Active Cases</span>
+                  </div>
+                </div>
+                <div class="quickview__item">
+                  <div class="quickview__item-total">12</div>
+                  <div class="quickview__item-description">
+                    <i class="far fa-comment"></i>
+                    <span class="text-light">New Notifications</span>
+                  </div>
+                </div>
+                <div class="quickview__item">
+                  <div class="quickview__item-total">Today's Date</div>
+                  <div class="quickview__item-description">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="text-light">Happy Working!</span>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+         
+            <!-- <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--document">
+                 <i class="far fa-file-alt"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Recent <strong>Document</strong></h3>
+                <p class="overviewCard-subtitle">Case J-072020FRANK</p>
+              </div>
+            </div>
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--calendar">
+                 <i class="far fa-calendar-check"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Upcoming <strong>Deadline</strong></h3>
+                <p class="overviewCard-subtitle">Case J-092020Lor.. +2</p>
+              </div>
+            </div>
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--mail">
+                 <i class="far fa-envelope"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Recent <strong>Notifications</strong></h3>
+                <p class="overviewCard-subtitle">+10</p>
+              </div>
+            </div>
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--photo">
+                 <i class="far fa-file-image"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Quick <strong>Links</strong></h3>
+                <p class="overviewCard-subtitle">Private PAIR, DocEX, Co.. </p>
+              </div>
+            </div>
+          </div> -->
+           <!-- /.main__overview -->
+          
+            <div class="card">
+                <div class="card__header">
+                  <div class="card__header-title text-light"><strong>Applications</strong>
+                    <a href="#" class="card__header-link text-bold">View All</a>
+                  </div>
+                  <div class="settings">
+                    <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
+                    <div class="settings__block"><i class="fas fa-cog"></i></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="documents">
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Birthday Pop JC-B-1</div>
+                      <div class="document__date">03-01-2021</div>
+                    </div>
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Birthday Pop JTM-B-2</div>
+                      <div class="document__date">02-28-2021</div>
+                    </div>
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Birthday Pop JNP-B-1</div>
+                      <div class="document__date">03-10-2021</div>
+                    </div>
+                    <div class="document">
+                        <a href="appView.html">
+                      <div class="document__img"></div>
+                      <div class="document__title">Birthday Pop JPU-B-1</div>
+                      <div class="document__date">03-12-2021</div>
+                    </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+           <div class="card">
+            <div class="card__header">
+              <div class="card__header-title text-light">Case: <strong>J-032021MARK</strong>
+              </div>
+            </div>
+            <div id="messages" style="font-size: 20px;">
+                <h4>&nbsp&nbspApplication Information:</h4>
+                <p>&nbsp&nbspApplication for Birthday Pop: New animated puppet for kids. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, harum? Nulla, 
+                    necessitatibus exercitationem recusandae nisi culpa possimus vel dolorem suscipit qui nostrum dolor. Numquam animi provident quaerat, accusamus suscipit veniam</p>
+                <p>&nbspLorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur voluptates ab et est sed ipsa placeat ea amet magnam cumque vel, maiores aspernatur dolor, tempore eum atque? Eligendi, earum illo.</p>
+
+                <h4>&nbsp&nbspClient Information:</h4>
+                <p>&nbsp Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas possimus consectetur optio iste sapiente quo aut quasi recusandae esse nisi expedita totam necessitatibus vitae, nam aspernatur? Minima dolores enim quibusdam?</p>
+                <!-- <p>&nbsp Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, labore autem asperiores sequi, quo consequatur exercitationem veritatis blanditiis magnam ad velit dolorum nisi voluptatem deleniti odio quasi tenetur ex accusantium.</p> -->
+                
+                <h4>&nbsp&nbspAttorney Information:</h4>
+                <p>&nbsp&nbspLorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam nihil minima animi velit eveniet similique fugiat? Iste fugit totam molestiae nam id labore cum veniam voluptatem soluta. Repellat, maiores nostrum!</p>
+
+            </div>
+          </div>
+          
+
+        
+            
+           <!-- /.main-cards -->
+        </main>
+      
+        <footer class="footer">
+          <p><span class="footer__copyright"></span> 2020 PDS LLC</p>
+        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            /* Scripts for css grid dashboard */
+      
+      $(document).ready(() => {
+        addResizeListeners();
+        setSidenavListeners();
+        setUserDropdownListener();
+        setMenuClickListener();
+        setSidenavCloseListener();
+      });
+      
+      // Set constants and grab needed elements
+      const sidenavEl = $('.sidenav');
+      const gridEl = $('.grid');
+      const SIDENAV_ACTIVE_CLASS = 'sidenav--active';
+      const GRID_NO_SCROLL_CLASS = 'grid--noscroll';
+      
+      function toggleClass(el, className) {
+        if (el.hasClass(className)) {
+          el.removeClass(className);
+        } else {
+          el.addClass(className);
+        }
+      }
+      
+      // User avatar dropdown functionality
+      function setUserDropdownListener() {
+        const userAvatar = $('.header__avatar');
+      
+        userAvatar.on('click', function(e) {
+          const dropdown = $(this).children('.dropdown');
+          toggleClass(dropdown, 'dropdown--active');
+        });
+      }
+      
+      // Sidenav list sliding functionality
+      function setSidenavListeners() {
+        const subHeadings = $('.navList__subheading'); console.log('subHeadings: ', subHeadings);
+        const SUBHEADING_OPEN_CLASS = 'navList__subheading--open';
+        const SUBLIST_HIDDEN_CLASS = 'subList--hidden';
+      
+        subHeadings.each((i, subHeadingEl) => {
+          $(subHeadingEl).on('click', (e) => {
+            const subListEl = $(subHeadingEl).siblings();
+      
+            // Add/remove selected styles to list category heading
+            if (subHeadingEl) {
+              toggleClass($(subHeadingEl), SUBHEADING_OPEN_CLASS);
+            }
+      
+            // Reveal/hide the sublist
+            if (subListEl && subListEl.length === 1) {
+              toggleClass($(subListEl), SUBLIST_HIDDEN_CLASS);
+            }
+          });
+        });
+      }
+      
+      function toggleClass(el, className) {
+        if (el.hasClass(className)) {
+          el.removeClass(className);
+        } else {
+          el.addClass(className);
+        }
+      }
+      
+      // If user opens the menu and then expands the viewport from mobile size without closing the menu,
+      // make sure scrolling is enabled again and that sidenav active class is removed
+      function addResizeListeners() {
+        $(window).resize(function(e) {
+          const width = window.innerWidth; console.log('width: ', width);
+      
+          if (width > 750) {
+            sidenavEl.removeClass(SIDENAV_ACTIVE_CLASS);
+            gridEl.removeClass(GRID_NO_SCROLL_CLASS);
+          }
+        });
+      }
+      
+      // Menu open sidenav icon, shown only on mobile
+      function setMenuClickListener() {
+        $('.header__menu').on('click', function(e) { console.log('clicked menu icon');
+          toggleClass(sidenavEl, SIDENAV_ACTIVE_CLASS);
+          toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
+        });
+      }
+      
+      // Sidenav close icon
+      function setSidenavCloseListener() {
+        $('.sidenav__brand-close').on('click', function(e) {
+          toggleClass(sidenavEl, SIDENAV_ACTIVE_CLASS);
+          toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
+        });
+      }
+      
+        </script>
+      </div>
+</body>
+</html>
