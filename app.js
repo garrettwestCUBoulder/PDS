@@ -3,12 +3,48 @@ const app = express();
 var mysql = require('mysql');
 var http = require('http');
 var path = require('path');
-
-//Including controller/dao for testtable
-// var profilePage = require('./routes/profilePage');
 var connection  = require('express-myconnection');
-// all environments
 
+//S3 bucket setup
+var multer = require('multer');
+var multerS3 = require('multer-s3');
+var bodyParser = require('body-parser');
+const AWS = require('aws-sdk');
+AWS.config.update({region: 'us-east-2'});
+const ID = 'AKIARUD6GFG4GSMWUUSN';
+const SECRET = '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';
+app.use(bodyParser.json());
+// The name of the bucket that you have created
+const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744/databasefiles';
+AWS.config.update({
+    secretAccessKey: SECRET,
+    accessKeyId: ID,
+    region: 'us-east-2'
+});
+// const s3 = new AWS.S3({
+//     accessKeyId: ID,
+//     secretAccessKey: SECRET
+// });
+var s3 = new AWS.S3();
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: BUCKET_NAME,
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+  })
+})
+
+
+
+// s3.createBucket(params, function(err, data) {
+//     if (err) console.log(err, err.stack);
+//     else console.log('Bucket Created Successfully', data.Location);
+// });
 
 // app.set('port', process.env.PORT || 4300);
 app.set('views', path.join(__dirname, 'views'));
@@ -19,19 +55,6 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// if ('development' == app.get('env')) {
-//   app.use(express.errorHandler());
-// }
-// app.use(
-//     connection(mysql,{
-//
-// 			host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
-// 			user: 'pdsDB',
-// 			password: 'PDSpassword',
-// 			database: 'pdsclient',
-// 			port: 3306
-// },'pool')
-// );
 
 var conn = mysql.createPool({
 	connectionLimit : 10,
@@ -52,7 +75,10 @@ app.get('/', function(req, res){
         res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
 
 });
-
+app.post('/upload', upload.array('image', 3), function(req, res, next) {
+  console.log('Successfully uploaded ' + req.files + ' files!')
+  res.redirect('dashboard')
+});
 
 app.get('/dashboard', function(req, res){
 
@@ -269,6 +295,21 @@ app.get('/notifications', function(req, res){
 //     console.log('Our app is running on http://localhost:' + port);
 // });
 //
+
+
+// if ('development' == app.get('env')) {
+//   app.use(express.errorHandler());
+// }
+// app.use(
+//     connection(mysql,{
+//
+// 			host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
+// 			user: 'pdsDB',
+// 			password: 'PDSpassword',
+// 			database: 'pdsclient',
+// 			port: 3306
+// },'pool')
+// );
 
 
 

@@ -313,7 +313,7 @@
               </div>
               </a>
 
-              <a href="appDB">
+              <a href="appDB_Senton">
               <div class="overviewCard-description">
                 <h3 class="overviewCard-title text-light">Recent <strong>Document</strong></h3>
                 <p class="overviewCard-subtitle">Case J-072020FRANK</p>
@@ -543,6 +543,20 @@
                 <h5 style="display: inline-block;">&nbsp(8:58 AM)</h5>
                 <hr>
               </div>
+              <form method="POST" action="/uploadimage" enctype="multipart/form-data">
+                <div class="field">
+                  <label for="image">Image Upload</label>
+                  <input type="file" name="image" id="image">
+                </div>
+                <input type="submit" class="btn" value="Save">
+              </form>
+              <form method="POST" action="/uploadfile" enctype="multipart/form-data">
+                <div class="field">
+                  <label for="upload_file">File Upload</label>
+                  <input type="file" name="upload_file" id="upload_file">
+                </div>
+                <input type="submit" class="btn" value="Save">
+              </form>
             </div>
 
           </div> <!-- /.main-cards -->
