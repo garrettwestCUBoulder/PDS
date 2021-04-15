@@ -66,7 +66,7 @@ var password_bool = false;
 
 app.get('/', function(req, res){
         var password_bool = true;
-        res.render('SignUP_Login')
+        res.render('/SignUP_Login')
         // res.render('SignUP_Login',{result_pass: password_bool, result_registered : false});
 
 });
