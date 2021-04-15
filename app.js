@@ -57,7 +57,7 @@ var conn = mysql.createPool({
 });
 
 var user_id;
-
+var application_id='';
 var password_bool = false;
 var result_pass = false
 app.set('views', path.join(__dirname, '/views'));
@@ -192,6 +192,14 @@ app.post('/res_data', function(req, res) {
   		else {
           console.log('Successful')
           res.render('SignUP_Login', {result_pass : true,result_registered : true})
+          var bucketParams = {
+            Bucket :BUCKET_NAME+'/'+userId.toString();
+
+            };
+          s3.createBucket(params, function(err, data) {
+              if (err) console.log(err, err.stack);
+              else console.log('Bucket Created Successfully', data.Location);
+          });
         }
       });
       });
@@ -279,10 +287,7 @@ app.listen(port, () => {
 
 
 
-// s3.createBucket(params, function(err, data) {
-//     if (err) console.log(err, err.stack);
-//     else console.log('Bucket Created Successfully', data.Location);
-// });
+
 
 // app.set('port', process.env.PORT || 4300);
 
