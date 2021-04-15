@@ -227,10 +227,6 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
   });
 });
 
-const port = process.env.port || 8080;
-app.listen(port, () => {
-    console.log("Our app is running on " + port);
-});
 
 app.get('/cases', function(req, res){
 
@@ -268,7 +264,10 @@ app.get('/notifications', function(req, res){
 
 
 
-
+const port = process.env.port || 3000;
+app.listen(port, () => {
+    console.log("Our app is running on " + port);
+});
 
 
 
