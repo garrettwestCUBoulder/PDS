@@ -19,7 +19,7 @@ const ID = 'AKIARUD6GFG4GSMWUUSN';
 const SECRET = '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';
 // app.use(bodyParser.json());
 // The name of the bucket that you have created
-const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744/databasefiles';
+const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744';
 AWS.config.update({
     secretAccessKey: SECRET,
     accessKeyId: ID,
@@ -38,7 +38,7 @@ var upload = multer({
       cb(null, {fieldName: file.fieldname});
     },
     key: function (req, file, cb) {
-      cb(null, file.originalname)
+      cb(null, user_id+'/'+file.originalname)
     }
   })
 })
@@ -56,7 +56,7 @@ var conn = mysql.createPool({
 	multipleStatements: true
 });
 
-var user_id = 2;
+var user_id;
 
 var password_bool = true;
 app.set('views', path.join(__dirname, '/views'));
@@ -100,7 +100,11 @@ app.get('/', function(req, res){
 
 
 
-app.post('/upload', upload.array('image', 3), function(req, res, next) {
+app.post('/uploadimage', upload.array('image', 3), function(req, res, next) {
+  console.log('Successfully uploaded ' + req.files + ' files!')
+  res.redirect('dashboard')
+});
+app.post('/uploadfile', upload.array('upload_file', 3), function(req, res, next) {
   console.log('Successfully uploaded ' + req.files + ' files!')
   res.redirect('dashboard')
 });
@@ -109,7 +113,9 @@ app.get('/dashboard', function(req, res){
 
   conn.getConnection(function(err,connection){
     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-    connection.query(querry_get_password, (err, result) => {
+    var get_reminders_next_5 = "SELECT reminder_id,`reminder_title`,`reminder`, remind_on from reminders where user_id = '"+user_id+"' ORDER BY remind_on asc LIMIT 5;";
+
+    connection.query(querry_get_password, [1,2], (err, result) => {
       if (err) {
         console.log(err);
         res.render('login',{result_pass: password_bool, result_registered : false});
@@ -167,7 +173,7 @@ app.post('/res_data', function(req, res) {
   var lastname = req.body.signup_lastname;
 	var email = req.body.signup_email;
 	var password = req.body.signup_password;
-  console.log(email)
+  // console.log(email)
   var company = req.body.company;
   var authorization_code = req.body.signup_auth_code;
   var subscription = req.body.subscription;
@@ -177,47 +183,35 @@ app.post('/res_data', function(req, res) {
   var register_new_member3 =" INSERT INTO user_info (company_id, user_id, membership_id) VALUES ((SELECT company_id from companies where company_name = '"+company+"' and " +
   " authorization_code = '"+company+"80PDS'), " +"(SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"'), " +
   "(SELECT membership_id from memberships where user_id = (SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"')));";
-  conn.getConnection(function(err,connection){
+  var get_user_id = "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"';";
+     conn.getConnection(function(err,connection){
 
-    connection.query( register_new_member +  register_new_member1 + register_new_member2+register_new_member3 , [1,2,3,4] ,(err, result) => {
-      // console.log(register_new_member)
+    connection.query( register_new_member +  register_new_member1 + register_new_member2+register_new_member3 +get_user_id, [1,2,3,4,5] ,(err, result) => {
+      console.log("creating new member");
   		if (err) {
         // console.log(register_new_member)
   			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
         console.log('error', err);
-  			res.render('login',{result_pass: false, result_registered : false});
+  			res.render('login',{result_pass: true, result_registered : false});
   		}
   		else {
-          console.log('Successful')
-          res.render('login',{result_pass: false, result_registered : false});
+          console.log('Successful',result[4][0].user_id,result[4]);
+          res.render('login',{result_pass: true, result_registered : false});
+                  user_id = result[4][0].user_id;
+
+                  var bucketParams = {
+                    Bucket :BUCKET_NAME,
+                    Key:user_id.toString()+'/'
+                  };
+                  s3.putObject(bucketParams, function(err, data) {
+                    if (err) console.log(err, err.stack); // an error occurred
+                    else     console.log(data);           // successful response
+                  });
         }
       });
       });
-      conn.getConnection(function(err,connection){
 
-        connection.query( "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"'"  ,(err, result) => {
-          // console.log(register_new_member)
-      		if (err) {
-            // console.log(register_new_member)
-      			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
-            console.log('error', err);
-      		}
-      		else {
-              user_id = result[0].user_id;
-              var bucketParams = {
-                Bucket :BUCKET_NAME+'/'+user_id.toString()
 
-                };
-                s3.createBucket(bucketParams, function(err, data) {
-                    if (err) {
-                      console.log("Error", err);
-                    } else {
-                      console.log("Success", data.Location);
-                      }
-                    });
-            }
-          });
-          });
 });
 
 
@@ -298,7 +292,36 @@ app.listen(port, () => {
 
 
 
-
+// function create_user_bucket(callback){
+// callback();
+// console.log("creating new bucket");
+// conn.getConnection(function(err,connection){
+//   var get_user_id = "SELECT user_id from users WHERE first_name = '"+firstname+"' and last_name = '"+lastname+"' and email = '"+email+"' and password = '"+password+"';"
+//   connection.query( get_user_id ,[1],(err, rows) => {
+//     // console.log(register_new_member)
+// 		if (err) {
+//       // console.log(register_new_member)
+// 			console.log(register_new_member +  register_new_member1 + register_new_member2+register_new_member3);
+//       console.log('error', err);
+// 		}
+// 		else {
+//         console.log(rows[0], get_user_id);
+//         user_id = rows[0].user_id;
+//         var bucketParams = {
+//           Bucket :BUCKET_NAME,
+//           key:user_id.toString()
+//           };
+//           s3.createBucket(bucketParams, function(err, data) {
+//               if (err) {
+//                 console.log("Error", err);
+//               } else {
+//                 console.log("Success", data.Location);
+//                 }
+//               });
+// //       }
+//     });
+//   });
+// create_user_bucket(register_new_member_conn());
 
 
 
