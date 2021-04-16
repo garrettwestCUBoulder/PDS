@@ -115,13 +115,13 @@ app.get('/dashboard', function(req, res){
     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
     var get_reminders_next_5 = "SELECT reminder_id,`reminder_title`,`reminder`, remind_on from reminders where user_id = '"+user_id+"' ORDER BY remind_on asc LIMIT 5;";
 
-    connection.query(querry_get_password, [1,2], (err, result) => {
+    connection.query(querry_get_password+get_reminders_next_5 , [1,2], (err, result) => {
       if (err) {
         console.log(err);
         res.render('login',{result_pass: password_bool, result_registered : false});
       }
       else{
-          console.log(password_bool)
+          console.log(get_reminders_next_5,result)
 
           res.render('md',{data:result, result_pass: password_bool,result_registered : false});
       }
@@ -236,6 +236,7 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
       var query = connection.query(get_profile_info ,function(err,rows){
         if(err){
           console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
         }
         else{
           console.log(user_id,rows[0].first_name)
@@ -273,7 +274,21 @@ app.get('/appDB_Birthday', function(req, res){
 });
 app.get('/notifications', function(req, res){
 
-        res.render('notifications');
+  var get_reminders = "SELECT reminder_id,`reminder_title`,`reminder`, remind_on from reminders where user_id = 1 ORDER BY remind_on asc;"
+  conn.getConnection(function(err,connection){
+      var query = connection.query(get_reminders ,function(err,rows){
+        if(err){
+          console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
+        }
+        else{
+          console.log(user_id,rows[0].reminder_title)
+          res.render('notifications', {data:rows});
+        }
+
+      });
+  });
+
 
 });
 
@@ -283,7 +298,7 @@ app.get('/notifications', function(req, res){
 
 
 
-const port = process.env.port || 3000;
+const port = process.env.port || 3001;
 app.listen(port, () => {
     console.log("Our app is running on " + port);
 });

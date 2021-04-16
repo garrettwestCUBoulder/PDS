@@ -42,7 +42,7 @@
         <aside class="sidenav">
           <div class="sidenav__brand">
             <i class="fas fa-feather-alt sidenav__brand-icon"></i>
-            <a class="sidenav__brand-link" href="https://www.penguindocketing.com">PDS LLC<span class="text-light"></span></a>
+            <a class="sidenav__brand-link" href="dashboard">PDS LLC<span class="text-light"></span></a>
             <i class="fas fa-times sidenav__brand-close"></i>
           </div>
           <div class="sidenav__profile">
@@ -326,8 +326,8 @@
                  <i class="far fa-calendar-check"></i>
               </div>
               <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Upcoming <strong>Deadline</strong></h3>
-                <p class="overviewCard-subtitle">Case J-092020Lor.. +2</p>
+                <h3 class="overviewCard-title text-light">Upcoming <strong>Reminder</strong></h3>
+                <p class="overviewCard-subtitle"><%=data[1][0].reminder_title%> <br> Due on: <%=data[1][0].remind_on.toUTCString().split('06')[0] %></p>
               </div>
             </div>
 
@@ -427,7 +427,7 @@
                   </div>
                   <div class="card__detail">
                     <a href="appDB_Robosock">
-                    <div class="card__source text-bold"> Case J-032021MARK</div>
+                    <div class="card__source text-bold"> </div>
                     <div class="card__description">ROBOSOCK: New animated puppet for kids</div>
                     <div class="card__note">03-19-2022</div>
                   </a>

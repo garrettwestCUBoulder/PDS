@@ -1,6 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+</style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -276,23 +334,45 @@
           <div class="main-header">
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
-                <div class="main-header__welcome-title text-light"><strong>Notifications</strong></div>
+                <div class="main-header__welcome-title text-light"><strong>Reminders</strong></div>
                 <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
               </div>
             </div>
           </div>
           <div class="main-overview">
-            <div class="overviewCard">
-              <div class="overviewCard-icon overviewCard-icon--slack">
-                 <i class="far fa-file-alt"></i>
-              </div>
-              <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Jane C.</h3>
-                <p class="overviewCard-subtitle">Hey can we set up a meeting time?</p>
-              </div>
-            </div>
+            <% for(var i=0; i<data.length; i++) { %>
+              <!-- <div class="" onclick="popUp"> -->
+              <div class="popup" onclick="popUp()">
+                <div class="overviewCard" >
+                  <div class="overviewCard-icon overviewCard-icon--slack">
+                     <i class="far fa-file-alt"></i>
+                  </div>
+                  <div class="overviewCard-description " >
+                    <h3 class="overviewCard-title text-light"><strong><%=data[i].reminder_title%></strong></h3>
+                    <span class="overviewCard-title text-light"> <%=data[i].reminder%></span>
+                    <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on.toUTCString().split('06')[0]%></p>
+                    <!-- <div class="popup" onclick="popUp()">See Reminder
+                      <span class="popuptext" id="myPopup"> <%=data[i].reminder%></span> -->
+                    </div>
+                  </div>
+                </div>
+              <!-- </div> -->
 
-            <div class="overviewCard">
+              <% } %>
+
+
+
+
+              <script>
+                  // When the user clicks on <div>, open the popup
+                  function popUp() {
+                    var popup = document.getElementById("myPopup");
+                    popup.classList.toggle("show");
+                    var popup = document.getElementById("myPopup");
+                    popup.classList.toggle("show");
+                  }
+              </script>
+                              <!-- <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--slack">
                  <i class="far fa-file-alt"></i>
               </div>
@@ -360,7 +440,7 @@
                 <h3 class="overviewCard-title text-light">Spencer W.</h3>
                 <p class="overviewCard-subtitle">Wow! That's great. Ttyl</p>
               </div>
-            </div>
+            </div>-->
           </div>
 
         </main>
