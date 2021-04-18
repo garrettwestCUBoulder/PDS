@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="md_css.css">
+    <link rel="stylesheet" href="appView_css.css">
     <title>Application Dashboard</title>
 </head>
 <body>
@@ -349,9 +350,17 @@
                   <div class="card__header-title text-light"><strong>Applications</strong>
                     <a href="#" class="card__header-link text-bold">View All</a>
                   </div>
-                  <div class="settings">
-                    <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
-                    <div class="settings__block"><i class="fas fa-cog"></i></div>
+                  <div id="box">
+                    <span id="button">Add Application</span>
+                   <form action="" id="form">
+                     <p><input type="text" placeholder="Application Name"/></p>
+                     <p><input type="text" placeholder="Application Title"/></p>
+                     <p><input type="date" placeholder="Application Date" /></p>
+                     <p><input type="text" placeholder="Client Name"/></p>
+                     <p><input type="text" placeholder="Client Information"/></p>
+                     <p><input type="text" placeholder="Description" /></p>
+                     <p><input type="submit" value="Add" /></p>
+                   </form>
                   </div>
                 </div>
                 <div class="card">
@@ -413,6 +422,10 @@
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
+          $("#button").click(function() {  
+          $("#box form").toggle("slow");
+          return false;
+        });
             /* Scripts for css grid dashboard */
       
       $(document).ready(() => {
