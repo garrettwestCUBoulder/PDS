@@ -113,15 +113,30 @@ app.get('/dashboard', function(req, res){
 
   conn.getConnection(function(err,connection){
     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-    var get_reminders_next_5 = "SELECT reminder_id,`reminder_title`,`reminder`, remind_on from reminders where user_id = '"+user_id+"' ORDER BY remind_on asc LIMIT 5;";
+    var get_reminder = "SELECT reminder_title, remind_on from reminders where user_id = '"+user_id+ "' ORDER BY remind_on asc LIMIT 1;"
+    var get_cases_next_5 = "SELECT `application_name`,  application_due_date from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 5;";
 
-    connection.query(querry_get_password+get_reminders_next_5 , [1,2], (err, result) => {
+    connection.query(querry_get_password+get_reminder +get_cases_next_5 , [1,2,3], (err, result) => {
       if (err) {
         console.log(err);
         res.render('login',{result_pass: password_bool, result_registered : false});
       }
+      else if(result[1].length == 0){
+        var dict_for_empty_reminders = {
+            reminder_title: "No Reminders",
+            remind_on: "N/A 06"
+          };
+        result[1] =  [dict_for_empty_reminders];
+
+        // result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];
+        console.log(result[1][0].reminder_title);
+        res.render('md',{data:result, result_pass: password_bool,result_registered : false});
+
+      }
       else{
-          console.log(get_reminders_next_5,result)
+          console.log(get_cases_next_5,result,result[0][0].first_name)
 
           res.render('md',{data:result, result_pass: password_bool,result_registered : false});
       }
@@ -281,6 +296,7 @@ app.get('/notifications', function(req, res){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
         }
+
         else{
           console.log(user_id,rows[0].reminder_title)
           res.render('notifications', {data:rows});

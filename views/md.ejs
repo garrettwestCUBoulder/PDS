@@ -47,7 +47,7 @@
           </div>
           <div class="sidenav__profile">
             <div class="sidenav__profile-avatar"></div>
-            <div class="sidenav__profile-title text-light"><%=data[0].first_name%> <%=data[0].last_name%></div>
+            <div class="sidenav__profile-title text-light"><%=data[0][0].first_name%> <%=data[0][0].last_name%></div>
           </div>
           <div class="row row--align-v-center row--align-h-center">
             <ul class="navList">
@@ -281,7 +281,7 @@
           <div class="main-header">
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
-                <div class="main-header__welcome-title text-light">Welcome,  <strong><%=data[0].first_name%> <%=data[0].last_name%></strong></div>
+                <div class="main-header__welcome-title text-light">Welcome,  <strong><%=data[0][0].first_name%> <%=data[0][0].last_name%></strong></div>
                 <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
               </div>
               <div class="quickview">
@@ -321,14 +321,18 @@
               </a>
             </div>
 
-            <div class="overviewCard">
+            <div class="overviewCard" >
+              <a href="notifications">
               <div class="overviewCard-icon overviewCard-icon--calendar">
                  <i class="far fa-calendar-check"></i>
               </div>
+              </a>
+              <a href="notifications">
               <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Upcoming <strong>Reminder</strong></h3>
-                <p class="overviewCard-subtitle"><%=data[1][0].reminder_title%> <br> Due on: <%=data[1][0].remind_on.toUTCString().split('06')[0] %></p>
-              </div>
+                <h3 class="overviewCard-title text-light"><strong>Upcoming Reminder</strong></h3>
+                <h2 class="overviewCard-title text-light"><%=data[1][0].reminder_title%> </h2>
+                </div>
+            </a>
             </div>
 
 
@@ -412,6 +416,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
           <div class="main__cards">
             <div class="card">
               <div class="card__header">
@@ -420,67 +436,26 @@
                 </div>
               </div>
               <div class="card__main">
-                <div class="card__row">
-                  <div class="card__icon"><i class="fas fa-gift"></i></div>
-                  <div class="card__time">
-                    <div>today</div>
-                  </div>
-                  <div class="card__detail">
-                    <a href="appDB_Robosock">
-                    <div class="card__source text-bold"> </div>
-                    <div class="card__description">ROBOSOCK: New animated puppet for kids</div>
-                    <div class="card__note">03-19-2022</div>
-                  </a>
-                  </div>
-                </div>
-                <div class="card__row">
-                  <div class="card__icon"><i class="fas fa-plane"></i></div>
-                  <div class="card__time">
-                    <div>Tuesday</div>
-                  </div>
-                  <div class="card__detail">
-                    <a href="appDB_Senton">
-                    <div class="card__source text-bold">Case J-112020ANN</div>
-                    <div class="card__description">SENTON: The new A.I on your shirt</div>
-                    <div class="card__note">11-19-2021</div>
+                <% for(var i=0; i<data.length; i++) { %>
+                  <!-- <div class="" onclick="popUp"> -->
+                  <div class="card__row">
+                    <div class="card__icon"><i class="fas fa-gift"></i></div>
+                    <div class="card__time">
+                      <div><%=data[2][i].application_due_date.toUTCString().split(',')[0]%></div>
+                    </div>
+                    <div class="card__detail">
+                      <a href="appDB_Robosock">
+                      <div class="card__source text-bold"> </div>
+                      <div class="card__description"><%=data[2][i].application_name%></div>
+                      <div class="card__note"><%=data[2][i].application_due_date.toUTCString().split('06')[0]%></div>
                     </a>
+                    </div>
                   </div>
-                </div>
-                <div class="card__row">
-                  <div class="card__icon"><i class="fas fa-book"></i></div>
-                  <div class="card__time">
-                    <div>Thursday</div>
-                  </div>
-                  <div class="card__detail">
-                    <a href="appDB_BirthdayPop">
-                    <div class="card__source text-bold">Case J-102020BOB</div>
-                    <div class="card__description">BIRTHDAY POP: A Kids High</div>
-                    <div class="card__note">10-19-2021</div>
-                    </a>
-                  </div>
-                </div>
-                <div class="card__row">
-                  <div class="card__icon"><i class="fas fa-heart"></i></div>
-                  <div class="card__time">
-                    <div>Friday</div>
-                  </div>
-                  <div class="card__detail">
-                    <div class="card__source text-bold">Case J-072020FRANK</div>
-                    <div class="card__description">TELTRON: Your phone on your glasses</div>
-                    <div class="card__note">11-13-2025</div>
-                  </div>
-                </div>
-                <div class="card__row">
-                  <div class="card__icon"><i class="fas fa-heart"></i></div>
-                  <div class="card__time">
-                    <div>Saturday</div>
-                  </div>
-                  <div class="card__detail">
-                    <div class="card__source text-bold">Case J-092020ALLI</div>
-                    <div class="card__description">TERRO LINK: Elderly stabilation device</div>
-                    <div class="card__note">03-22-2024</div>
-                  </div>
-                </div>
+                  <!-- </div> -->
+
+                  <% } %>
+
+
               </div>
             </div>
             <div class="card">
