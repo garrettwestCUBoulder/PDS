@@ -319,11 +319,12 @@
 
         <main class="main">
           <div class="main-header">
+
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
                 <!-- <div class="main-header__welcome-title text-light"><strong>Application Dashboard</strong></div> -->
-                <div class="main-header__welcome-title text-light">Timelines</div>
-              </div>
+                <div class="main-header__welcome-title text-light">Timelines, Notifications, and Reminders</div>
+
               <!-- <div class="quickview">
                 <div class="quickview__item">
                   <div class="quickview__item-total">5</div>
@@ -347,8 +348,30 @@
                   </div>
                 </div>
               </div> -->
+<br>
+
+              <div class="openBtn1">
+                <button class="openButton" onclick="openForm()"><strong>Add to Timeline</strong></button>
+              </div>
+              <br><br>
+              <div class="openBtn1">
+                <button  class="openButton" onclick="openForm1()"><strong>Add Reminder</strong></button>
+              </div>
+              </div>
             </div>
+
           </div>
+
+
+<div>
+
+
+
+
+
+
+
+
 
             <!-- <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--document">
@@ -389,27 +412,47 @@
           </div> -->
            <!-- /.main__overview -->
            <div class="main__cards">
+
+             <div class="loginPopup">
+               <div class="formPopup1" style="background-color:white" id="popupForm1">
+
+                  <form action="addtimeline" method="POST" id="form">
+                    <p><input type="text" name = 'appName1' placeholder="Name"/></p>
+                    <p><input type="text" name = 'appDate1' placeholder="Date (yyyy-mm-dd)" /> </p>
+
+                    <p><input type="text" name = 'description1' placeholder="Description" /></p>
+                    <button type="submit" class="openBtn1">Submit</button>
+                    <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
+                  </form>
+
+               </div>
+             </div>
+
+
+             <div class="loginPopup">
+               <div class="formPopup" style="background-color:white" id="popupForm">
+
+                  <form onsubmit="return checkForm(this);" method = 'POST' action="/addReminder"  id="form">
+                    <p><input type="text" name = 'appName' placeholder="Name"/></p>
+                    <p><input type="text" name = 'appDate' placeholder="Date (yyyy-mm-dd)" /> </p>
+                    <!-- <input type="text" id="start" name='appDate'
+                           value="2021-01-22"
+                           min="2021-01-01" max="2025-12-31"> -->
+                    <p><input type="text" name = 'description' placeholder="Description" /></p>
+                    <button type="submit" class="openBtn1">Submit</button>
+                    <button type="button" class="openBtn1 cancel" onclick="closeForm1()">Close</button>
+                  </form>
+
+               </div>
+             </div>
+
+             <br>
+             <br><br><br>
             <div class="card">
                 <div class="card__header">
                   <div class="card__header-title text-light">Document <strong>Timeline</strong>
                   </div>
-                  <div class="openBtn1">
-                    <button  onclick="openForm()"><strong>Edit</strong></button>
-                  </div>
-                  <div class="loginPopup">
-                    <div class="formPopup1" style="background-color:white" id="popupForm1">
 
-                       <form action="addtimeline" method="POST" id="form">
-                         <p><input type="text" name = 'appName1' placeholder="Name"/></p>
-                         <p><input type="text" name = 'appDate1' placeholder="Date (yyyy-mm-dd)" /> </p>
-
-                         <p><input type="text" name = 'description1' placeholder="Description" /></p>
-                         <button type="submit" class="openBtn1">Submit</button>
-                         <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
-                       </form>
-
-                    </div>
-                  </div>
 
                 </div>
                 <div class="card__main">
@@ -490,25 +533,7 @@
                   </div> -->
 
 
-                    <div class="openBtn1">
-                      <button  onclick="openForm1()"><strong>Edit</strong></button>
-                    </div>
-                    <div class="loginPopup">
-                      <div class="formPopup" style="background-color:white" id="popupForm">
 
-                         <form onsubmit="return checkForm(this);" method = 'POST' action="/addReminder"  id="form">
-                           <p><input type="text" name = 'appName' placeholder="Name"/></p>
-                           <p><input type="text" name = 'appDate' placeholder="Date (yyyy-mm-dd)" /> </p>
-                           <!-- <input type="text" id="start" name='appDate'
-                                  value="2021-01-22"
-                                  min="2021-01-01" max="2025-12-31"> -->
-                           <p><input type="text" name = 'description' placeholder="Description" /></p>
-                           <button type="submit" class="openBtn1">Submit</button>
-                           <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
-                         </form>
-
-                      </div>
-                    </div>
               </div>
                 <div class="card__main">
                   <%  if ( number_of_reminders == 0){ %>
@@ -550,6 +575,7 @@
                 </div>
               </div>
             </div>
+          </div>
 
             <!-- <div class="card">
                 <div class="card__header">

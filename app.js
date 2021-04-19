@@ -410,21 +410,12 @@ app.get('/cases', function(req, res){
         }
 
         else{
-          console.log(rows)
+          console.log(rows.length)
           res.render('cases',{data:rows});
         }
 
       });
   });
-
-
-
-
-
-
-
-
-
 
 
 
@@ -499,6 +490,46 @@ app.post('/addReminder', function(req, res){
 
 
 });
+
+
+
+
+app.post('/createCase', function(req, res){
+
+
+
+    var caseName = req.body.caseName;
+  	// var appDate = new Date(req.body.appDate);
+    	var clientName = req.body.clientName;
+      var clientInfo = req.body.clientInfo
+  	var description = req.body.description;
+    var add_reminder = "INSERT INTO cases (user_id,  `case_name`, client_name,`client_information`, `description`) VALUES ('"+user_id+"', '"+caseName+"','"+clientName+"','"+clientInfo+"','"+description+"');";
+
+
+    conn.getConnection(function(err,connection){
+
+    connection.query( add_reminder ,(err, result) => {
+
+     if (err) {
+       // console.log(register_new_member
+       console.log("Error Selecting : %s ",err );
+       res.redirect('cases');
+     }
+     else {
+       // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+       res.redirect('cases')
+       }
+     });
+     });
+
+
+
+});
+
+
+
+
+
 
 
 
@@ -639,73 +670,73 @@ app.get('/notifications', function(req, res){
 });
 
 
-export const aws_download = (res) => {
-  const ext = '.mp3'
-  const filePath = path.join('temp', 'x' + ext);
-  const params = {
-    Bucket: process.env.AWS_BUCKET,
-    Key: 'folder/1567163054411_s.mp3'
-  };
-  return s3.getObject(params, (err, data) => {
-    if (err) console.error(err);
-    fs.writeFileSync(filePath, data.Body);
-    //download
-    res.download(filePath, function (err) {
-      if (err) {
-        // Handle error, but keep in mind the response may be partially-sent
-        // so check res.headersSent
-        console.log(res.headersSent)
-      } else {
-        // decrement a download credit, etc. // here remove temp file
-        fs.unlink(filePath, function (err) {
-            if (err) {
-                console.error(err);
-            }
-            console.log('Temp File Delete');
-        });
-      }
-    })
-    console.log(`${filePath} has been created!`);
-  });
-};
-
-
-
-
-
+// export const aws_download = (res) => {
+//   const ext = '.mp3'
+//   const filePath = path.join('temp', 'x' + ext);
+//   const params = {
+//     Bucket: process.env.AWS_BUCKET,
+//     Key: 'folder/1567163054411_s.mp3'
+//   };
+//   return s3.getObject(params, (err, data) => {
+//     if (err) console.error(err);
+//     fs.writeFileSync(filePath, data.Body);
+//     //download
+//     res.download(filePath, function (err) {
+//       if (err) {
+//         // Handle error, but keep in mind the response may be partially-sent
+//         // so check res.headersSent
+//         console.log(res.headersSent)
+//       } else {
+//         // decrement a download credit, etc. // here remove temp file
+//         fs.unlink(filePath, function (err) {
+//             if (err) {
+//                 console.error(err);
+//             }
+//             console.log('Temp File Delete');
+//         });
+//       }
+//     })
+//     console.log(`${filePath} has been created!`);
+//   });
+// };
+//
+//
+//
+//
+//
 const port = process.env.port || 3001;
 app.listen(port, () => {
     console.log("Our app is running on " + port);
 });
-
-
-
-/**  S3 download code from example
-'use strict'
-const AWS = require('aws-sdk')
-const fs = require('fs')
-const ACCESS_KEY_ID = "ENTER ACCESS KEY ID HERE"
-const SECRET_ACCESS_KEY = "ENTER SECRET ACCESS KEY HERE"
-const BUCKET_NAME = "ENTER BUCKET NAME HERE"
-var s3 = new AWS.S3({
-    accessKeyId: ACCESS_KEY_ID,
-    secretAccessKey: SECRET_ACCESS_KEY,
-    endpoint: new AWS.Endpoint("https://s3.pilw.io")
-})
-var params = {
-    Key: 'test.txt',
-    Bucket: BUCKET_NAME
-}
-s3.getObject(params, function(err, data) {
-    if (err) {
-        throw err
-    }
-    fs.writeFileSync('./test.txt', data.Body)
-    console.log('file downloaded successfully')
-})
- */
-
-
+//
+//
+//
+// /**  S3 download code from example
+// 'use strict'
+// const AWS = require('aws-sdk')
+// const fs = require('fs')
+// const ACCESS_KEY_ID = "ENTER ACCESS KEY ID HERE"
+// const SECRET_ACCESS_KEY = "ENTER SECRET ACCESS KEY HERE"
+// const BUCKET_NAME = "ENTER BUCKET NAME HERE"
+// var s3 = new AWS.S3({
+//     accessKeyId: ACCESS_KEY_ID,
+//     secretAccessKey: SECRET_ACCESS_KEY,
+//     endpoint: new AWS.Endpoint("https://s3.pilw.io")
+// })
+// var params = {
+//     Key: 'test.txt',
+//     Bucket: BUCKET_NAME
+// }
+// s3.getObject(params, function(err, data) {
+//     if (err) {
+//         throw err
+//     }
+//     fs.writeFileSync('./test.txt', data.Body)
+//     console.log('file downloaded successfully')
+// })
+//  */
+//
+//
 
 // function create_user_bucket(callback){
 // callback();
