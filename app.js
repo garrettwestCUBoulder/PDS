@@ -38,7 +38,7 @@ var upload = multer({
       cb(null, {fieldName: file.fieldname});
     },
     key: function (req, file, cb) {
-      cb(null, user_id+'/'+file.originalname)
+      cb(null, user_id+ '/'+case_id_cur+'/'+file.originalname)
     }
   })
 })
@@ -57,6 +57,7 @@ var conn = mysql.createPool({
 });
 
 var user_id;
+var case_id_cur;
 
 var password_bool = true;
 app.set('views', path.join(__dirname, '/views'));
@@ -104,24 +105,117 @@ app.post('/uploadimage', upload.array('image', 3), function(req, res, next) {
   console.log('Successfully uploaded ' + req.files + ' files!')
   res.redirect('dashboard')
 });
-app.post('/uploadfile', upload.array('upload_file', 3), function(req, res, next) {
-  console.log('Successfully uploaded ' + req.files + ' files!')
-  res.redirect('dashboard')
+app.post('/uploadfileApp', upload.array('upload_file', 3), function(req, res, next) {
+
+  var appName = req.body.appName;
+  var appTitle = req.body.appTitle;
+	var appDate = req.body.appDate;
+	var clientName = req.body.clientName;
+  var clientInfo = req.body.clientInfo;
+	var description = req.body.description;
+  console.log(appDate)
+  var add_application = "INSERT INTO applications (user_id, case_id, `application_name`, application_due_date, client_name,client_information, description) VALUES ('"+user_id+"','"+case_id_cur+"', '"+appName+"','"+appDate+"','"+clientName+"','"+clientInfo+"','"+description+"');";
+
+
+  conn.getConnection(function(err,connection){
+
+  connection.query( add_application ,(err, result) => {
+   console.log("creating new member");
+   if (err) {
+     // console.log(register_new_member
+     res.redirect('appDB_Senton');
+   }
+   else {
+     // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+     res.redirect('appDB_Senton')
+     }
+   });
+   });
+
+
+
+
+
+
+
+
+
+
+
 });
 
 app.get('/dashboard', function(req, res){
 
   conn.getConnection(function(err,connection){
     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
-    var get_reminder = "SELECT reminder_title, remind_on from reminders where user_id = '"+user_id+ "' ORDER BY remind_on asc LIMIT 1;"
-    var get_cases_next_5 = "SELECT `application_name`,  application_due_date from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 5;";
+    var get_reminder = "SELECT reminder_title, remind_on from reminders where user_id = '"+user_id+ "' ORDER BY remind_on;"
+    var get_cases_next_5 = "SELECT case_id, `application_name`,  application_due_date from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 5;";
+    var get_top_case = "SELECT case_name from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
 
-    connection.query(querry_get_password+get_reminder +get_cases_next_5 , [1,2,3], (err, result) => {
+    connection.query(querry_get_password+get_reminder +get_cases_next_5 +get_top_case, [1,2,3,4], (err, result) => {
       if (err) {
         console.log(err);
         res.render('login',{result_pass: password_bool, result_registered : false});
       }
+
+
+      else if(result[2].length == 0 && result[3].length == 0 && result[1].length == 0){
+        console.log('is emoty 231');
+        var dict_for_empty_app = {
+          application_name: "No cases",
+          application_due_date: "N/A 06"
+          };
+        result[2] =  [dict_for_empty_app];
+
+
+        var dict_for_empty_reminders = {
+            reminder_title: "No Reminders",
+            remind_on: "N/A 06"
+          };
+        result[1] =  [dict_for_empty_reminders];
+        var dict_for_empty_applications = {
+            application_name: "No cases",
+            application_due_date: "N/A 06"
+          };
+        result[3] =  [dict_for_empty_applications];
+        // result[2] =  [dict_for_empty_applications];
+        // result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];// result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];
+          console.log(result[2][0 ])
+        var number_of_reminders1 =  result[1].length;
+        res.render('md',{ number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
+
+      }
+
+
+
+
+
+      else if(result[3].length == 0 && result[1].length == 0){
+        console.log('is emoty 31');
+        var dict_for_empty_reminders = {
+            reminder_title: "No Reminders",
+            remind_on: "N/A 06"
+          };
+        result[1] =  [dict_for_empty_reminders];
+        var dict_for_empty_applications = {
+            application_name: "No cases",
+            application_due_date: "N/A 06"
+          };
+        result[3] =  [dict_for_empty_applications];
+        result[2] =  [dict_for_empty_applications];
+        // result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];
+        var number_of_reminders1 = 0;
+        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+
+      }
       else if(result[1].length == 0){
+        console.log('is emoty 1');
         var dict_for_empty_reminders = {
             reminder_title: "No Reminders",
             remind_on: "N/A 06"
@@ -131,14 +225,54 @@ app.get('/dashboard', function(req, res){
         // result[1][0].reminder_title = ['No Reminders'];
 
           // result[1].Date = ['N/A 06'];
-        console.log(result[1][0].reminder_title);
-        res.render('md',{data:result, result_pass: password_bool,result_registered : false});
+        var number_of_reminders1 = 0;
+        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
+
+
+      else if(result[2].length == 0){
+        console.log('is emoty 2');
+        var dict_for_empty_reminders = {
+          application_name: "No cases",
+          application_due_date: "N/A 06"
+          };
+        result[2] =  [dict_for_empty_reminders];
+
+        // result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];
+        var number_of_reminders1 =  result[1].length;
+        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+
+      }
+
+
+
+
+
+
+      else if(result[3].length == 0){
+        console.log('is emoty 3');
+        var dict_for_empty_applications = {
+            case_name: "No cases"
+          };
+        result[3] =  [dict_for_empty_applications];
+        result[2] =  [dict_for_empty_applications];
+        // result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];
+        var number_of_reminders1 = result[1].length;
+        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+
+      }
+
+
       else{
+          var number_of_reminders1 = result[1].length;
           console.log(get_cases_next_5,result,result[0][0].first_name)
 
-          res.render('md',{data:result, result_pass: password_bool,result_registered : false});
+          res.render('md',{number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
       }
     });
 
@@ -270,8 +404,46 @@ app.get('/cases', function(req, res){
 });
 
 app.get('/appDB_Senton', function(req, res){
+  console.log(req.body.top_doc)
 
-        res.render('appDB_Senton');
+
+  var get_top_case = "SELECT @case_id_cur := case_id, `case_name`, `client_name`,`client_information`,`description` from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
+  var get_applications = "SELECT case_id, application_name, application_due_date from applications WHERE case_id =  @case_id_cur;";
+
+
+  conn.getConnection(function(err,connection){
+      var query = connection.query(get_top_case+get_applications ,[1,2],function(err,rows){
+
+        if(err){
+          console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
+        }
+        else if(rows[0].length == 0){
+          res.redirect('dashboard')
+        }
+
+        else if(rows[1].length == 0){
+           case_id_cur = rows[1][0].case_id;
+          var dict_for_empty_reminders = {
+              reminder_title: "No Reminders",
+              remind_on: "N/A 06"
+            };
+          rows[1] =  [dict_for_empty_reminders];
+
+          // result[1][0].reminder_title = ['No Reminders'];
+
+            // result[1].Date = ['N/A 06'];
+          var number_of_reminders1 = 0;
+          res.render('appDB_Senton',{data:rows});
+        }
+        else{
+          // console.log(rows[1][0].application_name);
+          case_id_cur = rows[1][0].case_id;
+          res.render('appDB_Senton',{data:rows});
+        }
+
+      });
+  });
 
 });
 
@@ -289,14 +461,29 @@ app.get('/appDB_Birthday', function(req, res){
 });
 app.get('/notifications', function(req, res){
 
-  var get_reminders = "SELECT reminder_id,`reminder_title`,`reminder`, remind_on from reminders where user_id = 1 ORDER BY remind_on asc;"
+  var get_reminders = "SELECT reminder_id,`reminder_title`,`reminder`, remind_on from reminders where user_id = '"+ user_id + "' ORDER BY remind_on asc;"
   conn.getConnection(function(err,connection){
       var query = connection.query(get_reminders ,function(err,rows){
+        console.log(rows)
         if(err){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
         }
 
+        else if(rows.length == 0){
+          console.log('length=0');
+          var dict_for_empty_reminders = {
+              reminder_title: "No Reminders",
+              remind_on: "N/A "
+              };
+            rows[0] =  dict_for_empty_reminders;
+
+                  // result[1][0].reminder_title = ['No Reminders'];
+
+                    // result[1].Date = ['N/A 06'];
+          var number_of_reminders1 = 0;
+          res.render('notifications',{data:rows});
+        }
         else{
           console.log(user_id,rows[0].reminder_title)
           res.render('notifications', {data:rows});

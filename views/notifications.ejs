@@ -348,11 +348,25 @@
                      <i class="far fa-file-alt"></i>
                   </div>
                   <div class="overviewCard-description " >
+
+                    <%if (data[0].length== 1){%>
+
+                      <h3 class="overviewCard-title text-light"><strong><%=data[i].reminder_title%></strong></h3>
+                      <span class="overviewCard-title text-light"> <%=data[i].reminder%></span>
+                      <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on%></p>
+                      <% }%>
+
+
+
+                    <%if (data[0].length!= 1){%>
                     <h3 class="overviewCard-title text-light"><strong><%=data[i].reminder_title%></strong></h3>
                     <span class="overviewCard-title text-light"> <%=data[i].reminder%></span>
-                    <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on.toUTCString().split('06')[0]%></p>
+                    <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on%></p>
                     <!-- <div class="popup" onclick="popUp()">See Reminder
                       <span class="popuptext" id="myPopup"> <%=data[i].reminder%></span> -->
+                      <% }%>
+
+
                     </div>
                   </div>
                 </div>

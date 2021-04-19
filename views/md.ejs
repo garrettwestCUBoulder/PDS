@@ -314,9 +314,9 @@
               </a>
 
               <a href="appDB_Senton">
-              <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Recent <strong>Document</strong></h3>
-                <p class="overviewCard-subtitle">Case J-072020FRANK</p>
+              <div class="overviewCard-description" >
+                <h3 class="overviewCard-title text-light">Recent <strong>Case</strong></h3>
+                <p class="overviewCard-subtitle" name = "top_doc"><%=data[3][0].case_name%></p>
               </div>
               </a>
             </div>
@@ -344,8 +344,8 @@
               </a>
                 <a href="notifications">
                 <div class="overviewCard-description">
-                  <h3 class="overviewCard-title text-light">Recent <strong>Notifications</strong></h3>
-                  <p class="overviewCard-subtitle">+10</p>
+                  <h3 class="overviewCard-title text-light">Recent <strong>Reminders</strong></h3>
+                  <p class="overviewCard-subtitle">+<%= number_of_reminders %></p>
                 </div>
               </a>
             </div>
@@ -431,37 +431,37 @@
           <div class="main__cards">
             <div class="card">
               <div class="card__header">
-                <div class="card__header-title text-light">Case <strong>Timeline</strong>
+                <div class="card__header-title text-light">Application <strong>Timeline</strong>
                   <a href="#" class="card__header-link text-bold">View All</a>
                 </div>
               </div>
               <div class="card__main">
-                <% for(var i=0; i<data.length; i++) { %>
+                <% if (number_of_applications != 0) {for(var i=0; i<data.length; i++) { %>
                   <!-- <div class="" onclick="popUp"> -->
                   <div class="card__row">
                     <div class="card__icon"><i class="fas fa-gift"></i></div>
                     <div class="card__time">
-                      <div><%=data[2][i].application_due_date.toUTCString().split(',')[0]%></div>
+                      <div><%=data[2][i].application_due_date%></div>
                     </div>
                     <div class="card__detail">
                       <a href="appDB_Robosock">
                       <div class="card__source text-bold"> </div>
                       <div class="card__description"><%=data[2][i].application_name%></div>
-                      <div class="card__note"><%=data[2][i].application_due_date.toUTCString().split('06')[0]%></div>
+                      <div class="card__note"><%=data[2][i].application_due_date%></div>
                     </a>
                     </div>
                   </div>
                   <!-- </div> -->
 
-                  <% } %>
+                  <% }  }%>
 
 
               </div>
             </div>
             <div class="card">
               <div class="card__header">
-                <div class="card__header-title text-light">Recent <strong>Documents</strong>
-                  <a href="#" class="card__header-link text-bold">View All</a>
+                <div class="card__header-title text-light">Recent <strong>Cases</strong>
+                  <a href="cases" class="card__header-link text-bold">View All</a>
                 </div>
                 <div class="settings">
                   <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
