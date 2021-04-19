@@ -322,7 +322,7 @@
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
                 <!-- <div class="main-header__welcome-title text-light"><strong>Application Dashboard</strong></div> -->
-                <div class="main-header__welcome-title text-light">Currently Viewing: Case J-032021MARK; AP:Robosock JPU-M-2</div>
+                <div class="main-header__welcome-title text-light">Timelines</div>
               </div>
               <!-- <div class="quickview">
                 <div class="quickview__item">
@@ -399,10 +399,11 @@
                   <div class="loginPopup">
                     <div class="formPopup1" style="background-color:white" id="popupForm1">
 
-                       <form action="" id="form">
-                         <p><input type="text" placeholder="Name"/></p>
-                         <p><input type="date" placeholder="Date" /></p>
-                         <p><input type="text" placeholder="Description" /></p>
+                       <form action="addtimeline" method="POST" id="form">
+                         <p><input type="text" name = 'appName1' placeholder="Name"/></p>
+                         <p><input type="text" name = 'appDate1' placeholder="Date (yyyy-mm-dd)" /> </p>
+
+                         <p><input type="text" name = 'description1' placeholder="Description" /></p>
                          <button type="submit" class="openBtn1">Submit</button>
                          <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
                        </form>
@@ -425,19 +426,35 @@
                   </div>
                   <% } %>
 
-                    <% if ( number_of_items != 0 &&  number_of_items != 1) {for(var i=0; i<data.length; i++) { %>
-                      <div class="document">
+                    <% if ( number_of_items != 0 &&  number_of_items != 1) {for(var i=0; i<data[2].length; i++) { %>
 
-                        <div class="card__source text-bold"><%=data[2][i].reminder_title%> </div>
-                        <div class="card__description"><%=new Date(data[2][i].remind_on).toUTCString().split('06')[0]%></div>
+
+                      <div class="card__row">
+                        <div class="card__icon"><i class="fas fa-gift"></i></div>
+                        <div class="card__time">
+                          <div><%=new Date(data[2][i].complete_by).toUTCString().split('06')[0]%></div>
+                        </div>
+                        <div class="card__detail">
+                          <div class="card__source text-bold"><%=data[2][i].to_do_item%></div>
+
+                        </div>
                       </div>
+
+
+
                       <% }  }%>
                         <% if ( number_of_items == 1) { %>
-                          <div class="document">
-                            <div class="card__source text-bold"><%=data[2][0].reminder_title%> </div>
-                            <div class="card__description"><%=new Date(data[2][0].remind_on).toUTCString().split('06')[0]%></div>
-                            <!-- <div class="card__note">nisi culpa possimus</div> -->
+                          <div class="card__row">
+                            <div class="card__icon"><i class="fas fa-gift"></i></div>
+                            <div class="card__time">
+                              <div><%=new Date(data[2][0].complete_by).toUTCString().split('06')[0]%></div>
+                            </div>
+                            <div class="card__detail">
+                              <div class="card__source text-bold"><%=data[2][0].to_do_item%></div>
+
+                            </div>
                           </div>
+
                           <% }  %>
 
 
@@ -481,7 +498,10 @@
 
                          <form onsubmit="return checkForm(this);" method = 'POST' action="/addReminder"  id="form">
                            <p><input type="text" name = 'appName' placeholder="Name"/></p>
-                           <p><input type="date" name = 'appDate' placeholder="Date (mm/dd/yyyy)" /> </p>
+                           <p><input type="text" name = 'appDate' placeholder="Date (yyyy-mm-dd)" /> </p>
+                           <!-- <input type="text" id="start" name='appDate'
+                                  value="2021-01-22"
+                                  min="2021-01-01" max="2025-12-31"> -->
                            <p><input type="text" name = 'description' placeholder="Description" /></p>
                            <button type="submit" class="openBtn1">Submit</button>
                            <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
@@ -503,12 +523,18 @@
                       </div>
                     </div>
                     <% } %>
-                    <% if (number_of_reminders != 0 && number_of_reminders != 1) {for(var i=0; i<data.length; i++) { %>
-                      <div class="document">
+                    <% if (number_of_reminders != 0 && number_of_reminders != 1) {for(var i=0; i<data[1].length; i++) { %>
+                      <div class="card__row">
+                        <div class="card__icon"><i class="fas fa-gift"></i></div>
+                        <div class="card__time">
+                          <div><%=new Date(data[1][i].remind_on).toUTCString().split('06')[0]%></div>
+                        </div>
+                        <div class="card__detail">
+                          <div class="card__source text-bold"><%=data[1][i].reminder_title%></div>
 
-                        <div class="card__source text-bold"><%=data[1][i].reminder_title%> </div>
-                        <div class="card__description"><%=new Date(data[1][i].remind_on).toUTCString().split('06')[0]%></div>
+                        </div>
                       </div>
+
                       <% }  }%>
                         <% if (number_of_reminders == 1) { %>
                           <div class="document">
@@ -578,7 +604,7 @@
           function checkForm(form)
           {
             // regular expression to match required date format
-            re = /^\d{1,2}\-\d{1,2}\-\d{4}$/;
+            re = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
 
             if(form.appDate.value != '' && !form.appDate.value.match(re)) {
               alert("Invalid date format: " + form.appDate.value);

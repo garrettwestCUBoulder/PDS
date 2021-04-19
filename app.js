@@ -410,7 +410,7 @@ app.get('/applications', function(req, res){
   var get_timeline = "SELECT `to_do_item`, `complete_by` from timeline where user_id = '"+user_id+ "' ORDER BY `complete_by`;";
   conn.getConnection(function(err,connection){
       var query = connection.query(get_applications + get_reminder + get_timeline, [1,2,3],function(err,rows){
-        console.log(rows)
+        console.log(rows[1].length)
         if(err){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
@@ -443,34 +443,71 @@ app.get('/applications', function(req, res){
 
 
 
-// app.post(/addReminder, function(reqm res){
-//
-//
-//
-//     var appName = req.body.appName;
-//   	var appDate = req.body.appDate;
-//   	var description = req.body.description;
-//     var add_reminder = "INSERT INTO reminder (user_id, case_id, `application_name`, application_due_date, client_name,client_information, description) VALUES ('"+user_id+"','"+case_id_cur+"', '"+appName+"','"+appDate+"','"+clientName+"','"+clientInfo+"','"+description+"');";
-//
-//
-//     conn.getConnection(function(err,connection){
-//
-//     connection.query( add_reminder ,(err, result) => {
-//      console.log("creating new member");
-//      if (err) {
-//        // console.log(register_new_member
-//        res.redirect('appDB_Senton');
-//      }
-//      else {
-//        // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
-//        res.redirect('appDB_Senton')
-//        }
-//      });
-//      });
-//
-//
-//
-// });
+app.post('/addReminder', function(req, res){
+
+
+
+    var appName = req.body.appName;
+  	// var appDate = new Date(req.body.appDate);
+    	var appDate = req.body.appDate;
+  	var description = req.body.description;
+    var add_reminder = "INSERT INTO reminders (user_id,  `reminder_title`, remind_on,`reminder`) VALUES ('"+user_id+"', '"+appName+"','"+appDate+"','"+description+"');";
+    console.log(appDate);
+
+    conn.getConnection(function(err,connection){
+
+    connection.query( add_reminder ,(err, result) => {
+
+     if (err) {
+       // console.log(register_new_member
+       console.log("Error Selecting : %s ",err );
+       res.redirect('applications');
+     }
+     else {
+       // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+       res.redirect('applications')
+       }
+     });
+     });
+
+
+
+});
+
+
+
+
+
+app.post('/addtimeline', function(req, res){
+
+
+
+    var appName = req.body.appName1;
+  	// var appDate = new Date(req.body.appDate);
+    	var appDate = req.body.appDate1;
+  	var description = req.body.description1;
+    var add_timeline = "INSERT INTO timeline (user_id,  `to_do_item` , `complete_by`, `description`) VALUES ('"+user_id+"', '"+appName+"','"+appDate+"','"+description+"');";
+    console.log(add_timeline)
+
+    conn.getConnection(function(err,connection){
+
+    connection.query(add_timeline ,(err, result) => {
+
+     if (err) {
+       // console.log(register_new_member
+       console.log("Error Selecting : %s ",err );
+       res.redirect('applications');
+     }
+     else {
+       console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+       res.redirect('applications')
+       }
+     });
+     });
+
+
+
+});
 
 
 
