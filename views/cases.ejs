@@ -237,45 +237,42 @@
             </div>
           </div>
           <div class="main-overview">
-            <div class="overviewCard">
-              <div class="overviewCard-icon overviewCard-icon--document">
-                 <i class="far fa-file-alt"></i>
-              </div>
-              <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Case <strong>1</strong></h3>
-                <p class="overviewCard-subtitle">Updated 3/20</p>
-              </div>
-            </div>
+
+            <% if (data.length == 0){ %>
+              <form id="search" method="post" action="/appDB_Senton">
+
+                <a onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i>
 
             <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--document">
                  <i class="far fa-file-alt"></i>
               </div>
               <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Case <strong>2</strong></h3>
-                <p class="overviewCard-subtitle">Updated 3/17</p>
+                <h3 class="overviewCard-title text-light">No Cases </h3>
+                <!-- <p class="overviewCard-subtitle">Updated 3/20</p> -->
               </div>
             </div>
+            </form>
+            <%}%>
+            <% if (data.length > 0){ for(var i=0; i<data.length; i++) { %>
+              <form id="search<%=i%>" method="post" action="/appDB_Senton">
 
+                <a onclick="document.getElementById('search<%=i%>').submit();"><i class="fa fa-search"></i>
             <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--document">
                  <i class="far fa-file-alt"></i>
               </div>
               <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Case <strong>3</strong></h3>
-                <p class="overviewCard-subtitle">Updated 12:40pm</p>
-              </div>
-            </div>
+                <h3 class="overviewCard-title text-light">Case: <strong><%=data[i].case_name%></strong></h3>
+                 <p class="overviewCard-subtitle">Client: <%=data[i].client_name%></p>
+                 <input type="text" style="visibility:hidden;" name="case_name" value="<%=data[i].case_name%>"/>
 
-            <div class="overviewCard">
-              <div class="overviewCard-icon overviewCard-icon--document">
-                 <i class="far fa-file-alt"></i>
-              </div>
-              <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Case <strong>4</strong></h3>
-                <p class="overviewCard-subtitle">Updated 3:19am</p>
               </div>
             </div>
+          </form>
+            <%}}%>
+
+
           </div>
 
         </main>

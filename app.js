@@ -185,7 +185,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
           console.log(result[2][0 ])
-        var number_of_reminders1 =
+        var number_of_reminders1 = 0;
         res.render('md',{ number_of_cases:0,number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
 
       }
@@ -400,7 +400,33 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
 
 app.get('/cases', function(req, res){
 
-        res.render('cases');
+  var get_cases = "SELECT case_name,client_name from cases where user_id = '"+user_id+"';";
+  conn.getConnection(function(err,connection){
+      var query = connection.query( get_cases,function(err,rows){
+
+        if(err){
+          console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
+        }
+
+        else{
+          console.log(rows)
+          res.render('cases',{data:rows});
+        }
+
+      });
+  });
+
+
+
+
+
+
+
+
+
+
+
 
 });
 
@@ -517,17 +543,17 @@ app.post('/addtimeline', function(req, res){
 
 
 
-app.get('/appDB_Senton', function(req, res){
-  console.log(req.body.top_doc)
+app.post('/appDB_Senton', function(req, res){
+  console.log('testtttttttttt', req.body.case_name)
 
-
-  var get_top_case = "SELECT @case_id_cur := case_id, `case_name`, `client_name`,`client_information`,`description` from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
+  var case_name = req.body.case_name;
+  var get_top_case = "SELECT @case_id_cur := case_id, `case_name`, `client_name`,`client_information`,`description` from cases where case_id = (SELECT case_id from cases where user_id = '"+user_id+ "' and case_name = '"+case_name+"');";
   var get_applications = "SELECT case_id, application_name, application_due_date from applications WHERE case_id =  @case_id_cur;";
 
 
   conn.getConnection(function(err,connection){
       var query = connection.query(get_top_case+get_applications ,[1,2],function(err,rows){
-
+        console.log(get_top_case+get_applications)
         if(err){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
@@ -537,9 +563,10 @@ app.get('/appDB_Senton', function(req, res){
         }
 
         else if(rows[1].length == 0){
-           case_id_cur = rows[1][0].case_id;
+
+          case_id_cur = rows[1][0].case_id;
           var dict_for_empty_reminders = {
-              reminder_title: "No Reminders",
+              reminder_title: "No Applications",
               remind_on: "N/A 06"
             };
           rows[1] =  [dict_for_empty_reminders];
@@ -588,19 +615,21 @@ app.get('/notifications', function(req, res){
           console.log('length=0');
           var dict_for_empty_reminders = {
               reminder_title: "No Reminders",
-              remind_on: "N/A "
+              reminder: 'None',
+              remind_on: "N/A 06"
               };
             rows[0] =  dict_for_empty_reminders;
 
                   // result[1][0].reminder_title = ['No Reminders'];
 
                     // result[1].Date = ['N/A 06'];
-          var number_of_reminders1 = 0;
-          res.render('notifications',{data:rows});
+          var number_of_reminders1 = 1;
+
+          res.render('notifications',{number_of_reminders:number_of_reminders1,data:rows});
         }
         else{
           console.log(user_id,rows[0].reminder_title)
-          res.render('notifications', {data:rows});
+          res.render('notifications', {number_of_reminders: 21 ,data:rows});
         }
 
       });

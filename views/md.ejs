@@ -32,7 +32,7 @@
                 </li> -->
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
-                  <a href="SignUp_Login"><span class="dropdown__title">Log Out</span></a>
+                  <a href="/"><span class="dropdown__title">Log Out</span></a>
                 </li>
               </ul>
             </div>
@@ -303,18 +303,23 @@
             </div>
           </div>
           <div class="main-overview">
+            <form id="search" method="post" action="/appDB_Senton">
 
             <div class="overviewCard">
-              <a href="appDB">
+
               <div class="overviewCard-icon overviewCard-icon--document">
                  <i class="far fa-file-alt"></i>
               </div>
-              </a>
+              <a onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i>
+            </form>
 
-              <a href="appDB_Senton">
-              <div class="overviewCard-description" >
+
+
+              <div class="overviewCard-description" method="POST" href="appDB_Senton" >
                 <h3 class="overviewCard-title text-light">Recent <strong>Case</strong></h3>
-                <p class="overviewCard-subtitle" name = "top_doc"><%=data[3][0].case_name%></p>
+                <p class="overviewCard-subtitle" size = "30" value = "<%=data[3][0].case_name%>"  name = "top_doc"> <%=data[3][0].case_name%></p>
+                <input type="text" style="visibility:hidden;" name="case_name" value="<%=data[3][0].case_name%>"/>
+
               </div>
               </a>
             </div>

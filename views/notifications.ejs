@@ -85,7 +85,7 @@
             </li> -->
             <li class="dropdown__list-item">
               <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
-              <a href="dashboard"><span class="dropdown__title">log out</span></a>
+              <a href="/"><span class="dropdown__title">log out</span></a>
             </li>
           </ul>
         </div>
@@ -340,6 +340,7 @@
             </div>
           </div>
           <div class="main-overview">
+
             <% for(var i=0; i<data.length; i++) { %>
               <!-- <div class="" onclick="popUp"> -->
               <div class="popup" onclick="popUp()">
@@ -349,19 +350,22 @@
                   </div>
                   <div class="overviewCard-description " >
 
-                    <%if (data[0].length== 1){%>
+                    <%if (number_of_reminders == 1){%>
 
                       <h3 class="overviewCard-title text-light"><strong><%=data[i].reminder_title%></strong></h3>
                       <span class="overviewCard-title text-light"> <%=data[i].reminder%></span>
-                      <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on%></p>
+                      <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on %></p>
                       <% }%>
 
 
 
-                    <%if (data[0].length!= 1){%>
+
+
+
+                    <%if (number_of_reminders!= 1 && number_of_reminders!= 0){%>
                     <h3 class="overviewCard-title text-light"><strong><%=data[i].reminder_title%></strong></h3>
                     <span class="overviewCard-title text-light"> <%=data[i].reminder%></span>
-                    <p class="overviewCard-subtitle"> <strong>Due: </strong><%=data[i].remind_on%></p>
+                    <p class="overviewCard-subtitle"> <strong>Due: </strong><%=new Date(data[i].remind_on).toUTCString().split('06')[0]%></p>
                     <!-- <div class="popup" onclick="popUp()">See Reminder
                       <span class="popuptext" id="myPopup"> <%=data[i].reminder%></span> -->
                       <% }%>

@@ -28,7 +28,7 @@
                 </li> -->
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
-                  <a href="https://www.penguindocketing.com"><span class="dropdown__title">log out</span></a>
+                  <a href="/"><span class="dropdown__title">log out</span></a>
                 </li>
               </ul>
             </div>
@@ -38,7 +38,7 @@
         <aside class="sidenav">
           <div class="sidenav__brand">
             <i class="fas fa-feather-alt sidenav__brand-icon"></i>
-            <a class="sidenav__brand-link" href="https://www.penguindocketing.com">PDS LLC<span class="text-light"></span></a>
+            <a class="sidenav__brand-link" href="dashboard">PDS LLC<span class="text-light"></span></a>
             <i class="fas fa-times sidenav__brand-close"></i>
           </div>
           <div class="sidenav__profile">
@@ -356,7 +356,7 @@
                    <form onsubmit="return checkForm(this);" style="background-color:white" method="POST" action="/uploadfileApp" enctype="multipart/form-data">
                      <p><input type="text" name = 'appName' size="30" placeholder="Application Name" required/></p>
                      <p><input type="text" name = 'appTitle' size="30" placeholder="Application Title" required/></p>
-                     <p><input type="date" name = 'appDate' size="30" placeholder="Application Date"  required/>(mm-dd-yyyy)</p>
+                     <p><input type="date" name = 'appDate' size="30" placeholder="Application Date"  required/>(yyyy-mm-dd)</p>
                      <p><input type="text" name = 'clientName' size="30" placeholder="Client Name" required/></p>
                      <p><input type="text" name = 'clientInfo' size="30" placeholder="Client Information" required/></p>
                      <p><input type="text" name = 'description' size="30" placeholder="Description" required/></p>
@@ -373,19 +373,19 @@
 
                 <div class="card">
                   <div class="documents">
-                    <%if (data[0].length== 1){%>
+                    <!-- <%if (data[1].length== 1){%>
                       <div class="document">
                         <div class="document__img"></div>
                         <div class="document__title"><%=data[0].length%><%=data[1][0].application_name%></div>
                         <div class="document__date"><%=data[1][0].application_due_date.toUTCString().split('06')[0]%></div>
                       </div>
-                    <%} %>
-                  <%  if (data[0].length> 1) { for(var i=0; i<data.length; i++) { %>
+                    <%} %> -->
+                  <%  if (data[1].length> 1) { for(var i=0; i<data[1].length; i++) { %>
                       <!-- <div class="" onclick="popUp"> -->
                       <div class="document">
                         <div class="document__img"></div>
                         <div class="document__title"><%=data[1][i].application_name%></div>
-                        <div class="document__date"><%=data[1][i].application_due_date.toUTCString().split('06')[0]%>%></div>
+                        <div class="document__date"><%=new Date(data[1][i].application_due_date).toUTCString().split('06')[0]%></div>
                       </div>
                       <!-- </div> -->
 
@@ -429,7 +429,7 @@
           function checkForm(form)
           {
             // regular expression to match required date format
-            re = /^\d{1,2}\-\d{1,2}\-\d{4}$/;
+            re = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
 
             if(form.appDate.value != '' && !form.appDate.value.match(re)) {
               alert("Invalid date format: " + form.appDate.value);
