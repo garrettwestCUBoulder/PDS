@@ -185,8 +185,8 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
           console.log(result[2][0 ])
-        var number_of_reminders1 =  result[1].length;
-        res.render('md',{ number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
+        var number_of_reminders1 =
+        res.render('md',{ number_of_cases:0,number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -211,7 +211,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ number_of_cases:0,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
       else if(result[1].length == 0){
@@ -226,7 +226,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ number_of_cases:result[3].length, number_of_applications:result[2].length,number_of_cases:result[2].length,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -243,7 +243,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 =  result[1].length;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ number_of_applications:0,number_of_cases:result[3].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -263,7 +263,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = result[1].length;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -272,7 +272,7 @@ app.get('/dashboard', function(req, res){
           var number_of_reminders1 = result[1].length;
           console.log(get_cases_next_5,result,result[0][0].first_name)
 
-          res.render('md',{number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
+          res.render('md',{number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
       }
     });
 
@@ -383,6 +383,7 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
 
   conn.getConnection(function(err,connection){
       var query = connection.query(get_profile_info ,function(err,rows){
+        // console.log(rows);
         if(err){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
@@ -402,6 +403,82 @@ app.get('/cases', function(req, res){
         res.render('cases');
 
 });
+
+app.get('/applications', function(req, res){
+  var get_applications = "SELECT application_id, application_name from applications where user_id = '"+ user_id + "';";
+  var get_reminder = "SELECT reminder_title, remind_on from reminders where user_id = '"+user_id+ "' ORDER BY remind_on;"
+  var get_timeline = "SELECT `to_do_item`, `complete_by` from timeline where user_id = '"+user_id+ "' ORDER BY `complete_by`;";
+  conn.getConnection(function(err,connection){
+      var query = connection.query(get_applications + get_reminder + get_timeline, [1,2,3],function(err,rows){
+        console.log(rows)
+        if(err){
+          console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
+        }
+        else if(rows[0].length == 0 && rows[1].length == 0 && rows[2].length == 0){
+
+          res.render('appView', {number_of_reminders:0, number_of_items:0, number_of_applications:0, data:rows});
+          }
+        else if(rows[0].length == 0){
+
+          res.render('appView', {number_of_reminders:rows[1].length, number_of_items:rows[2].length, number_of_applications:0, data:rows});
+          }
+        else if(rows[1].length == 0){
+
+          res.render('appView', {number_of_reminders:0, number_of_items:rows[2].length, number_of_applications:rows[0].length, data:rows});
+          }
+        else if(rows[2].length == 0){
+
+          res.render('appView', {number_of_reminders:rows[1].length, number_of_items:0 , number_of_applications:rows[0].length, data:rows});
+        }
+        else{
+          console.log(rows)
+          res.render('appView', {number_of_reminders:rows[1].length, number_of_items:rows[2].length ,data:rows});
+        }
+
+      });
+  });
+
+});
+
+
+
+// app.post(/addReminder, function(reqm res){
+//
+//
+//
+//     var appName = req.body.appName;
+//   	var appDate = req.body.appDate;
+//   	var description = req.body.description;
+//     var add_reminder = "INSERT INTO reminder (user_id, case_id, `application_name`, application_due_date, client_name,client_information, description) VALUES ('"+user_id+"','"+case_id_cur+"', '"+appName+"','"+appDate+"','"+clientName+"','"+clientInfo+"','"+description+"');";
+//
+//
+//     conn.getConnection(function(err,connection){
+//
+//     connection.query( add_reminder ,(err, result) => {
+//      console.log("creating new member");
+//      if (err) {
+//        // console.log(register_new_member
+//        res.redirect('appDB_Senton');
+//      }
+//      else {
+//        // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+//        res.redirect('appDB_Senton')
+//        }
+//      });
+//      });
+//
+//
+//
+// });
+
+
+
+
+
+
+
+
 
 app.get('/appDB_Senton', function(req, res){
   console.log(req.body.top_doc)

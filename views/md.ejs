@@ -55,12 +55,10 @@
                 <li>
                 <div class="navList__subheading row row--align-v-center">
                   <span class="navList__subheading-icon"><i class="fas fa-briefcase-medical"></i></span>
-                  <span class="navList__subheading-title">Messages</span>
+                  <span href = 'cases' class="navList__subheading-title">Cases</span>
                 </div>
                 <ul class="subList subList--hidden">
-                  <li class="subList__item">New</li>
-                  <li class="subList__item">Inbox</li>
-                  <li class="subList__item">Create New</li>
+                  <li href = 'cases' class="subList__item">Cases</li>
                 </ul>
               </li>
               <li>
@@ -441,13 +439,13 @@
                   <div class="card__row">
                     <div class="card__icon"><i class="fas fa-gift"></i></div>
                     <div class="card__time">
-                      <div><%=data[2][i].application_due_date%></div>
+                      <div><%=new Date(data[2][i].application_due_date).toUTCString().split(',')[0]%></div>
                     </div>
                     <div class="card__detail">
                       <a href="appDB_Robosock">
                       <div class="card__source text-bold"> </div>
                       <div class="card__description"><%=data[2][i].application_name%></div>
-                      <div class="card__note"><%=data[2][i].application_due_date%></div>
+                      <div class="card__note"><%=new Date(data[2][i].application_due_date).toUTCString().split('06')[0]%></div>
                     </a>
                     </div>
                   </div>
@@ -469,27 +467,27 @@
                 </div>
               </div>
               <div class="card">
+
                 <div class="documents">
+                <% if (number_of_cases != 0 && number_of_cases != 1) {for(var i=0; i<data.length; i++) { %>
                   <div class="document">
                     <div class="document__img"></div>
-                    <div class="document__title">Robosock JPU-2</div>
-                    <div class="document__date">03-01-2021</div>
+                    <div class="document__title"><%=data[3][i].case_name%></div>
                   </div>
-                  <div class="document">
-                    <div class="document__img"></div>
-                    <div class="document__title">LOREM JPU-4</div>
-                    <div class="document__date">02-28-2021</div>
-                  </div>
-                  <div class="document">
-                    <div class="document__img"></div>
-                    <div class="document__title">Lorem JNP-1</div>
-                    <div class="document__date">03-10-2021</div>
-                  </div>
-                  <div class="document">
-                    <div class="document__img"></div>
-                    <div class="document__title">Senton JNP-3</div>
-                    <div class="document__date">03-12-2021</div>
-                  </div>
+                  <% }  }%>
+                  <% if (number_of_cases == 0) { %>
+                    <div class="document">
+
+                      <div class="document__title">No Cases</div>
+                    </div>
+                    <% }  %>
+                    <% if (number_of_cases == 1) { %>
+                      <div class="document">
+                        <div class="document__img"></div>
+                        <div class="document__title"><%=data[3][0].case_name%></div>
+                      </div>
+                      <% }  %>
+
                 </div>
               </div>
             </div>

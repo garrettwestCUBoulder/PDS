@@ -4,10 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="md_css.css">
+    <!-- <link rel="stylesheet" href="md_css.css"> -->
     <link rel="stylesheet" href="appView_css.css">
+    <link rel="stylesheet" href="pp_css.css">
+    <link rel='stylesheet' type='text/css' href='/css/pp_css.css' />
     <title>Application 004</title>
 </head>
+<style>
+.hide {display: none;}
+
+.openBtn1 {
+	display: flex;
+	justify-content: left;
+}
+.openButton {
+	border: none;
+	border-radius: 5px;
+	background-color: #1c87c9;
+	color: white;
+	padding: 14px 20px;
+	cursor: pointer;
+	position: fixed;
+}
+.loginPopup {
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+.formPopup {
+	display: none;
+	position: fixed;
+	left: 75%;
+	top: 60%;
+	transform: translate(-50%, 5%);
+	border: 3px solid #999999;
+	z-index: 9;
+}
+
+.formPopup1 {
+	display: none;
+	position: fixed;
+	left: 35%;
+	top: 34%;
+	transform: translate(-50%, 5%);
+	border: 3px solid #999999;
+	z-index: 9;
+}
+</style>
+
 <body>
     <div class="grid">
         <header class="header">
@@ -34,7 +78,7 @@
             </div>
           </div>
         </header>
-      
+
         <aside class="sidenav">
           <div class="sidenav__brand">
             <i class="fas fa-feather-alt sidenav__brand-icon"></i>
@@ -80,7 +124,7 @@
                   <li class="subList__item">Applications Done</li>
                 </ul> -->
               </li>
-      
+
               <li class="navList__heading">Communication<i class="far fa-envelope"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -115,7 +159,7 @@
                   <li class="subList__item">Add</li>
                 </ul> -->
               </li>
-      
+
               <li class="navList__heading">Applications<i class="far fa-image"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -150,7 +194,7 @@
                   <li class="subList__item">Add/Delete</li>
                 </ul>
               </li> -->
-      
+
               <li class="navList__heading">Notifications<i class="fas fa-chart-bar"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -188,7 +232,7 @@
                   <li class="subList__item">Add/Delete</li>
                 </ul>
               </li> -->
-              
+
               <li class="navList__heading">USPTO Status<i class="fas fa-calendar-alt"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -268,11 +312,11 @@
                   </ul> -->
                 </li>
 
-              
+
             </ul>
           </div>
         </aside>
-      
+
         <main class="main">
           <div class="main-header">
             <div class="main-header__intro-wrapper">
@@ -305,7 +349,7 @@
               </div> -->
             </div>
           </div>
-         
+
             <!-- <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--document">
                  <i class="far fa-file-alt"></i>
@@ -347,81 +391,57 @@
            <div class="main__cards">
             <div class="card">
                 <div class="card__header">
-                  <div class="card__header-title text-light">Document <strong>EDITS</strong>
-                    <a href="#" class="card__header-link text-bold">View All</a>
+                  <div class="card__header-title text-light">Document <strong>Timeline</strong>
                   </div>
-                  <div class="settings">
-                    <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
-                    <div class="settings__block"><i class="fas fa-cog"></i></div>
+                  <div class="openBtn1">
+                    <button  onclick="openForm()"><strong>Edit</strong></button>
                   </div>
+                  <div class="loginPopup">
+                    <div class="formPopup1" style="background-color:white" id="popupForm1">
+
+                       <form action="" id="form">
+                         <p><input type="text" placeholder="Name"/></p>
+                         <p><input type="date" placeholder="Date" /></p>
+                         <p><input type="text" placeholder="Description" /></p>
+                         <button type="submit" class="openBtn1">Submit</button>
+                         <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
+                       </form>
+
+                    </div>
+                  </div>
+
                 </div>
                 <div class="card__main">
+                <%  if ( number_of_items == 0){ %>
                   <div class="card__row">
                     <div class="card__icon"><i class="fas fa-gift"></i></div>
                     <div class="card__time">
-                      <div>today</div>
+                      <div>N/A</div>
                     </div>
                     <div class="card__detail">
-                      <div class="card__source text-bold">Making Final Edits?</div>
-                      <div class="card__description">Editing for processing</div>
-                      <div class="card__note">Review with client</div>
+                      <div class="card__source text-bold">No items in your Timeline</div>
+
                     </div>
                   </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-plane"></i></div>
-                    <div class="card__time">
-                      <div>Tuesday</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">Added more information</div>
-                      <div class="card__description">ipsum dolor sit amet consectetur</div>
-                      <div class="card__note">ipsum dolor sit amet consectetur</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-book"></i></div>
-                    <div class="card__time">
-                      <div>Thursday</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">ipsum dolor sit amet consectetur</div>
-                      <div class="card__description">ipsum dolor sit amet consectetur</div>
-                      <div class="card__note">ipsum dolor sit amet consectetur</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-heart"></i></div>
-                    <div class="card__time">
-                      <div>Friday</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">ipsum dolor sit amet consectetur</div>
-                      <div class="card__description">ipsum dolor sit amet consectetur</div>
-                      <div class="card__note">ipsum dolor sit amet consectetur</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-heart"></i></div>
-                    <div class="card__time">
-                      <div>Saturday</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">ipsum dolor sit amet consectetur</div>
-                      <div class="card__description">ipsum dolor sit amet consecteturr</div>
-                      <div class="card__note">ipsum dolor sit amet consecteturr</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-heart"></i></div>
-                    <div class="card__time">
-                      <div>Monday</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">ipsum dolor sit amet consectetur</div>
-                      <div class="card__description">ipsum dolor sit amet consecteturr</div>
-                      <div class="card__note">ipsum dolor sit amet consecteturr</div>
-                    </div>
-                  </div>
+                  <% } %>
+
+                    <% if ( number_of_items != 0 &&  number_of_items != 1) {for(var i=0; i<data.length; i++) { %>
+                      <div class="document">
+
+                        <div class="card__source text-bold"><%=data[2][i].reminder_title%> </div>
+                        <div class="card__description"><%=new Date(data[2][i].remind_on).toUTCString().split('06')[0]%></div>
+                      </div>
+                      <% }  }%>
+                        <% if ( number_of_items == 1) { %>
+                          <div class="document">
+                            <div class="card__source text-bold"><%=data[2][0].reminder_title%> </div>
+                            <div class="card__description"><%=new Date(data[2][0].remind_on).toUTCString().split('06')[0]%></div>
+                            <!-- <div class="card__note">nisi culpa possimus</div> -->
+                          </div>
+                          <% }  %>
+
+
+
                 </div>
               </div>
 
@@ -431,48 +451,18 @@
                     <a href="#" class="card__header-link text-bold">View All</a>
                   </div>
                 </div>
-                <div class="card__main">
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-gift"></i></div>
-                    <div class="card__time">
-                      <div>March, 2022</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">Deadline</div>
-                      <div class="card__description">MARCH 19, 2022</div>
-                      <div class="card__note">361 Days left</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-plane"></i></div>
-                    <div class="card__time">
-                      <div>STATUS</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">Pending Client Approval</div>
-                      <div class="card__description">Waiting on client</div>
-                      <!-- <div class="card__note">11-19-2021</div> -->
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-book"></i></div>
-                    <div class="card__time">
-                      <div>USPTO Status</div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">In Process</div>
-                      <div class="card__description">Being Reviewed</div>
-                      <div class="card__note">Not Received</div>
-                    </div>
-                  </div>
+                <div class="">
+                  <h1 style="text-align: center;">COMING SOON</h1>
+                  <p style="text-align: center;">USPTO Notifications is under construction.</p>
+                  <p style = 'text-align: center;'>You will have USPTO Notifications soon</p>
                 </div>
               </div>
               <div class="card">
                 <div class="card__header">
                   <div class="card__header-title text-light"><strong>Reminders</strong>
-                    <a href="#" class="card__header-link text-bold">View All</a>
+                    <a href="notifications" class="card__header-link text-bold">View All</a>
                   </div>
-                  <div id="box">
+                  <!-- <div id="box">
                     <span id="button">Add Reminders</span>
                    <form action="" id="form">
                      <p><input type="text" placeholder="Name"/></p>
@@ -480,48 +470,62 @@
                      <p><input type="text" placeholder="Description" /></p>
                      <p><input type="submit" value="Add" /></p>
                    </form>
-                  </div>
-                </div>
+                  </div> -->
+
+
+                    <div class="openBtn1">
+                      <button  onclick="openForm1()"><strong>Edit</strong></button>
+                    </div>
+                    <div class="loginPopup">
+                      <div class="formPopup" style="background-color:white" id="popupForm">
+
+                         <form onsubmit="return checkForm(this);" method = 'POST' action="/addReminder"  id="form">
+                           <p><input type="text" name = 'appName' placeholder="Name"/></p>
+                           <p><input type="date" name = 'appDate' placeholder="Date (mm/dd/yyyy)" /> </p>
+                           <p><input type="text" name = 'description' placeholder="Description" /></p>
+                           <button type="submit" class="openBtn1">Submit</button>
+                           <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
+                         </form>
+
+                      </div>
+                    </div>
               </div>
                 <div class="card__main">
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-gift"></i></div>
-                    <div class="card__time">
-                      <div>1. </div>
+                  <%  if ( number_of_reminders == 0){ %>
+                    <div class="card__row">
+                      <div class="card__icon"><i class="fas fa-gift"></i></div>
+                      <div class="card__time">
+                        <div>N/A</div>
+                      </div>
+                      <div class="card__detail">
+                        <div class="card__source text-bold">No items in your Timeline</div>
+
+                      </div>
                     </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">Talk with Client</div>
-                      <div class="card__description">MARCH 19, 2022</div>
-                      <div class="card__note">Document Edits...</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-plane"></i></div>
-                    <div class="card__time">
-                      <div>2. </div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">Lorem </div>
-                      <div class="card__description">nisi culpa possimus</div>
-                      <div class="card__note">nisi culpa possimus</div>
-                    </div>
-                  </div>
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-book"></i></div>
-                    <div class="card__time">
-                      <div>3. </div>
-                    </div>
-                    <div class="card__detail">
-                      <div class="card__source text-bold">nisi culpa possimus</div>
-                      <div class="card__description">Benisi culpa possimusd</div>
-                      <div class="card__note">Nnisi culpa possimusved</div>
-                    </div>
+                    <% } %>
+                    <% if (number_of_reminders != 0 && number_of_reminders != 1) {for(var i=0; i<data.length; i++) { %>
+                      <div class="document">
+
+                        <div class="card__source text-bold"><%=data[1][i].reminder_title%> </div>
+                        <div class="card__description"><%=new Date(data[1][i].remind_on).toUTCString().split('06')[0]%></div>
+                      </div>
+                      <% }  }%>
+                        <% if (number_of_reminders == 1) { %>
+                          <div class="document">
+                            <div class="card__source text-bold"><%=data[1][0].reminder_title%> </div>
+                            <div class="card__description"><%=new Date(data[1][0].remind_on).toUTCString().split('06')[0]%></div>
+                            <!-- <div class="card__note">nisi culpa possimus</div> -->
+                          </div>
+                          <% }  %>
+
+
+
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card__header">
                   <div class="card__header-title text-light"><strong>Documents</strong>
                     <a href="#" class="card__header-link text-bold">View All</a>
@@ -555,25 +559,87 @@
                     </div>
                   </div>
                 </div>
-              </div>
-          
+              </div> -->
 
-        
-            
+
+
+
            <!-- /.main-cards -->
         </main>
-      
+
         <footer class="footer">
           <p><span class="footer__copyright"></span> 2020 PDS LLC</p>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+        <script type="text/javascript">
+
+          function checkForm(form)
+          {
+            // regular expression to match required date format
+            re = /^\d{1,2}\-\d{1,2}\-\d{4}$/;
+
+            if(form.appDate.value != '' && !form.appDate.value.match(re)) {
+              alert("Invalid date format: " + form.appDate.value);
+              form.appDate.focus();
+              return false;
+            }
+
+
+            return true;
+          }
+
+        </script>
+
+
+
+
+
+
+
+
         <script>
-          $("#button").click(function() {  
+        function openForm1() {
+          document.getElementById("popupForm").style.display = "block";
+        }
+        function closeForm1() {
+          document.getElementById("popupForm").style.display = "none";
+        }
+        </script>
+        <script>
+        function openForm() {
+          document.getElementById("popupForm1").style.display = "block";
+        }
+        function closeForm() {
+          document.getElementById("popupForm1").style.display = "none";
+        }
+        </script>
+        <script>
+          $("#button").click(function() {
             $("#box form").toggle("slow");
             return false;
           });
+
+          $("#button1").click(function() {
+            $("#box1 form").toggle("slow");
+            return false;
+          });
+
+          $('.open-form').click(function(){
+            if (!$(this).hasClass('open')){
+              $('.form').css('display','block')
+              $(this).addClass('open');
+              $(this).text('CLOSE FORM');
+            }
+            else{
+              $('.form').css('display','none')
+              $(this).removeClass('open');
+              $(this).text('OPEN FORM');
+            }
+          });
             /* Scripts for css grid dashboard */
-      
+
       $(document).ready(() => {
         addResizeListeners();
         setSidenavListeners();
@@ -581,13 +647,13 @@
         setMenuClickListener();
         setSidenavCloseListener();
       });
-      
+
       // Set constants and grab needed elements
       const sidenavEl = $('.sidenav');
       const gridEl = $('.grid');
       const SIDENAV_ACTIVE_CLASS = 'sidenav--active';
       const GRID_NO_SCROLL_CLASS = 'grid--noscroll';
-      
+
       function toggleClass(el, className) {
         if (el.hasClass(className)) {
           el.removeClass(className);
@@ -595,32 +661,32 @@
           el.addClass(className);
         }
       }
-      
+
       // User avatar dropdown functionality
       function setUserDropdownListener() {
         const userAvatar = $('.header__avatar');
-      
+
         userAvatar.on('click', function(e) {
           const dropdown = $(this).children('.dropdown');
           toggleClass(dropdown, 'dropdown--active');
         });
       }
-      
+
       // Sidenav list sliding functionality
       function setSidenavListeners() {
         const subHeadings = $('.navList__subheading'); console.log('subHeadings: ', subHeadings);
         const SUBHEADING_OPEN_CLASS = 'navList__subheading--open';
         const SUBLIST_HIDDEN_CLASS = 'subList--hidden';
-      
+
         subHeadings.each((i, subHeadingEl) => {
           $(subHeadingEl).on('click', (e) => {
             const subListEl = $(subHeadingEl).siblings();
-      
+
             // Add/remove selected styles to list category heading
             if (subHeadingEl) {
               toggleClass($(subHeadingEl), SUBHEADING_OPEN_CLASS);
             }
-      
+
             // Reveal/hide the sublist
             if (subListEl && subListEl.length === 1) {
               toggleClass($(subListEl), SUBLIST_HIDDEN_CLASS);
@@ -628,7 +694,7 @@
           });
         });
       }
-      
+
       function toggleClass(el, className) {
         if (el.hasClass(className)) {
           el.removeClass(className);
@@ -636,20 +702,20 @@
           el.addClass(className);
         }
       }
-      
+
       // If user opens the menu and then expands the viewport from mobile size without closing the menu,
       // make sure scrolling is enabled again and that sidenav active class is removed
       function addResizeListeners() {
         $(window).resize(function(e) {
           const width = window.innerWidth; console.log('width: ', width);
-      
+
           if (width > 750) {
             sidenavEl.removeClass(SIDENAV_ACTIVE_CLASS);
             gridEl.removeClass(GRID_NO_SCROLL_CLASS);
           }
         });
       }
-      
+
       // Menu open sidenav icon, shown only on mobile
       function setMenuClickListener() {
         $('.header__menu').on('click', function(e) { console.log('clicked menu icon');
@@ -657,7 +723,7 @@
           toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
         });
       }
-      
+
       // Sidenav close icon
       function setSidenavCloseListener() {
         $('.sidenav__brand-close').on('click', function(e) {
@@ -665,7 +731,7 @@
           toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
         });
       }
-      
+
         </script>
       </div>
 </body>
