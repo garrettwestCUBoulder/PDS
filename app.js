@@ -58,6 +58,7 @@ var conn = mysql.createPool({
 
 var user_id;
 var case_id_cur;
+var user;
 
 var password_bool = true;
 app.set('views', path.join(__dirname, '/views'));
@@ -153,6 +154,8 @@ app.get('/dashboard', function(req, res){
     var get_top_case = "SELECT case_name from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
 
     connection.query(querry_get_password+get_reminder +get_cases_next_5 +get_top_case, [1,2,3,4], (err, result) => {
+      user = result[0][0].first_name + ' ' +result[0][0].last_name
+
       if (err) {
         console.log(err);
         res.render('login',{result_pass: password_bool, result_registered : false});
@@ -186,7 +189,7 @@ app.get('/dashboard', function(req, res){
           // result[1].Date = ['N/A 06'];
           console.log(result[2][0 ])
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_cases:0,number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:0,number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -211,7 +214,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_cases:0,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:0,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
       else if(result[1].length == 0){
@@ -226,7 +229,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_cases:result[3].length, number_of_applications:result[2].length,number_of_cases:result[2].length,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:result[3].length, number_of_applications:result[2].length,number_of_cases:result[2].length,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -243,7 +246,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 =  result[1].length;
-        res.render('md',{ number_of_applications:0,number_of_cases:result[3].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{user:user, number_of_applications:0,number_of_cases:result[3].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -263,16 +266,17 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = result[1].length;
-        res.render('md',{ number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
 
       else{
+          user = result[0][0].first_name + ' ' +result[0][0].last_name
           var number_of_reminders1 = result[1].length;
           console.log(get_cases_next_5,result,result[0][0].first_name)
 
-          res.render('md',{number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
+          res.render('md',{user:user, number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
       }
     });
 
@@ -390,7 +394,7 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
         }
         else{
           console.log(user_id,rows[0].first_name)
-          res.render('profilePage',{data:rows});
+          res.render('profilePage',{user:user,data:rows});
         }
 
       });
@@ -411,7 +415,7 @@ app.get('/cases', function(req, res){
 
         else{
           console.log(rows.length)
-          res.render('cases',{data:rows});
+          res.render('cases',{user:user,data:rows});
         }
 
       });
@@ -434,23 +438,23 @@ app.get('/applications', function(req, res){
         }
         else if(rows[0].length == 0 && rows[1].length == 0 && rows[2].length == 0){
 
-          res.render('appView', {number_of_reminders:0, number_of_items:0, number_of_applications:0, data:rows});
+          res.render('appView', {user:user,number_of_reminders:0, number_of_items:0, number_of_applications:0, data:rows});
           }
         else if(rows[0].length == 0){
 
-          res.render('appView', {number_of_reminders:rows[1].length, number_of_items:rows[2].length, number_of_applications:0, data:rows});
+          res.render('appView', {user:user,number_of_reminders:rows[1].length, number_of_items:rows[2].length, number_of_applications:0, data:rows});
           }
         else if(rows[1].length == 0){
 
-          res.render('appView', {number_of_reminders:0, number_of_items:rows[2].length, number_of_applications:rows[0].length, data:rows});
+          res.render('appView', {user:user,number_of_reminders:0, number_of_items:rows[2].length, number_of_applications:rows[0].length, data:rows});
           }
         else if(rows[2].length == 0){
 
-          res.render('appView', {number_of_reminders:rows[1].length, number_of_items:0 , number_of_applications:rows[0].length, data:rows});
+          res.render('appView', {user:user,number_of_reminders:rows[1].length, number_of_items:0 , number_of_applications:rows[0].length, data:rows});
         }
         else{
           console.log(rows)
-          res.render('appView', {number_of_reminders:rows[1].length, number_of_items:rows[2].length ,data:rows});
+          res.render('appView', {user:user,number_of_reminders:rows[1].length, number_of_items:rows[2].length ,data:rows});
         }
 
       });
@@ -606,12 +610,12 @@ app.post('/appDB_Senton', function(req, res){
 
             // result[1].Date = ['N/A 06'];
           var number_of_reminders1 = 0;
-          res.render('appDB_Senton',{data:rows});
+          res.render('appDB_Senton',{user:user,data:rows});
         }
         else{
           // console.log(rows[1][0].application_name);
           case_id_cur = rows[1][0].case_id;
-          res.render('appDB_Senton',{data:rows});
+          res.render('appDB_Senton',{user:user,data:rows});
         }
 
       });
@@ -656,11 +660,11 @@ app.get('/notifications', function(req, res){
                     // result[1].Date = ['N/A 06'];
           var number_of_reminders1 = 1;
 
-          res.render('notifications',{number_of_reminders:number_of_reminders1,data:rows});
+          res.render('notifications',{user:user,number_of_reminders:number_of_reminders1,data:rows});
         }
         else{
           console.log(user_id,rows[0].reminder_title)
-          res.render('notifications', {number_of_reminders: 21 ,data:rows});
+          res.render('notifications', {user:user,number_of_reminders: 21 ,data:rows});
         }
 
       });
