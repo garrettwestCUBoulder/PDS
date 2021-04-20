@@ -484,7 +484,6 @@ html, body {
 	 background-color: #fff;
 }
  .card__photo {
-	 /* background-image: url('../../img/pumpkin-carving.jpg'); */
 	 background-size: cover;
 	 background-repeat: no-repeat;
 	 background-color: slategray;
