@@ -58,6 +58,7 @@ var conn = mysql.createPool({
 
 var user_id;
 var case_id_cur;
+var user;
 
 var password_bool = true;
 app.set('views', path.join(__dirname, '/views'));
@@ -153,6 +154,8 @@ app.get('/dashboard', function(req, res){
     var get_top_case = "SELECT case_name from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
 
     connection.query(querry_get_password+get_reminder +get_cases_next_5 +get_top_case, [1,2,3,4], (err, result) => {
+      user = result[0][0].first_name + ' ' +result[0][0].last_name
+
       if (err) {
         console.log(err);
         res.render('login',{result_pass: password_bool, result_registered : false});
@@ -185,8 +188,8 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
           console.log(result[2][0 ])
-        var number_of_reminders1 =  result[1].length;
-        res.render('md',{ number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
+        var number_of_reminders1 = 0;
+        res.render('md',{ user:user,number_of_cases:0,number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -211,7 +214,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:0,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
       else if(result[1].length == 0){
@@ -226,7 +229,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = 0;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:result[3].length, number_of_applications:result[2].length,number_of_cases:result[2].length,number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -243,7 +246,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 =  result[1].length;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{user:user, number_of_applications:0,number_of_cases:result[3].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -263,16 +266,17 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = result[1].length;
-        res.render('md',{ number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user,number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
 
       else{
+          user = result[0][0].first_name + ' ' +result[0][0].last_name
           var number_of_reminders1 = result[1].length;
           console.log(get_cases_next_5,result,result[0][0].first_name)
 
-          res.render('md',{number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
+          res.render('md',{user:user, number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1,data:result, result_pass: password_bool,result_registered : false});
       }
     });
 
@@ -383,13 +387,14 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
 
   conn.getConnection(function(err,connection){
       var query = connection.query(get_profile_info ,function(err,rows){
+        // console.log(rows);
         if(err){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
         }
         else{
           console.log(user_id,rows[0].first_name)
-          res.render('profilePage',{data:rows});
+          res.render('profilePage',{user:user,data:rows});
         }
 
       });
@@ -399,21 +404,191 @@ var get_profile_info = "SELECT users.first_name, users.last_name, users.email, u
 
 app.get('/cases', function(req, res){
 
-        res.render('cases');
+  var get_cases = "SELECT case_name,client_name from cases where user_id = '"+user_id+"';";
+  conn.getConnection(function(err,connection){
+      var query = connection.query( get_cases,function(err,rows){
+
+        if(err){
+          console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
+        }
+
+        else{
+          console.log(rows.length)
+          res.render('cases',{user:user,data:rows});
+        }
+
+      });
+  });
+
+
 
 });
 
-app.get('/appDB_Senton', function(req, res){
-  console.log(req.body.top_doc)
+app.get('/applications', function(req, res){
+  var get_applications = "SELECT application_id, application_name from applications where user_id = '"+ user_id + "';";
+  var get_reminder = "SELECT reminder_title, remind_on from reminders where user_id = '"+user_id+ "' ORDER BY remind_on;"
+  var get_timeline = "SELECT `to_do_item`, `complete_by` from timeline where user_id = '"+user_id+ "' ORDER BY `complete_by`;";
+  conn.getConnection(function(err,connection){
+      var query = connection.query(get_applications + get_reminder + get_timeline, [1,2,3],function(err,rows){
+        console.log(rows[1].length)
+        if(err){
+          console.log("Error Selecting : %s ",err );
+          res.redirect('dashboard');
+        }
+        else if(rows[0].length == 0 && rows[1].length == 0 && rows[2].length == 0){
+
+          res.render('appView', {user:user,number_of_reminders:0, number_of_items:0, number_of_applications:0, data:rows});
+          }
+        else if(rows[0].length == 0){
+
+          res.render('appView', {user:user,number_of_reminders:rows[1].length, number_of_items:rows[2].length, number_of_applications:0, data:rows});
+          }
+        else if(rows[1].length == 0){
+
+          res.render('appView', {user:user,number_of_reminders:0, number_of_items:rows[2].length, number_of_applications:rows[0].length, data:rows});
+          }
+        else if(rows[2].length == 0){
+
+          res.render('appView', {user:user,number_of_reminders:rows[1].length, number_of_items:0 , number_of_applications:rows[0].length, data:rows});
+        }
+        else{
+          console.log(rows)
+          res.render('appView', {user:user,number_of_reminders:rows[1].length, number_of_items:rows[2].length ,data:rows});
+        }
+
+      });
+  });
+
+});
 
 
-  var get_top_case = "SELECT @case_id_cur := case_id, `case_name`, `client_name`,`client_information`,`description` from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
+
+app.post('/addReminder', function(req, res){
+
+
+
+    var appName = req.body.appName;
+  	// var appDate = new Date(req.body.appDate);
+    	var appDate = req.body.appDate;
+  	var description = req.body.description;
+    var add_reminder = "INSERT INTO reminders (user_id,  `reminder_title`, remind_on,`reminder`) VALUES ('"+user_id+"', '"+appName+"','"+appDate+"','"+description+"');";
+    console.log(appDate);
+
+    conn.getConnection(function(err,connection){
+
+    connection.query( add_reminder ,(err, result) => {
+
+     if (err) {
+       // console.log(register_new_member
+       console.log("Error Selecting : %s ",err );
+       res.redirect('applications');
+     }
+     else {
+       // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+       res.redirect('applications')
+       }
+     });
+     });
+
+
+
+});
+
+
+
+
+app.post('/createCase', function(req, res){
+
+
+
+    var caseName = req.body.caseName;
+  	// var appDate = new Date(req.body.appDate);
+    	var clientName = req.body.clientName;
+      var clientInfo = req.body.clientInfo
+  	var description = req.body.description;
+    var add_reminder = "INSERT INTO cases (user_id,  `case_name`, client_name,`client_information`, `description`) VALUES ('"+user_id+"', '"+caseName+"','"+clientName+"','"+clientInfo+"','"+description+"');";
+
+
+    conn.getConnection(function(err,connection){
+
+    connection.query( add_reminder ,(err, result) => {
+
+     if (err) {
+       // console.log(register_new_member
+       console.log("Error Selecting : %s ",err );
+       res.redirect('cases');
+     }
+     else {
+       // console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+       res.redirect('cases')
+       }
+     });
+     });
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+app.post('/addtimeline', function(req, res){
+
+
+
+    var appName = req.body.appName1;
+  	// var appDate = new Date(req.body.appDate);
+    	var appDate = req.body.appDate1;
+  	var description = req.body.description1;
+    var add_timeline = "INSERT INTO timeline (user_id,  `to_do_item` , `complete_by`, `description`) VALUES ('"+user_id+"', '"+appName+"','"+appDate+"','"+description+"');";
+    console.log(add_timeline)
+
+    conn.getConnection(function(err,connection){
+
+    connection.query(add_timeline ,(err, result) => {
+
+     if (err) {
+       // console.log(register_new_member
+       console.log("Error Selecting : %s ",err );
+       res.redirect('applications');
+     }
+     else {
+       console.log('Successfully uploaded ' + req.files + ' files!', '  ', req.body.appName)
+       res.redirect('applications')
+       }
+     });
+     });
+
+
+
+});
+
+
+
+
+
+
+
+
+
+app.post('/appDB_Senton', function(req, res){
+  console.log('testtttttttttt', req.body.case_name)
+
+  var case_name = req.body.case_name;
+  var get_top_case = "SELECT @case_id_cur := case_id, `case_name`, `client_name`,`client_information`,`description` from cases where case_id = (SELECT case_id from cases where user_id = '"+user_id+ "' and case_name = '"+case_name+"');";
   var get_applications = "SELECT case_id, application_name, application_due_date from applications WHERE case_id =  @case_id_cur;";
 
 
   conn.getConnection(function(err,connection){
       var query = connection.query(get_top_case+get_applications ,[1,2],function(err,rows){
-
+        console.log(get_top_case+get_applications)
         if(err){
           console.log("Error Selecting : %s ",err );
           res.redirect('dashboard');
@@ -423,9 +598,10 @@ app.get('/appDB_Senton', function(req, res){
         }
 
         else if(rows[1].length == 0){
-           case_id_cur = rows[1][0].case_id;
+
+          case_id_cur = rows[1][0].case_id;
           var dict_for_empty_reminders = {
-              reminder_title: "No Reminders",
+              reminder_title: "No Applications",
               remind_on: "N/A 06"
             };
           rows[1] =  [dict_for_empty_reminders];
@@ -434,12 +610,12 @@ app.get('/appDB_Senton', function(req, res){
 
             // result[1].Date = ['N/A 06'];
           var number_of_reminders1 = 0;
-          res.render('appDB_Senton',{data:rows});
+          res.render('appDB_Senton',{user:user,data:rows});
         }
         else{
           // console.log(rows[1][0].application_name);
           case_id_cur = rows[1][0].case_id;
-          res.render('appDB_Senton',{data:rows});
+          res.render('appDB_Senton',{user:user,data:rows});
         }
 
       });
@@ -474,19 +650,21 @@ app.get('/notifications', function(req, res){
           console.log('length=0');
           var dict_for_empty_reminders = {
               reminder_title: "No Reminders",
-              remind_on: "N/A "
+              reminder: 'None',
+              remind_on: "N/A 06"
               };
             rows[0] =  dict_for_empty_reminders;
 
                   // result[1][0].reminder_title = ['No Reminders'];
 
                     // result[1].Date = ['N/A 06'];
-          var number_of_reminders1 = 0;
-          res.render('notifications',{data:rows});
+          var number_of_reminders1 = 1;
+
+          res.render('notifications',{user:user,number_of_reminders:number_of_reminders1,data:rows});
         }
         else{
           console.log(user_id,rows[0].reminder_title)
-          res.render('notifications', {data:rows});
+          res.render('notifications', {user:user,number_of_reminders: 21 ,data:rows});
         }
 
       });
@@ -496,19 +674,73 @@ app.get('/notifications', function(req, res){
 });
 
 
-
-
-
-
-
+// export const aws_download = (res) => {
+//   const ext = '.mp3'
+//   const filePath = path.join('temp', 'x' + ext);
+//   const params = {
+//     Bucket: process.env.AWS_BUCKET,
+//     Key: 'folder/1567163054411_s.mp3'
+//   };
+//   return s3.getObject(params, (err, data) => {
+//     if (err) console.error(err);
+//     fs.writeFileSync(filePath, data.Body);
+//     //download
+//     res.download(filePath, function (err) {
+//       if (err) {
+//         // Handle error, but keep in mind the response may be partially-sent
+//         // so check res.headersSent
+//         console.log(res.headersSent)
+//       } else {
+//         // decrement a download credit, etc. // here remove temp file
+//         fs.unlink(filePath, function (err) {
+//             if (err) {
+//                 console.error(err);
+//             }
+//             console.log('Temp File Delete');
+//         });
+//       }
+//     })
+//     console.log(`${filePath} has been created!`);
+//   });
+// };
+//
+//
+//
+//
+//
 const port = process.env.port || 3001;
 app.listen(port, () => {
     console.log("Our app is running on " + port);
 });
-
-
-
-
+//
+//
+//
+// /**  S3 download code from example
+// 'use strict'
+// const AWS = require('aws-sdk')
+// const fs = require('fs')
+// const ACCESS_KEY_ID = "ENTER ACCESS KEY ID HERE"
+// const SECRET_ACCESS_KEY = "ENTER SECRET ACCESS KEY HERE"
+// const BUCKET_NAME = "ENTER BUCKET NAME HERE"
+// var s3 = new AWS.S3({
+//     accessKeyId: ACCESS_KEY_ID,
+//     secretAccessKey: SECRET_ACCESS_KEY,
+//     endpoint: new AWS.Endpoint("https://s3.pilw.io")
+// })
+// var params = {
+//     Key: 'test.txt',
+//     Bucket: BUCKET_NAME
+// }
+// s3.getObject(params, function(err, data) {
+//     if (err) {
+//         throw err
+//     }
+//     fs.writeFileSync('./test.txt', data.Body)
+//     console.log('file downloaded successfully')
+// })
+//  */
+//
+//
 
 // function create_user_bucket(callback){
 // callback();

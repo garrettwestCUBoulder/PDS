@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="casesStyle.css">
-    <title>Cases</title>
+    <!-- <link rel="stylesheet" href="md_css.css"> -->
+    <link rel="stylesheet" href="appView_css.css">
+    <link rel="stylesheet" href="pp_css.css">
+    <link rel='stylesheet' type='text/css' href='/css/pp_css.css' />
+    <title>Timeline, Notifications, and Reminders</title>
 </head>
 <style>
 .hide {display: none;}
@@ -41,13 +44,14 @@
 .formPopup1 {
 	display: none;
 	position: fixed;
-	left: 42%;
-	top: 18%;
+	left: 35%;
+	top: 34%;
 	transform: translate(-50%, 5%);
 	border: 3px solid #999999;
 	z-index: 9;
 }
 </style>
+
 <body>
     <div class="grid">
         <header class="header">
@@ -60,7 +64,7 @@
               <ul class="dropdown__list">
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="far fa-user"></i></span>
-                  <a href="profile.html"><span class="dropdown__title">My Profile</span></a>
+                  <a href="profile"><span class="dropdown__title">My Profile</span></a>
                 </li>
                 <!-- <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="fas fa-clipboard-list"></i></span>
@@ -68,7 +72,7 @@
                 </li> -->
                 <li class="dropdown__list-item">
                   <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
-                  <a href="https://penguindocketing.webflow.io/"><span class="dropdown__title">Log out</span></a>
+                  <a href="/"><span class="dropdown__title">log out</span></a>
                 </li>
               </ul>
             </div>
@@ -326,85 +330,382 @@
                 </aside>
         <main class="main">
           <div class="main-header">
+
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
-                <div class="main-header__welcome-title text-light"><strong>Cases</strong></div>
-                <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
+                <!-- <div class="main-header__welcome-title text-light"><strong>Application Dashboard</strong></div> -->
+                <div class="main-header__welcome-title text-light">Timelines, Notifications, and Reminders</div>
+
+              <!-- <div class="quickview">
+                <div class="quickview__item">
+                  <div class="quickview__item-total">5</div>
+                  <div class="quickview__item-description">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="text-light">Active Cases</span>
+                  </div>
+                </div>
+                <div class="quickview__item">
+                  <div class="quickview__item-total">12</div>
+                  <div class="quickview__item-description">
+                    <i class="far fa-comment"></i>
+                    <span class="text-light">New Notifications</span>
+                  </div>
+                </div>
+                <div class="quickview__item">
+                  <div class="quickview__item-total">Today's Date</div>
+                  <div class="quickview__item-description">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="text-light">Happy Working!</span>
+                  </div>
+                </div>
+              </div> -->
+<br>
+
+              <div class="openBtn1">
+                <button class="openButton" onclick="openForm()"><strong>Add to Timeline</strong></button>
+              </div>
+              <br><br>
+              <div class="openBtn1">
+                <button  class="openButton" onclick="openForm1()"><strong>Add Reminder</strong></button>
+              </div>
               </div>
             </div>
+
           </div>
 
-          <div class="main-overview">
-            <div class="openBtn1">
-              <button class="openButton" onclick="openForm1()"><strong>Add Case</strong></button>
-            </div>
-            <div class="loginPopup">
-              <div class="formPopup1" style="background-color:white" id="popupForm1">
-             <form  style="background-color:white" method="POST" action="/createCase" enctype="multipart/form-data">
-               <p><input type="text" name = 'caseName' size="30" placeholder="Application Name" required/></p>
-               <p><input type="text" name = 'clientName' size="30" placeholder="Client Name" required/></p>
-               <p><input type="text" name = 'clientInfo' size="30" placeholder="Client Information" required/></p>
-               <p><input type="text" name = 'description' size="30" placeholder="Description" required/></p>
-               <button type="submit" class="openBtn1">Submit</button>
-               <button type="button" class="openBtn1 cancel" onclick="closeForm1()">Close</button>
-             </form>
-            </div>
-          </div>
 
-            <% if (data.length == 0){ %>
-              <form id="search" method="post" action="/appDB_Senton">
+<div>
 
-                <a onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i>
 
-            <div class="overviewCard">
+
+
+
+
+
+
+
+            <!-- <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--document">
                  <i class="far fa-file-alt"></i>
               </div>
               <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">No Cases </h3>
-                <!-- <p class="overviewCard-subtitle">Updated 3/20</p> -->
+                <h3 class="overviewCard-title text-light">Recent <strong>Document</strong></h3>
+                <p class="overviewCard-subtitle">Case J-072020FRANK</p>
               </div>
             </div>
-            </form>
-            <%}%>
-            <% if (data.length > 0){ for(var i=0; i<data.length; i++) { %>
-              <form id="search<%=i%>" method="post" action="/appDB_Senton">
-
-                <a onclick="document.getElementById('search<%=i%>').submit();"><i class="fa fa-search"></i>
             <div class="overviewCard">
-              <div class="overviewCard-icon overviewCard-icon--document">
-                 <i class="far fa-file-alt"></i>
+              <div class="overviewCard-icon overviewCard-icon--calendar">
+                 <i class="far fa-calendar-check"></i>
               </div>
               <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light">Case: <strong><%=data[i].case_name%></strong></h3>
-                 <p class="overviewCard-subtitle">Client: <%=data[i].client_name%></p>
-                 <input type="text" style="visibility:hidden;" name="case_name" value="<%=data[i].case_name%>"/>
-
+                <h3 class="overviewCard-title text-light">Upcoming <strong>Deadline</strong></h3>
+                <p class="overviewCard-subtitle">Case J-092020Lor.. +2</p>
               </div>
             </div>
-          </form>
-            <%}}%>
-<br><br><br>
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--mail">
+                 <i class="far fa-envelope"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Recent <strong>Notifications</strong></h3>
+                <p class="overviewCard-subtitle">+10</p>
+              </div>
+            </div>
+            <div class="overviewCard">
+              <div class="overviewCard-icon overviewCard-icon--photo">
+                 <i class="far fa-file-image"></i>
+              </div>
+              <div class="overviewCard-description">
+                <h3 class="overviewCard-title text-light">Quick <strong>Links</strong></h3>
+                <p class="overviewCard-subtitle">Private PAIR, DocEX, Co.. </p>
+              </div>
+            </div>
+          </div> -->
+           <!-- /.main__overview -->
+           <div class="main__cards">
+
+             <div class="loginPopup">
+               <div class="formPopup1" style="background-color:white" id="popupForm1">
+
+                  <form action="addtimeline" method="POST" id="form">
+                    <p><input type="text" name = 'appName1' placeholder="Name"/></p>
+                    <p><input type="text" name = 'appDate1' placeholder="Date (yyyy-mm-dd)" /> </p>
+
+                    <p><input type="text" name = 'description1' placeholder="Description" /></p>
+                    <button type="submit" class="openBtn1">Submit</button>
+                    <button type="button" class="openBtn1 cancel" onclick="closeForm()">Close</button>
+                  </form>
+
+               </div>
+             </div>
+
+
+             <div class="loginPopup">
+               <div class="formPopup" style="background-color:white" id="popupForm">
+
+                  <form onsubmit="return checkForm(this);" method = 'POST' action="/addReminder"  id="form">
+                    <p><input type="text" name = 'appName' placeholder="Name"/></p>
+                    <p><input type="text" name = 'appDate' placeholder="Date (yyyy-mm-dd)" /> </p>
+                    <!-- <input type="text" id="start" name='appDate'
+                           value="2021-01-22"
+                           min="2021-01-01" max="2025-12-31"> -->
+                    <p><input type="text" name = 'description' placeholder="Description" /></p>
+                    <button type="submit" class="openBtn1">Submit</button>
+                    <button type="button" class="openBtn1 cancel" onclick="closeForm1()">Close</button>
+                  </form>
+
+               </div>
+             </div>
+
+             <br>
+             <br><br><br>
+            <div class="card">
+                <div class="card__header">
+                  <div class="card__header-title text-light">Document <strong>Timeline</strong>
+                  </div>
+
+
+                </div>
+                <div class="card__main">
+                <%  if ( number_of_items == 0){ %>
+                  <div class="card__row">
+                    <div class="card__icon"><i class="fas fa-gift"></i></div>
+                    <div class="card__time">
+                      <div>N/A</div>
+                    </div>
+                    <div class="card__detail">
+                      <div class="card__source text-bold">No items in your Timeline</div>
+
+                    </div>
+                  </div>
+                  <% } %>
+
+                    <% if ( number_of_items != 0 &&  number_of_items != 1) {for(var i=0; i<data[2].length; i++) { %>
+
+
+                      <div class="card__row">
+                        <div class="card__icon"><i class="fas fa-gift"></i></div>
+                        <div class="card__time">
+                          <div><%=new Date(data[2][i].complete_by).toUTCString().split('06')[0]%></div>
+                        </div>
+                        <div class="card__detail">
+                          <div class="card__source text-bold"><%=data[2][i].to_do_item%></div>
+
+                        </div>
+                      </div>
 
 
 
+                      <% }  }%>
+                        <% if ( number_of_items == 1) { %>
+                          <div class="card__row">
+                            <div class="card__icon"><i class="fas fa-gift"></i></div>
+                            <div class="card__time">
+                              <div><%=new Date(data[2][0].complete_by).toUTCString().split('06')[0]%></div>
+                            </div>
+                            <div class="card__detail">
+                              <div class="card__source text-bold"><%=data[2][0].to_do_item%></div>
+
+                            </div>
+                          </div>
+
+                          <% }  %>
+
+
+
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__header">
+                  <div class="card__header-title text-light"><strong>Important Notices</strong>
+                    <a href="#" class="card__header-link text-bold">View All</a>
+                  </div>
+                </div>
+                <div class="">
+                  <h1 style="text-align: center;">COMING SOON</h1>
+                  <p style="text-align: center;">USPTO Notifications is under construction.</p>
+                  <p style = 'text-align: center;'>You will have USPTO Notifications soon</p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card__header">
+                  <div class="card__header-title text-light"><strong>Reminders</strong>
+                    <a href="notifications" class="card__header-link text-bold">View All</a>
+                  </div>
+                  <!-- <div id="box">
+                    <span id="button">Add Reminders</span>
+                   <form action="" id="form">
+                     <p><input type="text" placeholder="Name"/></p>
+                     <p><input type="date" placeholder="Date" /></p>
+                     <p><input type="text" placeholder="Description" /></p>
+                     <p><input type="submit" value="Add" /></p>
+                   </form>
+                  </div> -->
+
+
+
+              </div>
+                <div class="card__main">
+                  <%  if ( number_of_reminders == 0){ %>
+                    <div class="card__row">
+                      <div class="card__icon"><i class="fas fa-gift"></i></div>
+                      <div class="card__time">
+                        <div>N/A</div>
+                      </div>
+                      <div class="card__detail">
+                        <div class="card__source text-bold">No items in your Timeline</div>
+
+                      </div>
+                    </div>
+                    <% } %>
+                    <% if (number_of_reminders != 0 && number_of_reminders != 1) {for(var i=0; i<data[1].length; i++) { %>
+                      <div class="card__row">
+                        <div class="card__icon"><i class="fas fa-gift"></i></div>
+                        <div class="card__time">
+                          <div><%=new Date(data[1][i].remind_on).toUTCString().split('06')[0]%></div>
+                        </div>
+                        <div class="card__detail">
+                          <div class="card__source text-bold"><%=data[1][i].reminder_title%></div>
+
+                        </div>
+                      </div>
+
+                      <% }  }%>
+                        <% if (number_of_reminders == 1) { %>
+                          <div class="card__row">
+                            <div class="card__icon"><i class="fas fa-gift"></i></div>
+                            <div class="card__time">
+                              <div><%=new Date(data[1][0].remind_on).toUTCString().split('06')[0]%></div>
+                            </div>
+                            <div class="card__detail">
+                              <div class="card__source text-bold"><%=data[1][0].reminder_title%></div>
+
+                            </div>
+                          </div>
+                          <% }  %>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
+            <!-- <div class="card">
+                <div class="card__header">
+                  <div class="card__header-title text-light"><strong>Documents</strong>
+                    <a href="#" class="card__header-link text-bold">View All</a>
+                  </div>
+                  <div class="upload-btn-wrapper">
+                    <button class="btn">Upload a file</button>
+                    <input type="file" name="myfile" />
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="documents">
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Robosock JPU-2</div>
+                      <div class="document__date">03-01-2021</div>
+                    </div>
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Robosock JPU-1</div>
+                      <div class="document__date">02-28-2021</div>
+                    </div>
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Robosock JPU-Initial</div>
+                      <div class="document__date">03-10-2021</div>
+                    </div>
+                    <div class="document">
+                      <div class="document__img"></div>
+                      <div class="document__title">Lorem</div>
+                      <div class="document__date">03-12-2021</div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+
+
+
+           <!-- /.main-cards -->
         </main>
 
         <footer class="footer">
-          <p><span class="footer__copyright">&copy;</span> 2020 PDS</p>
+          <p><span class="footer__copyright"></span> 2020 PDS LLC</p>
         </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+        <script type="text/javascript">
+
+          function checkForm(form)
+          {
+            // regular expression to match required date format
+            re = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
+
+            if(form.appDate.value != '' && !form.appDate.value.match(re)) {
+              alert("Invalid date format: " + form.appDate.value);
+              form.appDate.focus();
+              return false;
+            }
+
+
+            return true;
+          }
+
+        </script>
+
+
+
+
+
+
+
+
         <script>
         function openForm1() {
-          document.getElementById("popupForm1").style.display = "block";
+          document.getElementById("popupForm").style.display = "block";
         }
         function closeForm1() {
+          document.getElementById("popupForm").style.display = "none";
+        }
+        </script>
+        <script>
+        function openForm() {
+          document.getElementById("popupForm1").style.display = "block";
+        }
+        function closeForm() {
           document.getElementById("popupForm1").style.display = "none";
         }
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
+          $("#button").click(function() {
+            $("#box form").toggle("slow");
+            return false;
+          });
+
+          $("#button1").click(function() {
+            $("#box1 form").toggle("slow");
+            return false;
+          });
+
+          $('.open-form').click(function(){
+            if (!$(this).hasClass('open')){
+              $('.form').css('display','block')
+              $(this).addClass('open');
+              $(this).text('CLOSE FORM');
+            }
+            else{
+              $('.form').css('display','none')
+              $(this).removeClass('open');
+              $(this).text('OPEN FORM');
+            }
+          });
             /* Scripts for css grid dashboard */
 
       $(document).ready(() => {

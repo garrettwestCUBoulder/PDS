@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="md_css.css">
-    <link rel="stylesheet" href="appView_css.css">
     <title>Application Dashboard</title>
 </head>
 <body>
@@ -34,7 +33,7 @@
             </div>
           </div>
         </header>
-      
+
         <aside class="sidenav">
           <div class="sidenav__brand">
             <i class="fas fa-feather-alt sidenav__brand-icon"></i>
@@ -80,7 +79,7 @@
                   <li class="subList__item">Applications Done</li>
                 </ul> -->
               </li>
-      
+
               <li class="navList__heading">Communication<i class="far fa-envelope"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -115,7 +114,7 @@
                   <li class="subList__item">Add</li>
                 </ul> -->
               </li>
-      
+
               <li class="navList__heading">Applications<i class="far fa-image"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -150,7 +149,7 @@
                   <li class="subList__item">Add/Delete</li>
                 </ul>
               </li> -->
-      
+
               <li class="navList__heading">Notifications<i class="fas fa-chart-bar"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -188,7 +187,7 @@
                   <li class="subList__item">Add/Delete</li>
                 </ul>
               </li> -->
-              
+
               <li class="navList__heading">USPTO Status<i class="fas fa-calendar-alt"></i></li>
               <li>
                 <div class="navList__subheading row row--align-v-center">
@@ -268,11 +267,11 @@
                   </ul> -->
                 </li>
 
-              
+
             </ul>
           </div>
         </aside>
-      
+
         <main class="main">
           <div class="main-header">
             <div class="main-header__intro-wrapper">
@@ -305,7 +304,7 @@
               </div> -->
             </div>
           </div>
-         
+
             <!-- <div class="overviewCard">
               <div class="overviewCard-icon overviewCard-icon--document">
                  <i class="far fa-file-alt"></i>
@@ -344,23 +343,15 @@
             </div>
           </div> -->
            <!-- /.main__overview -->
-          
+
             <div class="card">
                 <div class="card__header">
                   <div class="card__header-title text-light"><strong>Applications</strong>
                     <a href="#" class="card__header-link text-bold">View All</a>
                   </div>
-                  <div id="box">
-                    <span id="button">Add Application</span>
-                   <form action="" id="form">
-                     <p><input type="text" placeholder="Application Name"/></p>
-                     <p><input type="text" placeholder="Application Title"/></p>
-                     <p><input type="date" placeholder="Application Date" /></p>
-                     <p><input type="text" placeholder="Client Name"/></p>
-                     <p><input type="text" placeholder="Client Information"/></p>
-                     <p><input type="text" placeholder="Description" /></p>
-                     <p><input type="submit" value="Add" /></p>
-                   </form>
+                  <div class="settings">
+                    <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
+                    <div class="settings__block"><i class="fas fa-cog"></i></div>
                   </div>
                 </div>
                 <div class="card">
@@ -397,37 +388,33 @@
             </div>
             <div id="messages" style="font-size: 20px;">
                 <h4>&nbsp&nbspApplication Information:</h4>
-                <p>&nbsp&nbspApplication for Birthday Pop: New animated puppet for kids. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, harum? Nulla, 
+                <p>&nbsp&nbspApplication for Birthday Pop: New animated puppet for kids. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, harum? Nulla,
                     necessitatibus exercitationem recusandae nisi culpa possimus vel dolorem suscipit qui nostrum dolor. Numquam animi provident quaerat, accusamus suscipit veniam</p>
                 <p>&nbspLorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur voluptates ab et est sed ipsa placeat ea amet magnam cumque vel, maiores aspernatur dolor, tempore eum atque? Eligendi, earum illo.</p>
 
                 <h4>&nbsp&nbspClient Information:</h4>
                 <p>&nbsp Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas possimus consectetur optio iste sapiente quo aut quasi recusandae esse nisi expedita totam necessitatibus vitae, nam aspernatur? Minima dolores enim quibusdam?</p>
                 <!-- <p>&nbsp Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, labore autem asperiores sequi, quo consequatur exercitationem veritatis blanditiis magnam ad velit dolorum nisi voluptatem deleniti odio quasi tenetur ex accusantium.</p> -->
-                
+
                 <h4>&nbsp&nbspAttorney Information:</h4>
                 <p>&nbsp&nbspLorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam nihil minima animi velit eveniet similique fugiat? Iste fugit totam molestiae nam id labore cum veniam voluptatem soluta. Repellat, maiores nostrum!</p>
 
             </div>
           </div>
-          
 
-        
-            
+
+
+
            <!-- /.main-cards -->
         </main>
-      
+
         <footer class="footer">
           <p><span class="footer__copyright"></span> 2020 PDS LLC</p>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
-          $("#button").click(function() {  
-          $("#box form").toggle("slow");
-          return false;
-        });
             /* Scripts for css grid dashboard */
-      
+
       $(document).ready(() => {
         addResizeListeners();
         setSidenavListeners();
@@ -435,13 +422,13 @@
         setMenuClickListener();
         setSidenavCloseListener();
       });
-      
+
       // Set constants and grab needed elements
       const sidenavEl = $('.sidenav');
       const gridEl = $('.grid');
       const SIDENAV_ACTIVE_CLASS = 'sidenav--active';
       const GRID_NO_SCROLL_CLASS = 'grid--noscroll';
-      
+
       function toggleClass(el, className) {
         if (el.hasClass(className)) {
           el.removeClass(className);
@@ -449,32 +436,32 @@
           el.addClass(className);
         }
       }
-      
+
       // User avatar dropdown functionality
       function setUserDropdownListener() {
         const userAvatar = $('.header__avatar');
-      
+
         userAvatar.on('click', function(e) {
           const dropdown = $(this).children('.dropdown');
           toggleClass(dropdown, 'dropdown--active');
         });
       }
-      
+
       // Sidenav list sliding functionality
       function setSidenavListeners() {
         const subHeadings = $('.navList__subheading'); console.log('subHeadings: ', subHeadings);
         const SUBHEADING_OPEN_CLASS = 'navList__subheading--open';
         const SUBLIST_HIDDEN_CLASS = 'subList--hidden';
-      
+
         subHeadings.each((i, subHeadingEl) => {
           $(subHeadingEl).on('click', (e) => {
             const subListEl = $(subHeadingEl).siblings();
-      
+
             // Add/remove selected styles to list category heading
             if (subHeadingEl) {
               toggleClass($(subHeadingEl), SUBHEADING_OPEN_CLASS);
             }
-      
+
             // Reveal/hide the sublist
             if (subListEl && subListEl.length === 1) {
               toggleClass($(subListEl), SUBLIST_HIDDEN_CLASS);
@@ -482,7 +469,7 @@
           });
         });
       }
-      
+
       function toggleClass(el, className) {
         if (el.hasClass(className)) {
           el.removeClass(className);
@@ -490,20 +477,20 @@
           el.addClass(className);
         }
       }
-      
+
       // If user opens the menu and then expands the viewport from mobile size without closing the menu,
       // make sure scrolling is enabled again and that sidenav active class is removed
       function addResizeListeners() {
         $(window).resize(function(e) {
           const width = window.innerWidth; console.log('width: ', width);
-      
+
           if (width > 750) {
             sidenavEl.removeClass(SIDENAV_ACTIVE_CLASS);
             gridEl.removeClass(GRID_NO_SCROLL_CLASS);
           }
         });
       }
-      
+
       // Menu open sidenav icon, shown only on mobile
       function setMenuClickListener() {
         $('.header__menu').on('click', function(e) { console.log('clicked menu icon');
@@ -511,7 +498,7 @@
           toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
         });
       }
-      
+
       // Sidenav close icon
       function setSidenavCloseListener() {
         $('.sidenav__brand-close').on('click', function(e) {
@@ -519,7 +506,7 @@
           toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
         });
       }
-      
+
         </script>
       </div>
 </body>
