@@ -48,9 +48,9 @@ var upload = multer({
 
 var conn = mysql.createPool({
 	connectionLimit : 10,
-  host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
-  user: 'pdsDB',
-  password: 'PDSpassword',
+  host: 'clientdb.cmc7weyti5qs.us-east-2.rds.amazonaws.com',
+  user: 'root',
+  password: 'GfE-WQ8-fxm-hGC',
   database: 'pdsclient',
   port: 3306,
 	multipleStatements: true
@@ -289,9 +289,11 @@ app.get('/dashboard', function(req, res){
 app.post('/log_data', function(req, res) {
 	var email = req.body.login_email;
 	var password = req.body.login_password;
-
+  console.log('test0');
   conn.getConnection(function(err,connection){
+    console.log('test');
   	var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+ email+ "'= email;";
+
     connection.query(querry_get_password, (err, result) => {
   		if (err) {
   			console.log(err);
