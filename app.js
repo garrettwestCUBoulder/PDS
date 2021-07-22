@@ -9,52 +9,52 @@ var connection  = require('express-myconnection');
 
 
 
-// //S3 bucket setup
-// var multer = require('multer');
-// var multerS3 = require('multer-s3');
-// // var bodyParser = require('body-parser');
-// const AWS = require('aws-sdk');
-// AWS.config.update({region: 'us-east-2'});
-// const ID = 'AKIARUD6GFG4GSMWUUSN';
-// const SECRET = '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';
-// // app.use(bodyParser.json());
-// // The name of the bucket that you have created
-// const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744';
-// AWS.config.update({
-//     secretAccessKey: SECRET,
+//S3 bucket setup
+var multer = require('multer');
+var multerS3 = require('multer-s3');
+// var bodyParser = require('body-parser');
+const AWS = require('aws-sdk');
+AWS.config.update({region: 'us-east-2'});
+const ID = 'AKIARUD6GFG4GSMWUUSN';
+const SECRET = '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';
+// app.use(bodyParser.json());
+// The name of the bucket that you have created
+const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744';
+AWS.config.update({
+    secretAccessKey: SECRET,
+    accessKeyId: ID,
+    region: 'us-east-2'
+});
+// const s3 = new AWS.S3({
 //     accessKeyId: ID,
-//     region: 'us-east-2'
+//     secretAccessKey: SECRET
 // });
-// // const s3 = new AWS.S3({
-// //     accessKeyId: ID,
-// //     secretAccessKey: SECRET
-// // });
-// var s3 = new AWS.S3();
-// var upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: BUCKET_NAME,
-//     metadata: function (req, file, cb) {
-//       cb(null, {fieldName: file.fieldname});
-//     },
-//     key: function (req, file, cb) {
-//       cb(null, user_id+ '/'+case_id_cur+'/'+file.originalname)
-//     }
-//   })
-// })
-//
-//
-//
-//
-// var conn = mysql.createPool({
-// 	connectionLimit : 10,
-//   host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
-//   user: 'pdsDB',
-//   password: 'PDSpassword',
-//   database: 'pdsclient',
-//   port: 3306,
-// 	multipleStatements: true
-// });
+var s3 = new AWS.S3();
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: BUCKET_NAME,
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, user_id+ '/'+case_id_cur+'/'+file.originalname)
+    }
+  })
+})
+
+
+
+
+var conn = mysql.createPool({
+	connectionLimit : 10,
+  host: 'pdsclient.c2bamkbsm98h.us-east-2.rds.amazonaws.com',
+  user: 'pdsDB',
+  password: 'PDSpassword',
+  database: 'pdsclient',
+  port: 3306,
+	multipleStatements: true
+});
 
 var user_id;
 var case_id_cur;
@@ -708,7 +708,7 @@ app.get('/notifications', function(req, res){
 //
 //
 //
-const port = process.env.port || 8080;
+const port = process.env.port || 3001;
 app.listen(port, () => {
     console.log("Our app is running on " + port);
 });
