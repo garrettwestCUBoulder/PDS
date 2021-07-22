@@ -708,7 +708,7 @@ app.get('/notifications', function(req, res){
 //
 //
 //
-const port = process.env.port || 3001;
+const port = process.env.port || 8080;
 app.listen(port, () => {
     console.log("Our app is running on " + port);
 });
