@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="md_css.css">
 
-    <title>Main Dashboard</title>
+    <!-- Remove the public/ part in the href when file is renamed to .ejs -->
+    <link rel="stylesheet" href="../public/contact_css.css">
+
+    <title>Contact/Support</title>
 </head>
 <body>
     <div class="grid">
@@ -61,9 +63,9 @@
                 </div>
 
                 <ul class="subList subList--hidden">
-<a href ='/cases'>
-                  <li href ='/cases' class="subList__item">Cases</li>
-                   </a>
+                  <a href ='/cases'>
+                    <li href ='/cases' class="subList__item">Cases</li>
+                  </a>
                 </ul>
               </li>
               <li>
@@ -258,6 +260,7 @@
                 <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
                 <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
                 <li class="navList__heading"><i class="fas fa-calendar-alt"></i></li>
+          
                 <li class="navList__heading">Contact<i class="fas fa-calendar-alt"></i></li>
                 <li>
                   <div class="navList__subheading row row--align-v-center" id="modalContact">
@@ -295,7 +298,7 @@
           <div class="main-header">
             <div class="main-header__intro-wrapper">
               <div class="main-header__welcome">
-                <div class="main-header__welcome-title text-light">Welcome,  <strong><%=data[0][0].first_name%> <%=data[0][0].last_name%></strong></div>
+                <div class="main-header__welcome-title text-light"><strong>CONTACT & SUPPORT</strong></div>
                 <!-- <div class="main-header__welcome-subtitle text-light">How are you today?</div> -->
               </div>
               <div class="quickview">
@@ -318,232 +321,50 @@
               </div>
             </div>
           </div>
-          <div class="main-overview">
-            <form id="search" method="post" action="/appDB_Senton">
-
-            <div class="overviewCard">
-
-              <div class="overviewCard-icon overviewCard-icon--document">
-                 <i class="far fa-file-alt"></i>
-              </div>
-              <a onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i>
-            </form>
 
 
 
-              <div class="overviewCard-description" method="POST" href="appDB_Senton" >
-                <h3 class="overviewCard-title text-light">Recent <strong>Case</strong></h3>
-                <p class="overviewCard-subtitle" size = "30" value = "<%=data[3][0].case_name%>"  name = "top_doc"> <%=data[3][0].case_name%></p>
-                <input type="text" style="visibility:hidden;" name="case_name" value="<%=data[3][0].case_name%>"/>
+        <div class="container">
+          <!-- HAVE TO CREATE ACTION PAGE FOR CONTACT TO GO THROUGH -->
+          <form action="/action_page.php"> 
 
-              </div>
-              </a>
-            </div>
+            <!-- If we can auto fill the name manually instead of the client doing it that would be great
+             -->
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name..">
 
-            <div class="overviewCard" >
-              <a href="notifications">
-              <div class="overviewCard-icon overviewCard-icon--calendar">
-                 <i class="far fa-calendar-check"></i>
-              </div>
-              </a>
-              <a href="notifications">
-              <div class="overviewCard-description">
-                <h3 class="overviewCard-title text-light"><strong>Upcoming Reminder</strong></h3>
-                <h2 class="overviewCard-title text-light"><%=data[1][0].reminder_title%> </h2>
-                </div>
-            </a>
-            </div>
-
-
-            <div class="overviewCard">
-              <a href="notifications">
-                <div class="overviewCard-icon overviewCard-icon--mail">
-                  <i class="far fa-envelope"></i>
-                </div>
-              </a>
-                <a href="notifications">
-                <div class="overviewCard-description">
-                  <h3 class="overviewCard-title text-light">Recent <strong>Reminders</strong></h3>
-                  <p class="overviewCard-subtitle">+<%= number_of_reminders %></p>
-                </div>
-              </a>
-            </div>
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name..">
 
 
 
+            <label for="problem">What is the issue?</label>
+            <select id="problem" name="problem">
+              <option value="" disabled selected>Choose an issue..</option>
+              <option value="s1">Option 1</option>
+              <option value="s2">Option 2</option>
+            </select>
 
-            <div class="overviewCard">
-              <div class="overviewCard-icon overviewCard-icon--photo">
-                 <i class="far fa-file-image"></i>
-              </div>
-              <div class="overviewCard-description">
-                <a id = "myBtn">
-                <h3 class="overviewCard-title text-light">Quick <strong>Links</strong></h3>
-                <p class="overviewCard-subtitle">Private PAIR, DocEX, Co.. </p>
-                </a>
-              </div>
-            </div>
-            <div id="myModal" class="modal">
+            <label for="subject">Subject</label>
+            <textarea id="subject" name="subject" placeholder="Please Explain.." style="height:200px"></textarea>
 
-              <!-- Modal content -->
-              <div class="modal-content">
-                <span class="close">
-                  <h2> Some Helpful Links </h2>
-                  <ul>
-                    <li><a href="https://www.uspto.gov/learning-and-resources/portal-applications" target="_blank">Private PAIR</a></li>
-                    <li><a href="https://www.docex.com/" target="_blank">DocEx</a></li>
-                  </ul>
-                </span>
-
-              </div>
-
-            </div>
+            <input type="submit" value="Submit">
 
 
-            <script>
-              var modal = document.getElementById("myModal");
+          </form>
+        </div>
 
-              // Get the button that opens the modal
-              var btn = document.getElementById("myBtn");
-
-              // Get the <span> element that closes the modal
-              var span = document.getElementsByClassName("close")[0];
-
-              // When the user clicks the button, open the modal
-              btn.onclick = function() {
-                modal.style.display = "block";
-              }
-
-              // When the user clicks on <span> (x), close the modal
-              span.onclick = function() {
-                modal.style.display = "none";
-              }
-
-              // When the user clicks anywhere outside of the modal, close it
-              window.onclick = function(event) {
-                if (event.target == modal) {
-                  modal.style.display = "none";
-                }
-              }
-
-
-            </script>
-
-
-
-          </div> <!-- /.main__overview -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <div class="main__cards">
-            <div class="card">
-              <div class="card__header">
-                <div class="card__header-title text-light">Application <strong>Timeline</strong>
-                  <a href="applications" class="card__header-link text-bold">View All</a>
-                </div>
-              </div>
-              <div class="card__main">
-                <% if (number_of_applications != 0) {for(var i=0; i<data.length; i++) { %>
-                  <!-- <div class="" onclick="popUp"> -->
-                  <div class="card__row">
-                    <div class="card__icon"><i class="fas fa-gift"></i></div>
-                    <div class="card__time">
-                      <div><%=new Date(data[2][i].application_due_date).toUTCString().split(',')[0]%></div>
-                    </div>
-                    <div class="card__detail">
-                      <a href="applications">
-                      <div class="card__source text-bold"> </div>
-                      <div class="card__description"><%=data[2][i].application_name%></div>
-                      <div class="card__note"><%=new Date(data[2][i].application_due_date).toUTCString().split('06')[0]%></div>
-                    </a>
-                    </div>
-                  </div>
-                  <!-- </div> -->
-
-                  <% }  }%>
-
-
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__header">
-                <div class="card__header-title text-light">Recent <strong>Cases</strong>
-                  <a href="cases" class="card__header-link text-bold">View All</a>
-                </div>
-                <div class="settings">
-                  <div class="settings__block"><i class="fas fa-edit">Edit</i></div>
-                  <div class="settings__block"><i class="fas fa-cog"></i></div>
-                </div>
-              </div>
-              <div class="card">
-
-                <div class="documents">
-                <% if (number_of_cases != 0 && number_of_cases != 1) {for(var i=0; i<data.length; i++) { %>
-                  <div class="document">
-                    <div class="document__img"></div>
-                    <div class="document__title"><%=data[3][i].case_name%></div>
-                  </div>
-                  <% }  }%>
-                  <% if (number_of_cases == 0) { %>
-                    <div class="document">
-
-                      <div class="document__title">No Cases</div>
-                    </div>
-                    <% }  %>
-                    <% if (number_of_cases == 1) { %>
-                      <div class="document">
-                        <div class="document__img"></div>
-                        <div class="document__title"><%=data[3][0].case_name%></div>
-                      </div>
-                      <% }  %>
-
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__header">
-                <div class="card__header-title text-light">Recent <strong>Messages</strong>
-                  <a href="messagesView" class="card__header-link text-bold">View All</a>
-                </div>
-                <!-- <div class="settings">
-                  <div class="settings__block"><i class="fas fa-edit"></i></div>
-                  <div class="settings__block"><i class="fas fa-cog"></i></div>
-                </div> -->
-              </div>
-              <div class="container">
-                <div class="wrapper">
-                  <div class="content">
-                    <div class="item">
-                      <!-- Place your content here to have it be centered vertically and horizontally  -->
-                      <h1 style="text-align: center;">COMING SOON</h1>
-                      <p style="text-align: center;">Messages is under construction.</p>
-                      <p style = 'text-align: center;'>You will have the option to see the messages coming in from Slack, Email, etc..</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-          </div> <!-- /.main-cards -->
+      
         </main>
 
         <footer class="footer">
           <p><span class="footer__copyright"></span> 2020 PDS LLC</p>
         </footer>
+
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
         <script>
             /* Scripts for css grid dashboard */
 
