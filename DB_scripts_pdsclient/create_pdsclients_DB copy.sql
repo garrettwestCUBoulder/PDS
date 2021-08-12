@@ -114,6 +114,11 @@ CREATE TABLE IF NOT EXISTS `pdsclient`.`user_files` (
     FOREIGN KEY (`file_id`)
     REFERENCES `pdsclient`.`files` (`file_id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `case_id_user_files`
+    FOREIGN KEY (`case_id`)
+    REFERENCES `pdsclient`.`cases` (`case_id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -140,6 +145,7 @@ CREATE TABLE IF NOT EXISTS `pdsclient`.`applications` (
   `application_name` VARCHAR(45),
   `user_id` INT NOT NULL,
   `number_of_files` INT,
+  `case_id` INT,
   application_due_date DATE,
   client_name VARCHAR(50),
   client_information VARCHAR(2000),
@@ -148,6 +154,11 @@ CREATE TABLE IF NOT EXISTS `pdsclient`.`applications` (
   CONSTRAINT `user_id_applications`
     FOREIGN KEY (`user_id`)
     REFERENCES `pdsclient`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `case_id_applications`
+    FOREIGN KEY (`case_id`)
+    REFERENCES `pdsclient`.`cases` (`case_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

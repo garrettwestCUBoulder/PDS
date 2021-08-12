@@ -15,11 +15,11 @@ var multerS3 = require('multer-s3');
 // var bodyParser = require('body-parser');
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-2'});
-const ID = 'AKIARUD6GFG4GSMWUUSN';
-const SECRET = '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';
+const ID = 'AKIAURS3RWKDA7NTYN7W';
+const SECRET = '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';
 // app.use(bodyParser.json());
 // The name of the bucket that you have created
-const BUCKET_NAME = 'elasticbeanstalk-us-east-2-111933794744';
+const BUCKET_NAME = 'documentspds';
 AWS.config.update({
     secretAccessKey: SECRET,
     accessKeyId: ID,
@@ -56,9 +56,9 @@ var conn = mysql.createPool({
 	multipleStatements: true
 });
 
-var user_id;
+var user_id = 1;
 var case_id_cur;
-var user;
+var user = 'garrett west';
 
 var password_bool = true;
 app.set('views', path.join(__dirname, '/views'));
@@ -150,14 +150,14 @@ app.get('/dashboard', function(req, res){
   conn.getConnection(function(err,connection){
     var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+user_id+ "'= user_id;";
     var get_reminder = "SELECT reminder_title, remind_on from reminders where user_id = '"+user_id+ "' ORDER BY remind_on;"
-    var get_cases_next_5 = "SELECT case_id, `application_name`,  application_due_date from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 5;";
+    var get_cases_next_5 = "SELECT case_id, application_name,  application_due_date from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 5;";
     var get_top_case = "SELECT case_name from cases where case_id = (SELECT case_id from applications where user_id = '"+user_id+ "' ORDER BY application_due_date asc LIMIT 1);";
-
+    console.log(get_cases_next_5)
     connection.query(querry_get_password+get_reminder +get_cases_next_5 +get_top_case, [1,2,3,4], (err, result) => {
       user = result[0][0].first_name + ' ' +result[0][0].last_name
-
+      console.log(result);
       if (err) {
-        console.log(err);
+        console.log(err, 'error in dashboard');
         res.render('login',{result_pass: password_bool, result_registered : false});
       }
 
@@ -187,7 +187,7 @@ app.get('/dashboard', function(req, res){
           // result[1].Date = ['N/A 06'];// result[1][0].reminder_title = ['No Reminders'];
 
           // result[1].Date = ['N/A 06'];
-          console.log(result[2][0 ])
+        console.log(result[2][0])
         var number_of_reminders1 = 0;
         res.render('md',{ user:user,number_of_cases:0,number_of_applications:0,number_of_reminders:0, data:result, result_pass: password_bool,result_registered : false});
 
@@ -234,6 +234,21 @@ app.get('/dashboard', function(req, res){
       }
 
 
+      else if(result[3].length == 0 && result[2].length == 0){
+        console.log('is emoty 3');
+        var dict_for_empty_applications = {
+            case_name: "No cases"
+          };
+        result[3] =  [dict_for_empty_applications];
+        result[2] =  [dict_for_empty_applications];
+        // result[1][0].reminder_title = ['No Reminders'];
+
+          // result[1].Date = ['N/A 06'];
+        var number_of_reminders1 = result[1].length;
+        res.render('md',{ user:user, number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+
+      }
+
       else if(result[2].length == 0){
         console.log('is emoty 2');
         var dict_for_empty_reminders = {
@@ -266,7 +281,7 @@ app.get('/dashboard', function(req, res){
 
           // result[1].Date = ['N/A 06'];
         var number_of_reminders1 = result[1].length;
-        res.render('md',{ user:user,number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
+        res.render('md',{ user:user, number_of_cases:result[3].length, number_of_applications:result[2].length, number_of_reminders:number_of_reminders1, data:result, result_pass: password_bool,result_registered : false});
 
       }
 
@@ -295,6 +310,7 @@ app.post('/log_data', function(req, res) {
   	var querry_get_password = "SELECT first_name, last_name, user_id, `password`,email FROM users WHERE '"+ email+ "'= email;";
 
     connection.query(querry_get_password, (err, result) => {
+      console.log(result)
   		if (err) {
   			console.log(err);
   			res.render('login',{result_pass: password_bool, result_registered : false});
@@ -302,6 +318,7 @@ app.post('/log_data', function(req, res) {
   		else {
         console.log('checking password', password, result.length)
         if (result.length != 0){
+          console.log(password, result[0])
           if (password == result[0].password) {
             user_id = result[0].user_id
             password_bool = true
@@ -502,13 +519,14 @@ app.post('/addReminder', function(req, res){
 
 app.post('/createCase', function(req, res){
 
-
+    console.log('creating case')
 
     var caseName = req.body.caseName;
   	// var appDate = new Date(req.body.appDate);
     	var clientName = req.body.clientName;
       var clientInfo = req.body.clientInfo
   	var description = req.body.description;
+    console.log(clientName)
     var add_reminder = "INSERT INTO cases (user_id,  `case_name`, client_name,`client_information`, `description`) VALUES ('"+user_id+"', '"+caseName+"','"+clientName+"','"+clientInfo+"','"+description+"');";
 
 
@@ -586,9 +604,10 @@ app.post('/appDB_Senton', function(req, res){
   var case_name = req.body.case_name;
   var get_top_case = "SELECT @case_id_cur := case_id, `case_name`, `client_name`,`client_information`,`description` from cases where case_id = (SELECT case_id from cases where user_id = '"+user_id+ "' and case_name = '"+case_name+"');";
   var get_applications = "SELECT case_id, application_name, application_due_date from applications WHERE case_id =  @case_id_cur;";
-
+  // need to seperate the applications and case according to there heiarchy. 
 
   conn.getConnection(function(err,connection){
+
       var query = connection.query(get_top_case+get_applications ,[1,2],function(err,rows){
         console.log(get_top_case+get_applications)
         if(err){
